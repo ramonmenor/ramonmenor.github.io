@@ -1,69 +1,68 @@
-<p align="center">
-    <h2 align="center">Indigo Minimalist Jekyll Template - <a href="https://sergiokopplin.github.io/indigo/">Demo</a></h2>
-</p>
+# Astro Starter Kit: Blog
 
-<p align="center">This is a simple and minimalist template for Jekyll for those who likes to eat noodles.</p>
-
-***
-
-<p align="center">
-    <b><a href="README.md#what-has-inside">What has inside</a></b>
-    |
-    <b><a href="README.md#setup">Setup</a></b>
-    |
-    <b><a href="README.md#settings">Settings</a></b>
-    |
-    <b><a href="README.md#how-to">How to</a></b>
-</p>
-
-<p align="center">
-    Light and Dark themes.
-</p>
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sergiokopplin/indigo/gh-pages/assets/screen-shot.png" />
-</p>
-
-## What has inside
-
-- [Jekyll](https://jekyllrb.com/), [Sass](https://sass-lang.com/) ~[RSCSS](https://rscss.io/)~ and [SVG](https://www.w3.org/Graphics/SVG/);
-- Google Speed: [98/100](https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fsergiokopplin.github.io%2Findigo%2F);
-- No JS. :sunglasses:
-
-## Setup
-
-0. :star: to the project. :metal:
-1. Fork the project [Indigo](https://github.com/sergiokopplin/indigo/fork)
-2. Edit `_config.yml` with your data (check <a href="README.md#settings">settings</a> section)
-3. Write some posts :bowtie:
-
-If you want to test locally on your machine, do the following steps also:
-
-1. Install [Jekyll](https://jekyllrb.com) and [Bundler](https://bundler.io/).
-2. Clone the forked repo on your machine
-3. Enter the cloned folder via terminal and run `bundle install`
-4. Then run `bundle exec jekyll serve`
-5. Open it in your browser: `http://localhost:4000`
-6. Do you want an admin panel to edit your posts? You can install this plugin [jekyll-admin](https://jekyll.github.io/jekyll-admin/).
-
-## Settings
-
-You must fill some informations on `_config.yml` to customize your site.
-
-```
-name: John Doe
-bio: 'A Man who travels the world eating noodles'
-picture: 'assets/images/profile.jpg'
-...
-
-and lot of other options, like width, projects, pages, read-time, tags, related posts, animations, multiple-authors, etc.
+```sh
+npm create astro@latest -- --template blog
 ```
 
-## How To?
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
 
-Check the [FAQ](./FAQ.md) if you have any doubt or problem.
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
----
-## License
+![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
 
-[MIT](https://kopplin.mit-license.org/) License © Sérgio Kopplin
+Features:
+
+- ✅ Minimal styling (make it your own!)
+- ✅ 100/100 Lighthouse performance
+- ✅ SEO-friendly with canonical URLs and OpenGraph data
+- ✅ Sitemap support
+- ✅ RSS Feed support
+- ✅ Markdown & MDX support
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
+├── public/
+├── src/
+│   ├── components/
+│   ├── content/
+│   ├── layouts/
+│   └── pages/
+├── astro.config.mjs
+├── README.md
+├── package.json
+└── tsconfig.json
+```
+
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Credit
+
+This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
