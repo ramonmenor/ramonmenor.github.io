@@ -6,6 +6,5 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://ramonmenor.es',
-
-	integrations: [mdx(), sitemap()],
+	integrations: [sitemap(), mdx()],
 });
