@@ -7,10 +7,10 @@ import { SITE_TITLE } from '../consts';
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
-			<HeaderLink href="/">Inicio</HeaderLink>
+			<HeaderLink href="/">/</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/demo">Demos</HeaderLink>
-			<HeaderLink href="/about">Sobre mí</HeaderLink>
+			<HeaderLink href="/about">Mí</HeaderLink>
 		</div>
 		<div class="social-links">
 			<a href="https://twitter.com/rmenor" target="_blank">
@@ -73,5 +73,8 @@ import { SITE_TITLE } from '../consts';
 		.social-links {
 			display: none;
 		}
+	}
+	.internal-links {
+		display: flex;
 	}
 </style>
