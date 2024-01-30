@@ -1,0 +1,34 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SignIn, SignOut } from 'auth-astro/components';
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main>
+            {
+                session ? 
+                <>
+                <p>Hola {session.user?.email}</p>
+                    <SignOut>Cerrar sesión</SignOut>
+                </>
+                :
+                <>
+                    <SignIn provider="Google">Iniciar con Google</SignIn>
+                </>
+            }
+		</main>
+		<Footer />
+	</body>
+</html>
