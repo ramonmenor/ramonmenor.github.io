@@ -8,6 +8,5 @@ export default defineConfig({
   integrations: [
     sitemap(), 
     mdx(), 
-  ],
-  output: "server"
+  ]
 });
