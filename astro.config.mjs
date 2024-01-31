@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 //import auth from "auth-astro";
 
-import vercel from "@astrojs/vercel/serverless";
+//import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,5 +14,5 @@ export default defineConfig({
   //  auth()
   ],
   output: "server",
-  adapter: vercel()
+  //adapter: vercel()
 });
