@@ -1,8 +1,8 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 ---
 
 <!doctype html>
@@ -77,13 +77,68 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 					font-size: 1.563em;
 				}
 			}
+
+			.animated-box {
+				width: 100px;
+				height: 100px;
+				background-color: #3498db;
+				transition: all 0.3s ease;
+			}
+			.animated-box:hover {
+				width: 150px;
+				height: 150px;
+			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
 			<section>
-				<p>Aquí iré añadiendo algunas demos de diseño html, css o js.</p>
+				<h2>Funcionalidades Destacadas</h2>
+
+				<div class="feature-container">
+					<!-- Funcionalidad 1 -->
+					<div class="feature">
+						<h3>Interactividad con JavaScript</h3>
+						<p>
+							Demuestra cómo JavaScript puede mejorar la
+							interactividad en una página web.
+						</p>
+						<button onclick="cambiarColorFondo()"
+							>Cambiar Color de Fondo</button
+						>
+						<script>
+							// Función para cambiar el color de fondo al azar
+							function cambiarColorFondo() {
+								var colores = [
+									"#ff9999",
+									"#99ff99",
+									"#9999ff",
+									"#ffff99",
+									"#ffcc99",
+									"#cc99ff",
+								];
+								var colorAleatorio =
+									colores[
+										Math.floor(
+											Math.random() * colores.length
+										)
+									];
+								document.body.style.backgroundColor =
+									colorAleatorio;
+							}
+						</script>
+					</div>
+
+					<!-- Funcionalidad 3 -->
+					<div class="feature">
+						<h3>Animaciones CSS</h3>
+						<p>
+							Destaca las capacidades de animación utilizando CSS.
+						</p>
+						<div class="animated-box"></div>
+					</div>
+				</div>
 			</section>
 		</main>
 		<Footer />
