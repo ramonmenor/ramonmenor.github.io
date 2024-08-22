@@ -30,6 +30,9 @@
 	font-display: swap;
 }
 body {
+	display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 	font-family: 'Atkinson', sans-serif;
 	margin: 0;
 	padding: 0;
@@ -47,6 +50,7 @@ main {
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
+	flex: 1;
 }
 h1,
 h2,
