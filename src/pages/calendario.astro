@@ -4,24 +4,24 @@ import Layout from '../layouts/BlogPost.astro';
 
 <Layout>
 
-<div class="container">
-    <h1>Generador de Calendario Semanal de Comidas</h1>
-    <div class="calendar" id="calendar">
-      <!-- Los días de la semana se generarán dinámicamente con JavaScript -->
-    </div>
-    <div class="button-container">
-      <button onclick="printCalendar()">Imprimir Calendario</button>
-      <button onclick="generateRecipes()">Generar Recetas</button>
-    </div>
+    <div class="container">
+        <h1>Generador de Calendario Semanal de Comidas</h1>
+        <div class="calendar" id="calendar">
+            <!-- Los días de la semana se generarán dinámicamente con JavaScript -->
+        </div>
+        <div class="button-container">
+            <button onclick="printCalendar()">Imprimir Calendario</button>
+            <button onclick="generateRecipes()">Generar Recetas</button>
+        </div>
   </div>
 
-  <div id="recipeModal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2 id="recipeTitle"></h2>
-      <p id="recipeContent"></p>
+    <div id="recipeModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="recipeTitle"></h2>
+            <p id="recipeContent"></p>
+        </div>
     </div>
-  </div>
 
 </Layout>
 
