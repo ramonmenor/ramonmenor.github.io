@@ -58,7 +58,7 @@ const posts = (await getCollection("perlas")).sort();
             posts.map((post) => (
               <li>
                 <a href={`/perlas/${post.slug}/`}>
-                  <h4 class="">{post.data.title}</h4>
+                  <h5 class="">{post.data.title}</h5>
                 </a>
               </li>
             ))
