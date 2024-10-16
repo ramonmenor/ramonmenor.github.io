@@ -250,6 +250,13 @@ declare module 'astro:content' {
   collection: "perlas";
   data: any
 } & { render(): Render[".md"] };
+"semana-14-10-24.md": {
+	id: "semana-14-10-24.md";
+  slug: "semana-14-10-24";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
 };
 
 	};
