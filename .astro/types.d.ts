@@ -200,6 +200,57 @@ declare module 'astro:content' {
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
 };
+"perlas": {
+"sal79-81.md": {
+	id: "sal79-81.md";
+  slug: "sal79-81";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal82-83.md": {
+	id: "sal82-83.md";
+  slug: "sal82-83";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal85-87.md": {
+	id: "sal85-87.md";
+  slug: "sal85-87";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal88-89.md": {
+	id: "sal88-89.md";
+  slug: "sal88-89";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal90-91.md": {
+	id: "sal90-91.md";
+  slug: "sal90-91";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal92-95.md": {
+	id: "sal92-95.md";
+  slug: "sal92-95";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+"sal96-99.md": {
+	id: "sal96-99.md";
+  slug: "sal96-99";
+  body: string;
+  collection: "perlas";
+  data: any
+} & { render(): Render[".md"] };
+};
 
 	};
 
