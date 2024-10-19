@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 type Props = CollectionEntry<"perlas">["data"];
 
@@ -29,17 +30,19 @@ const { title } = Astro.props;
         color: #d31c1c !important; /* Color de texto */
         font-size: 1rem; /* Tamaño de fuente */
       }
+      i {
+        color: black;
+      }
     </style>
   </head>
 
   <body>
     <Header />
     <main>
-      <div>
-        <a href="/perlas">Vovler</a>
-      </div>
       <article>
         <div class="perlas">
+          <a href="/perlas"><i class="fa-solid fa-arrow-left"></i></a>
+          <a href="/perlas" style="float: right;"><i class="fa-solid fa-arrow-right"></i></a>
           <div class="title">
             <h3>{title}</h3>
             <hr />
