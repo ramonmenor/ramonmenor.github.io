@@ -1,20 +1,20 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Perlas from "../../layouts/Perlas.astro";
+import MisPerlas from "../../layouts/MisPerlas.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("perlas");
+  const posts = await getCollection("misperlas");
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: post,
   }));
 }
-type Props = CollectionEntry<"perlas">;
+type Props = CollectionEntry<"misperlas">;
 
 const post = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Perlas {...post.data}>
+<MisPerlas {...post.data}>
   <Content />
-</Perlas>
+</MisPerlas>
