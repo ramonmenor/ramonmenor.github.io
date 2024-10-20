@@ -5,7 +5,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-type Props = CollectionEntry<"perlas">["data"];
+type Props = CollectionEntry<"misperlas">["data"];
 
 const { title } = Astro.props;
 ---
@@ -41,8 +41,10 @@ const { title } = Astro.props;
     <main>
       <article>
         <div class="perlas">
-          <a href="/perlas"><i class="fa-solid fa-arrow-left"></i></a>
-          <a href="/perlas" style="float: right;"><i class="fa-solid fa-arrow-right"></i></a>
+          <a href="/misperlas"><i class="fa-solid fa-arrow-left"></i></a>
+          <a href="/misperlas" style="float: right;"
+            ><i class="fa-solid fa-arrow-right"></i></a
+          >
           <div class="title">
             <h3>{title}</h3>
             <hr />

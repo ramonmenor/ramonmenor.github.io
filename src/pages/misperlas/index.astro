@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("perlas")).sort();
+const posts = (await getCollection("misperlas")).sort();
 ---
 
 <!doctype html>
@@ -57,7 +57,7 @@ const posts = (await getCollection("perlas")).sort();
           {
             posts.map((post) => (
               <li>
-                <a href={`/perlas/${post.slug}/`}>
+                <a href={`/misperlas/${post.slug}/`}>
                   <h5 class="">{post.data.title}</h5>
                 </a>
               </li>
