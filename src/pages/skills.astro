@@ -1,0 +1,421 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
+
+const techSkills = [
+  {
+    name: "Linux/Debian",
+    level: 5,
+    desc: "Administración de servidores Linux",
+  },
+  { name: "VMware vSphere", level: 4, desc: "Virtualización de servidores" },
+  {
+    name: "Proxmox",
+    level: 4,
+    desc: "Plataforma de virtualización open source",
+  },
+  { name: "VPN", level: 4, desc: "Redes privadas virtuales" },
+  {
+    name: "Cloud Administration",
+    level: 4,
+    desc: "Gestión de servicios en la nube",
+  },
+  { name: "Redes", level: 4, desc: "Configuración y mantenimiento de redes" },
+];
+
+const devSkills = [
+  { name: "HTML5", level: 5, desc: "Lenguaje de marcado web" },
+  { name: "CSS3", level: 5, desc: "Estilos y diseño web" },
+  { name: "JavaScript", level: 5, desc: "Programación web dinámica" },
+  { name: "PHP", level: 5, desc: "Lenguaje de servidor" },
+  { name: "Yii2", level: 5, desc: "Framework PHP de alto rendimiento" },
+  { name: "MySQL", level: 5, desc: "Base de datos relacional" },
+  { name: "SQL", level: 5, desc: "Lenguaje de consultas" },
+  { name: "React", level: 3, desc: "Biblioteca JavaScript para UI" },
+  { name: "Astro", level: 4, desc: "Framework web moderno" },
+  { name: "Tailwind CSS", level: 4, desc: "Framework utility-first" },
+  { name: "TypeScript", level: 3, desc: "JavaScript con tipos" },
+  { name: "Node.js", level: 3, desc: "Runtime JavaScript servidor" },
+];
+
+const aiSkills = [
+  { name: "GitHub Copilot", level: 5, desc: "Asistente de codificación IA" },
+  { name: "Claude", level: 5, desc: "Modelo de lenguaje avanzado" },
+  { name: "ChatGPT", level: 4, desc: "Asistente conversacional IA" },
+  { name: "Antigravity IDE", level: 4, desc: "IDE potenciado con IA" },
+  { name: "Ollama", level: 3, desc: "LLMs locales" },
+  { name: "v0", level: 3, desc: "Generación de UI con IA" },
+  { name: "Lovable", level: 3, desc: "Desarrollo visual con IA" },
+];
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <BaseHead
+      title={`Skills | ${SITE_TITLE}`}
+      description="Habilidades profesionales de Ramón Menor distribuidas en three categorías: Tecnológico, Desarrollo e IA."
+    />
+  </head>
+  <body class="bg-[#0a0a0a] text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} />
+    <main
+      class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative"
+    >
+      <div
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"
+      >
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+          Mis <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500"
+            >Skills</span
+          >
+        </h1>
+        <p class="text-xl text-gray-400 leading-relaxed">
+          Aquí puedes ver mis habilidades distribuidas en three categorías:
+          <span class="text-emerald-400">Tecnológico</span>,
+          <span class="text-blue-400">Desarrollo</span> e
+          <span class="text-purple-400">IA</span>.
+        </p>
+      </div>
+
+      {/* Search & Compare Section */}
+      <div
+        class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-12 backdrop-blur-sm"
+      >
+        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+          <svg
+            class="w-5 h-5 text-emerald-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          Buscar Skills Requeridos
+        </h2>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <input
+            type="text"
+            id="skillSearch"
+            placeholder="Ej: React, PHP, MySQL, Proxmox..."
+            class="flex-1 px-4 py-3 bg-[#0a0a0a] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+          />
+          <button
+            id="analyzeBtn"
+            class="px-6 py-3 bg-emerald-500 text-black font-semibold rounded-xl hover:bg-emerald-400 transition-colors"
+          >
+            Analizar Match
+          </button>
+        </div>
+
+        <div id="selectedSkills" class="flex flex-wrap gap-2 mt-4 min-h-[40px]">
+        </div>
+
+        <div id="matchResults" class="mt-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold">Resultados del Análisis</h3>
+            <span id="matchScore" class="text-2xl font-bold text-emerald-400"
+            ></span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="text-sm font-medium text-gray-400 mb-2">
+                Encontrados
+              </h4>
+              <div id="matchedSkills" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div>
+              <h4 class="text-sm font-medium text-gray-400 mb-2">Faltantes</h4>
+              <div id="missingSkills" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Skill Categories */}
+      <div class="space-y-12">
+        {/* Tecnológico */}
+        <section>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <span class="w-3 h-3 bg-emerald-400 rounded-full"></span>
+            Tecnológico
+          </h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {
+              techSkills.map((skill) => (
+                <div
+                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
+                  data-name={skill.name}
+                  data-desc={skill.desc}
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium">{skill.name}</span>
+                    <div class="flex gap-1">
+                      {Array(5)
+                        .fill(0)
+                        .map((_, i) => (
+                          <span
+                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-emerald-400" : "bg-white/20"}`}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500">{skill.desc}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        {/* Desarrollo */}
+        <section>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <span class="w-3 h-3 bg-blue-400 rounded-full"></span>
+            Desarrollo
+          </h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {
+              devSkills.map((skill) => (
+                <div
+                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
+                  data-name={skill.name}
+                  data-desc={skill.desc}
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium">{skill.name}</span>
+                    <div class="flex gap-1">
+                      {Array(5)
+                        .fill(0)
+                        .map((_, i) => (
+                          <span
+                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-blue-400" : "bg-white/20"}`}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500">{skill.desc}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        {/* IA */}
+        <section>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <span class="w-3 h-3 bg-purple-400 rounded-full"></span>
+            Inteligencia Artificial
+          </h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {
+              aiSkills.map((skill) => (
+                <div
+                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
+                  data-name={skill.name}
+                  data-desc={skill.desc}
+                >
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium">{skill.name}</span>
+                    <div class="flex gap-1">
+                      {Array(5)
+                        .fill(0)
+                        .map((_, i) => (
+                          <span
+                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-purple-400" : "bg-white/20"}`}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500">{skill.desc}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      {/* Modal */}
+      <div
+        id="skillModal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+      >
+        <div
+          class="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 max-w-md w-full"
+        >
+          <div class="flex justify-between items-start mb-4">
+            <h3 id="modalSkillName" class="text-2xl font-bold"></h3>
+            <button id="closeModal" class="text-gray-400 hover:text-white">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <p id="modalSkillDesc" class="text-gray-400"></p>
+        </div>
+      </div>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      const allSkills = [
+        { name: "Linux/Debian", category: "Tecnológico" },
+        { name: "VMware vSphere", category: "Tecnológico" },
+        { name: "Proxmox", category: "Tecnológico" },
+        { name: "VPN", category: "Tecnológico" },
+        { name: "Cloud Administration", category: "Tecnológico" },
+        { name: "Redes", category: "Tecnológico" },
+        { name: "HTML5", category: "Desarrollo" },
+        { name: "CSS3", category: "Desarrollo" },
+        { name: "JavaScript", category: "Desarrollo" },
+        { name: "PHP", category: "Desarrollo" },
+        { name: "Yii2", category: "Desarrollo" },
+        { name: "MySQL", category: "Desarrollo" },
+        { name: "SQL", category: "Desarrollo" },
+        { name: "React", category: "Desarrollo" },
+        { name: "Astro", category: "Desarrollo" },
+        { name: "Tailwind CSS", category: "Desarrollo" },
+        { name: "TypeScript", category: "Desarrollo" },
+        { name: "Node.js", category: "Desarrollo" },
+        { name: "GitHub Copilot", category: "IA" },
+        { name: "Claude", category: "IA" },
+        { name: "ChatGPT", category: "IA" },
+        { name: "Cursor IDE", category: "IA" },
+        { name: "Ollama", category: "IA" },
+        { name: "v0", category: "IA" },
+        { name: "Lovable", category: "IA" },
+      ];
+
+      let selectedSkills = [];
+      const searchInput = document.getElementById("skillSearch");
+      const selectedContainer = document.getElementById("selectedSkills");
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      const matchResults = document.getElementById("matchResults");
+
+      function renderSelectedSkills() {
+        selectedContainer.innerHTML = selectedSkills
+          .map(
+            (skill) => `
+          <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-sm">
+            ${skill}
+            <button onclick="removeSkill('${skill}')" class="hover:text-white">×</button>
+          </span>
+        `,
+          )
+          .join("");
+      }
+
+      window.removeSkill = function (skill) {
+        selectedSkills = selectedSkills.filter((s) => s !== skill);
+        renderSelectedSkills();
+      };
+
+      searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const value = searchInput.value.trim();
+          if (value && !selectedSkills.includes(value)) {
+            selectedSkills.push(value);
+            searchInput.value = "";
+            renderSelectedSkills();
+          }
+        }
+      });
+
+      analyzeBtn.addEventListener("click", () => {
+        if (selectedSkills.length === 0) return;
+
+        const matched = [];
+        const missing = [];
+
+        selectedSkills.forEach((req) => {
+          const found = allSkills.find(
+            (s) =>
+              s.name.toLowerCase() === req.toLowerCase() ||
+              s.name.toLowerCase().includes(req.toLowerCase()),
+          );
+          if (found) {
+            matched.push(found);
+          } else {
+            missing.push(req);
+          }
+        });
+
+        const score = Math.round(
+          (matched.length / selectedSkills.length) * 100,
+        );
+
+        document.getElementById("matchScore").textContent = `${score}% Match`;
+
+        document.getElementById("matchedSkills").innerHTML =
+          matched.length > 0
+            ? matched
+                .map(
+                  (s) => `
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-sm">
+              ${s.name}
+            </span>
+          `,
+                )
+                .join("")
+            : '<span class="text-gray-500">Sin coincidencias</span>';
+
+        document.getElementById("missingSkills").innerHTML =
+          missing.length > 0
+            ? missing
+                .map(
+                  (s) => `
+            <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-sm">
+              ${s}
+            </span>
+          `,
+                )
+                .join("")
+            : '<span class="text-emerald-400">Todas las skills encontradas!</span>';
+
+        matchResults.classList.remove("hidden");
+      });
+
+      // Modal
+      const modal = document.getElementById("skillModal");
+      document.querySelectorAll(".skill-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const skillName = card.dataset.name;
+          const skillDesc = card.dataset.desc;
+
+          document.getElementById("modalSkillName").textContent = skillName;
+          document.getElementById("modalSkillDesc").textContent = skillDesc;
+
+          modal.classList.remove("hidden");
+        });
+      });
+
+      document.getElementById("closeModal").addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

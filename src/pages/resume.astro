@@ -1,0 +1,146 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
+
+const experiences = [
+  {
+    company: "The Red Kiwi S.L.",
+    location: "Valencia",
+    period: "Julio de 2016 - Actualidad",
+    description: "Trabajo en el desarrollo de plataforma web para las gestión de clínicas de estética y medicina (con HTML5, CSS, PHP y JavaScript).\nLlevo la administración de los servidores (Debian) en un cloud.\nPara la creación de la plataforma hemos utilizado el framework Yii2, y servidores MySQL.\nInterconexión de centros mediante VPN.\nVirtualización de servidores VMware mediante vSphere."
+  },
+  {
+    company: "Publitooth Comunicaciones",
+    location: "Gandia",
+    period: "2012 - Junio de 2016",
+    description: "Trabajo de responsable de desarrollo de páginas web (con HTML5, CSS, PHP y JavaScript) así como del mantenimiento de los equipos informáticos tanto clientes como servidores.\nTambién desarrollamos aplicaciones front-end y back-end para diferentes sistemas de gestión, utilizando el framework Yii y Yii2."
+  },
+  {
+    company: "Infocaudete",
+    location: "Caudete – Albacete",
+    period: "Durante cinco años",
+    description: "He dirigido mi propia empresa dedicada a la venta y soporte de material informático para particulares y empresas."
+  },
+  {
+    company: "Varias Empresas",
+    location: "Alcoy – Alicante",
+    period: "Durante 2 años",
+    description: "Trabajos varios como limpieza de locales y transporte de mercancías."
+  },
+  {
+    company: "Atecor",
+    location: "Alicante",
+    period: "Un año",
+    description: "Técnico en reparación de equipos informáticos, servicios a empresas."
+  }
+];
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <BaseHead title={`Currículum | ${SITE_TITLE}`} description="Currículum Vitae de Ramón Menor" />
+  </head>
+  <body class="bg-[#0a0a0a] text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} />
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
+      
+      {/* Background glowing effect */}
+      <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top[-10%] right-[-5%] w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-12 items-start">
+        
+        {/* Sidebar Profile */}
+        <aside class="w-full md:w-1/3 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm sticky top-24">
+          <div class="aspect-square w-48 mx-auto rounded-2xl overflow-hidden mb-6 border border-white/20 shadow-2xl">
+              <!-- Using standard image placeholder assuming photo isn't provided as asset yet. -->
+              <div class="w-full h-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-4xl font-bold">RM</div>
+          </div>
+          
+          <h1 class="text-2xl font-bold text-center mb-1">Ramón Menor Molina</h1>
+          <p class="text-center text-indigo-400 font-medium mb-6">Desarrollador Full Stack</p>
+
+          <div class="space-y-4 text-sm text-gray-300">
+            <div class="flex flex-col">
+              <span class="text-gray-500 uppercase tracking-wider text-xs font-semibold mb-1">WhatsApp</span>
+              <a href="https://wa.me/34683192022?text=Hola%20Ram%C3%B3n,%20he%20visto%20tu%20CV%20y%20me%20interesa%20contactar%20contigo" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.449 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.449-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Enviar mensaje
+              </a>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-gray-500 uppercase tracking-wider text-xs font-semibold mb-1">Email</span>
+              <a href="mailto:ramonmenor@gmail.com" class="hover:text-white transition-colors">ramonmenor@gmail.com</a>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-gray-500 uppercase tracking-wider text-xs font-semibold mb-1">Web</span>
+              <a href="https://www.ramonmenor.es" class="hover:text-white transition-colors">www.ramonmenor.es</a>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-gray-500 uppercase tracking-wider text-xs font-semibold mb-1">Nacimiento</span>
+              <span>25 Enero 1977</span>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <div class="w-full md:w-2/3 space-y-12">
+          
+          <section>
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+              <span class="w-8 h-1 bg-indigo-500 rounded-full"></span>
+              Experiencia Laboral
+            </h2>
+            
+            <div class="space-y-10 border-l border-white/10 ml-3 pl-6">
+              {experiences.map((exp, index) => (
+                <div class="relative">
+                  <span class="absolute -left-[31px] bg-[#0a0a0a] p-1">
+                    <span class="flex w-3 h-3 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></span>
+                  </span>
+                  
+                  <div class="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2 gap-2">
+                    <h3 class="text-xl font-bold text-white">{exp.company}</h3>
+                    <span class="text-sm font-medium px-3 py-1 bg-white/10 text-indigo-200 rounded-full inline-flex w-fit">
+                      {exp.period}
+                    </span>
+                  </div>
+                  <p class="text-indigo-400 text-sm mb-3">{exp.location}</p>
+                  
+                  <div class="text-gray-400 text-sm leading-relaxed space-y-2">
+                    {exp.description.split('\n').map(paragraph => (
+                      <p>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+              <span class="w-8 h-1 bg-purple-500 rounded-full"></span>
+              Formación
+            </h2>
+            
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white-[0.07] transition-colors">
+              <h3 class="text-xl font-bold text-white mb-2">Técnico en desarrollo de aplicaciones informáticas</h3>
+              <p class="text-purple-400 text-sm mb-4">Módulo de grado superior</p>
+              
+              <ul class="list-disc list-inside text-gray-400 text-sm leading-relaxed space-y-2">
+                <li>Comprende dos años de estudios relacionados con sistemas informáticos.</li>
+                <li>Programación (Pascal, Basic, C, C++, ...)</li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

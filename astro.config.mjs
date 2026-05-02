@@ -8,5 +8,7 @@ import db from "@astrojs/db";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ramonmenor.es',
-  integrations: [sitemap(), mdx(), tailwind(), db()]
+  integrations: [sitemap(), mdx(), tailwind(), db()],
+  output: 'static',
+  prefetch: false
 });

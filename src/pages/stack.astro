@@ -1,0 +1,68 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ToolCard from "../components/ToolCard.astro";
+import { SITE_TITLE } from "../consts";
+
+const tools = [
+  // IDEs & Workflows
+  { name: "Visual Studio Code", category: "IDE & Editor", description: "Editor de código fuente ligero y extremadamente ampliable." },
+  { name: "Cursor", category: "IDE & Editor", description: "El IDE definitivo construido con IA de primer nivel integrada desde la base." },
+  { name: "JetBrains", category: "IDE & Editor", description: "Suite profesional de entornos de desarrollo integrados para múltiples lenguajes." },
+  { name: "Nvim (Neovim)", category: "IDE & Editor", description: "Editor de texto hiper-extensible basado en Vim, optimizado para productividad." },
+  { name: "Warp", category: "IDE & Editor", description: "Terminal moderna, rápida y colaborativa diseñada para el siglo XXI." },
+  { name: "GitHub", category: "Workflow & Version Control", description: "La plataforma líder de alojamiento de control de versiones y colaboración." },
+  
+  // AI Coding
+  { name: "GitHub Copilot", category: "AI Coding Assistant", description: "Asistente de codificación basado en IA que sugiere código y funciones enteras." },
+  { name: "CodeRabbit", category: "AI Coding Assistant", description: "Revisión de código automatizada por IA para mejorar la calidad y seguridad de las Pull Requests." },
+  
+  // LLMs
+  { name: "Claude", category: "AI LLM", description: "Modelo de IA avanzado de Anthropic, excelente para tareas de razonamiento complejas y código." },
+  { name: "Gemini", category: "AI LLM", description: "Familia de potentes modelos multimodales de Google, muy rápidos e integrados." },
+  { name: "ChatGPT", category: "AI LLM", description: "Interfaz conversacional impulsada por los modelos GPT de OpenAI." },
+  { name: "Codex", category: "AI LLM", description: "El modelo base centrado en programación detrás de herramientas de generación de código." },
+  { name: "Ollama", category: "AI LLM", description: "Plataforma para ejecutar modelos de lenguaje grandes de forma local y privada." },
+  
+  // Platforms & Others
+  { name: "Google AI Studio", category: "AI Studio & Platform", description: "Entorno prototipado en navegador para desarrollar rápidamente con la API de Gemini." },
+  { name: "Hugging Face", category: "AI Studio & Platform", description: "La comunidad y hub definitivo para modelos de Machine Learning open source." },
+  { name: "v0", category: "Generative UI", description: "Generador de UI con IA impulsado por Vercel para crear componentes web rápidamente." },
+  { name: "Lovable", category: "Generative UI", description: "Plataforma IA para el desarrollo completo de aplicaciones visuales e interactivas." },
+  { name: "n8n", category: "Automation", description: "Herramienta de automatización de flujos de trabajo basada en nodos, con excelente integración de IA." }
+];
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <BaseHead title={`Mi Stack y Herramientas IA | ${SITE_TITLE}`} description="Las 18 herramientas de desarrollo e Inteligencia Artificial que configuran mi stack diario." />
+  </head>
+  <body class="bg-[#0a0a0a] text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} />
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      
+      {/* Background glow */}
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+          Stack de <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Desarrollo e IA</span>
+        </h1>
+        <p class="text-xl text-gray-400 leading-relaxed">
+          Un compendio de las 18 herramientas clave que conforman mi entorno de trabajo. 
+          Desde avanzados IDEs hasta modelos de lenguaje (LLMs) que potencian la productividad corporativa.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tools.map(tool => (
+          <ToolCard name={tool.name} category={tool.category} description={tool.description} />
+        ))}
+      </div>
+
+    </main>
+    <Footer />
+  </body>
+</html>
