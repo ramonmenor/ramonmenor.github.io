@@ -2,35 +2,43 @@
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { SITE_TITLE } from "../../consts";
 import { verPerla } from "../../db/perlas";
 
 var id = 1;
+let perla: any = null;
+let error: string | null = null;
 
-// Obtener todas las perlas al cargar la página
-const perla = await verPerla(id);
+try {
+  perla = await verPerla(id);
+} catch (e: any) {
+  error = e.message || "No se pudo conectar a la base de datos";
+}
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Ver Perla | ${SITE_TITLE}`} description="Ver perla de sabiduría" />
   </head>
-  <body>
-    <Header title={SITE_TITLE} />
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/misperlas" />
 
-    <main>
-      {
-        (
-          <div>
-            <strong>
-              {perla.libro} {perla.capitulo}:{perla.versiculos}
-            </strong>
-            <br />
-            {perla.perla}
-          </div>
-        )
-      }
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100 dark:bg-indigo-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+      {perla ? (
+        <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-6">
+          <strong class="text-indigo-600 dark:text-indigo-400">
+            {perla.libro} {perla.capitulo}:{perla.versiculos}
+          </strong>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{perla.perla}</p>
+        </div>
+      ) : (
+        <div class="text-center text-gray-600 dark:text-gray-400">
+          <p>No se pudo cargar la perla.</p>
+          {error && <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">{error}</p>}
+        </div>
+      )}
     </main>
     <Footer />
   </body>

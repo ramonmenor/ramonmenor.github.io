@@ -3,45 +3,255 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+const capabilities = [
+  {
+    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
+    title: "Desarrollo Full Stack con IA",
+    desc: "Construyo aplicaciones web completas integrando modelos de lenguaje y asistentes de IA en el flujo de trabajo: PHP, JavaScript, Astro, MySQL y APIs modernas.",
+  },
+  {
+    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
+    title: "Infraestructura y DevOps",
+    desc: "Administro servidores Debian, contenedores Docker, virtualización y redes VPN para desplegar productos estables, seguros y escalables.",
+  },
+  {
+    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
+    title: "Arquitectura de productos",
+    desc: "Diseño soluciones end-to-end: desde la base de datos y la API hasta la interfaz, priorizando rendimiento, mantenibilidad y experiencia de usuario.",
+  },
+];
+
+const projects = [
+  {
+    title: "ramonmenor.es",
+    subtitle: "Este portfolio",
+    description: "Sitio personal moderno construido con Astro 5, Tailwind CSS y despliegue estático. Incluye modo oscuro, blog con RSS y datos estructurados.",
+    href: "/stack",
+    tags: ["Astro", "Tailwind", "TypeScript"],
+  },
+  {
+    title: "Mis Perlas",
+    subtitle: "Colección personal",
+    description: "Aplicación para guardar, consultar y navegar perlas de sabiduría. Usa Astro, Turso (@libsql/client) y una base de datos serverless.",
+    href: "/misperlas",
+    tags: ["Astro", "Turso", "TypeScript"],
+  },
+];
+
+const stack = [
+  "PHP", "JavaScript", "TypeScript", "Astro", "Tailwind CSS",
+  "MySQL", "Debian", "Docker", "Yii2", "GitHub Copilot", "Gemini", "Cursor"
+];
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-[#0a0a0a] text-gray-100 min-h-screen flex flex-col">
-    <Header title={SITE_TITLE} />
-    <main class="flex-1 flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20">
-      
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/" />
+
+    <!-- Hero Section -->
+    <main class="flex-1 flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+
       {/* Background glowing effects */}
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 dark:bg-indigo-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-600/10 dark:bg-purple-600/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
       <div class="max-w-4xl mx-auto text-center z-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 rounded-full mb-8">
           <span class="flex h-2 w-2 rounded-full bg-green-400"></span>
           Disponible para proyectos
         </div>
 
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
-          Hola, soy <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">Ramón Menor</span>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
+          Desarrollador Full Stack<br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">con IA integrada</span>
         </h1>
-        
-        <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Desarrollador Full Stack apasionado por crear experiencias digitales excepcionales con la ayuda de la IA.
+
+        {/* Typing animation */}
+        <p class="text-lg md:text-2xl text-indigo-600 dark:text-indigo-400 mb-8 min-h-8 overflow-hidden font-medium typing-cursor" id="typingText"></p>
+
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+          Soy Ramón Menor. Construyo productos digitales combinando desarrollo sólido, infraestructura y herramientas de Inteligencia Artificial para multiplicar resultados reales.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="/resume" class="w-full sm:w-auto px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-gray-100 transition-colors shadow-lg shadow-white/5">
-            Ver mi Currículum
+          <a href="/stack" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
+            Ver mi stack
           </a>
-          <a href="/stack" class="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-semibold rounded-xl border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-sm">
-            Descubre mi Stack IA
+          <a href="/contact" class="w-full sm:w-auto px-8 py-4 bg-gray-100 text-gray-900 dark:bg-white/5 dark:text-white font-semibold rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors backdrop-blur-sm">
+            Hablemos
           </a>
         </div>
       </div>
     </main>
+
+    {/* Capabilities Section */}
+    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-on-scroll">
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+            ¿Qué puedo hacer por <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">tu proyecto</span>?
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Tres pilares con los que afronto cada producto: desarrollo integral, infraestructura sólida y visión de producto.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {capabilities.map((item, i) => (
+            <div class={`animate-on-scroll delay-${i + 1} group bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:border-indigo-300 dark:hover:bg-white/10 shadow-sm dark:shadow-none hover:shadow-lg dark:shadow-black/50 transition-all duration-300`}>
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform" set:html={item.icon}></div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">{item.title}</h3>
+              <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-on-scroll">
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+            Trabajos y productos <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">reales</span>
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Proyectos que mantengo y evoluciono activamente.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, i) => (
+            <a
+              href={project.href}
+              class={`animate-on-scroll delay-${i + 1} group block bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:border-indigo-300 dark:hover:bg-white/10 shadow-sm dark:shadow-none hover:shadow-lg transition-all duration-300`}
+            >
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{project.title}</h3>
+                  <p class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">{project.subtitle}</p>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">{project.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span class="px-3 py-1 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm text-gray-600 dark:text-gray-300 font-medium">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack Summary Section -->
+    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-on-scroll">
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+            Stack <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">resumido</span>
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400">Tecnologías y herramientas que uso a diario.</p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 animate-on-scroll delay-1">
+          {stack.map((tech) => (
+            <span class="px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:border-indigo-400 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all cursor-default shadow-sm dark:shadow-none">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div class="text-center mt-10 animate-on-scroll delay-2">
+          <a href="/skills" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-semibold transition-colors">
+            Ver todas mis habilidades
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="w-full py-24 relative overflow-hidden border-t border-gray-200 dark:border-white/10">
+      <div class="absolute inset-0 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-600/10 dark:via-purple-600/10 dark:to-pink-600/10 -z-10"></div>
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white">
+          ¿Tienes un proyecto en mente?
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          Hablemos sobre cómo puedo ayudarte a convertir tu idea en un producto funcional.
+        </p>
+        <a href="/contact" class="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
+          Contactar
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </a>
+      </div>
+    </section>
+
     <Footer />
+
+    <script>
+      const texts = [
+        "Desarrollo web full stack",
+        "Infraestructura Linux / Docker",
+        "Agentes y asistentes de IA",
+        "Productos end-to-end"
+      ];
+      const typingEl = document.getElementById("typingText");
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typingSpeed = 100;
+
+      function type() {
+        if (!typingEl) return;
+        const current = texts[textIndex];
+        if (isDeleting) {
+          typingEl.textContent = current.substring(0, charIndex - 1);
+          charIndex--;
+          typingSpeed = 50;
+        } else {
+          typingEl.textContent = current.substring(0, charIndex + 1);
+          charIndex++;
+          typingSpeed = 100;
+        }
+        if (!isDeleting && charIndex === current.length) {
+          typingSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          typingSpeed = 500;
+        }
+        setTimeout(type, typingSpeed);
+      }
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) {
+        if (typingEl) typingEl.textContent = texts[0];
+      } else {
+        setTimeout(type, 1000);
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("is-visible");
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+      document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

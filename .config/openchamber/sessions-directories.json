@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "foldersMap": {
+    "__archived__:/Users/ramonmenor/trabajo/github/fluxopos": [
+      {
+        "id": "f4ef55c0-b3eb-49fa-896e-91bd912f7e85",
+        "name": "project root",
+        "sessionIds": [
+          "ses_272739838ffe01zY40ZP38cS6c"
+        ],
+        "createdAt": 1777918801045,
+        "parentId": null
+      }
+    ],
+    "__archived__:/Users/ramonmenor/trabajo/github/ramonmenor.github.io": [
+      {
+        "id": "dade465d-f2d2-4ef7-b07e-49b94f15136c",
+        "name": "project root",
+        "sessionIds": [
+          "ses_21669fd82ffejCtPt2cgL7np03",
+          "ses_21667ec20ffeN8sCLElPUpq6Tm",
+          "ses_226502fbaffeRW9ALR5gAHqQ7K",
+          "ses_22a5fc1d7ffesXhdwISAAOZubb",
+          "ses_22a548c7effedZQ7k75MuL7zGa",
+          "ses_23006cc4bffeK2kAeGFy202ekB"
+        ],
+        "createdAt": 1777918801045,
+        "parentId": null
+      }
+    ]
+  },
+  "collapsedFolderIds": [],
+  "updatedAt": 1777918801920
+}

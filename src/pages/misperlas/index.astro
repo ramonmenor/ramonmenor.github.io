@@ -9,60 +9,24 @@ const posts = (await getCollection("misperlas")).sort();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 100%;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      ul li {
-        width: 100%;
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li a {
-        display: block;
-      }
-      .title {
-        margin: 0;
-        color: rgb(var(--black));
-        line-height: 1;
-      }
-      ul li a:hover h4,
-      ul li a:hover {
-        color: rgb(var(--accent));
-      }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.1em;
-        }
-      }
-    </style>
+    <BaseHead title={`Mis Perlas | ${SITE_TITLE}`} description="Colección de perlas de sabiduría." />
   </head>
-  <body>
-    <Header />
-    <main>
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/misperlas" />
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100 dark:bg-indigo-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+      <h1 class="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">Mis Perlas</h1>
       <section>
-        <ul>
-          {
-            posts.map((post) => (
-              <li>
-                <a href={`/misperlas/${post.slug}/`}>
-                  <h5 class="">{post.data.title}</h5>
-                </a>
-              </li>
-            ))
-          }
+        <ul class="space-y-3">
+          {posts.map((post) => (
+            <li>
+              <a href={`/misperlas/${post.slug}/`} class="block p-4 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl hover:border-indigo-300 dark:hover:bg-white/10 transition-colors">
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-gray-200">{post.data.title}</h5>
+              </a>
+            </li>
+          ))}
         </ul>
       </section>
     </main>

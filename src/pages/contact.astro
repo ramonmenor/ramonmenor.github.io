@@ -1,0 +1,116 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
+
+const contactMethods = [
+  {
+    icon: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`,
+    label: "Email",
+    value: "ramonmenor@gmail.com",
+    href: "mailto:ramonmenor@gmail.com",
+    desc: "Respuesta en menos de 24h"
+  },
+  {
+    icon: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
+    label: "LinkedIn",
+    value: "/in/ramonmenor",
+    href: "https://linkedin.com/in/ramonmenor",
+    desc: "Conectemos profesionalmente"
+  },
+  {
+    icon: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 2.609-.322s2.609.322 2.609.322c1.652 0 3.171.322 2.609.322 1.652 1.008.626 2.869-.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>`,
+    label: "GitHub",
+    value: "@ramonmenor",
+    href: "https://github.com/ramonmenor",
+    desc: "Revisa mis proyectos"
+  },
+  {
+    icon: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+    label: "X (Twitter)",
+    value: "@ramonmenor",
+    href: "https://twitter.com/ramonmenor",
+    desc: "Sigue mis reflexiones"
+  },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={`Contacto | ${SITE_TITLE}`} description="Contacta con Ramón Menor para proyectos, colaboraciones o cualquier consulta." />
+  </head>
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/contact" />
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100 dark:bg-indigo-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+
+      <div class="text-center max-w-3xl mx-auto mb-16 animate-on-scroll">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+          Hablemos de tu <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">proyecto</span>
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+          Estoy disponible para proyectos freelance, colaboraciones y nuevas oportunidades. No dudes en escribirme.
+        </p>
+      </div>
+
+      <!-- Contact Methods -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+        {contactMethods.map((method, i) => (
+          <a
+            href={method.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`animate-on-scroll delay-${i % 3} group flex items-start gap-5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 hover:border-indigo-400 dark:hover:border-indigo-500/50 hover:shadow-lg dark:shadow-black/50 transition-all duration-300`}
+          >
+            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white group-hover:scale-110 transition-transform" set:html={method.icon}></div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{method.label}</h3>
+              <p class="text-indigo-600 dark:text-indigo-400 text-sm font-medium mb-1">{method.value}</p>
+              <p class="text-gray-500 dark:text-gray-500 text-sm">{method.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Contact Form -->
+      <div class="animate-on-scroll delay-1 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm dark:shadow-none">
+        <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Escribir un mensaje</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Se abrirá tu cliente de correo con el mensaje preescrito. No se envía nada desde esta web.</p>
+        <form action="mailto:ramonmenor@gmail.com" method="POST" enctype="text/plain" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Nombre</label>
+              <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors" placeholder="Tu nombre" />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Email</label>
+              <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors" placeholder="tu@email.com" />
+            </div>
+          </div>
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Asunto</label>
+            <input type="text" id="subject" name="subject" class="w-full px-4 py-3 bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors" placeholder="¿De qué quieres hablar?" />
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Mensaje</label>
+            <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 bg-gray-50 dark:bg-black/30 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none" placeholder="Cuéntame los detalles de tu proyecto..."></textarea>
+          </div>
+          <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
+            Abrir cliente de correo
+          </button>
+        </form>
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }); },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+      document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

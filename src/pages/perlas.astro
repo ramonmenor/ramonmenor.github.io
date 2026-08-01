@@ -2,42 +2,50 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { SITE_TITLE } from "../consts";
 import { getPerlas } from "../db/perlas";
 
-// Obtener todas las perlas al cargar la página
-const perlas = await getPerlas();
+let perlas: any[] = [];
+let error: string | null = null;
+
+try {
+  perlas = await getPerlas();
+} catch (e: any) {
+  error = e.message || "No se pudo conectar a la base de datos";
+}
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Perlas | ${SITE_TITLE}`} description="Perlas de sabiduría" />
   </head>
-  <body>
-    <Header title={SITE_TITLE} />
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/perlas" />
 
-    <main>
-      {
-        perlas.length > 0 ? (
-          <div>
-            {perlas.map((perla) => (
-              <div>
-                <strong>
-                  {perla.libro} {perla.capitulo}{perla.versiculos == 0 ? "" : ":" + perla.versiculos}
-                </strong>
-                <br />
-                {perla.perla}
-                <br />
-                <strong>{perla.referencia}</strong> 
-              </div>
-              <hr>
-            ))}
-          </div>
-        ) : (
-          <p>No se encontraron perlas.</p>
-        )
-      }
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100 dark:bg-indigo-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+      <h1 class="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">Perlas de Sabiduría</h1>
+      {perlas.length > 0 ? (
+        <div class="space-y-6">
+          {perlas.map((perla) => (
+            <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-6 hover:shadow-md dark:hover:shadow-black/30 transition-shadow">
+              <strong class="text-indigo-600 dark:text-indigo-400">
+                {perla.libro} {perla.capitulo}{perla.versiculos == 0 ? "" : ":" + perla.versiculos}
+              </strong>
+              <p class="mt-2 text-gray-700 dark:text-gray-300 italic">{perla.perla}</p>
+              <p class="mt-2 text-sm text-gray-500 dark:text-gray-400"><strong>{perla.referencia}</strong></p>
+            </div>
+          ))}
+        </div>
+      ) : error ? (
+        <div class="text-center">
+          <p class="text-gray-600 dark:text-gray-400">No se pudieron cargar las perlas.</p>
+          <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">{error}</p>
+        </div>
+      ) : (
+        <p class="text-center text-gray-600 dark:text-gray-400">No se encontraron perlas.</p>
+      )}
     </main>
     <Footer />
   </body>

@@ -42,7 +42,7 @@ const devSkills = [
 
 const aiSkills = [
   { name: "GitHub Copilot", level: 5, desc: "Asistente de codificación IA" },
-  { name: "Claude", level: 5, desc: "Modelo de lenguaje avanzado" },
+  { name: "Gemini", level: 5, desc: "Modelo de lenguaje avanzado" },
   { name: "ChatGPT", level: 4, desc: "Asistente conversacional IA" },
   { name: "Antigravity IDE", level: 4, desc: "IDE potenciado con IA" },
   { name: "Ollama", level: 3, desc: "LLMs locales" },
@@ -52,54 +52,35 @@ const aiSkills = [
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
     <BaseHead
       title={`Skills | ${SITE_TITLE}`}
-      description="Habilidades profesionales de Ramón Menor distribuidas en three categorías: Tecnológico, Desarrollo e IA."
+      description="Habilidades profesionales de Ramón Menor distribuidas en tres categorías: Tecnológico, Desarrollo e IA."
     />
   </head>
-  <body class="bg-[#0a0a0a] text-gray-100 min-h-screen flex flex-col">
-    <Header title={SITE_TITLE} />
-    <main
-      class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative"
-    >
-      <div
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"
-      >
-      </div>
+  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+    <Header title={SITE_TITLE} currentPath="/skills" />
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-100 dark:bg-emerald-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div class="text-center max-w-3xl mx-auto mb-12">
         <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-          Mis <span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500"
-            >Skills</span
-          >
+          Mis <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500 dark:from-emerald-400 dark:to-teal-500">Skills</span>
         </h1>
-        <p class="text-xl text-gray-400 leading-relaxed">
-          Aquí puedes ver mis habilidades distribuidas en three categorías:
-          <span class="text-emerald-400">Tecnológico</span>,
-          <span class="text-blue-400">Desarrollo</span> e
-          <span class="text-purple-400">IA</span>.
+        <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+          Aquí puedes ver mis habilidades distribuidas en tres categorías:
+          <span class="text-emerald-600 dark:text-emerald-400">Tecnológico</span>,
+          <span class="text-blue-600 dark:text-blue-400">Desarrollo</span> e
+          <span class="text-purple-600 dark:text-purple-400">IA</span>.
         </p>
       </div>
 
       {/* Search & Compare Section */}
-      <div
-        class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-12 backdrop-blur-sm"
-      >
+      <div class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 mb-12 backdrop-blur-sm">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-          <svg
-            class="w-5 h-5 text-emerald-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
           Buscar Skills Requeridos
         </h2>
@@ -108,34 +89,30 @@ const aiSkills = [
             type="text"
             id="skillSearch"
             placeholder="Ej: React, PHP, MySQL, Proxmox..."
-            class="flex-1 px-4 py-3 bg-[#0a0a0a] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            class="flex-1 px-4 py-3 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
           />
           <button
             id="analyzeBtn"
-            class="px-6 py-3 bg-emerald-500 text-black font-semibold rounded-xl hover:bg-emerald-400 transition-colors"
+            class="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-500 transition-colors"
           >
             Analizar Match
           </button>
         </div>
 
-        <div id="selectedSkills" class="flex flex-wrap gap-2 mt-4 min-h-[40px]">
-        </div>
+        <div id="selectedSkills" class="flex flex-wrap gap-2 mt-4 min-h-[40px]"></div>
 
         <div id="matchResults" class="mt-6 hidden">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Resultados del Análisis</h3>
-            <span id="matchScore" class="text-2xl font-bold text-emerald-400"
-            ></span>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Resultados del Análisis</h3>
+            <span id="matchScore" class="text-2xl font-bold text-emerald-600 dark:text-emerald-400"></span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <h4 class="text-sm font-medium text-gray-400 mb-2">
-                Encontrados
-              </h4>
+              <h4 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Encontrados</h4>
               <div id="matchedSkills" class="flex flex-wrap gap-2"></div>
             </div>
             <div>
-              <h4 class="text-sm font-medium text-gray-400 mb-2">Faltantes</h4>
+              <h4 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Faltantes</h4>
               <div id="missingSkills" class="flex flex-wrap gap-2"></div>
             </div>
           </div>
@@ -147,129 +124,103 @@ const aiSkills = [
         {/* Tecnológico */}
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
-            <span class="w-3 h-3 bg-emerald-400 rounded-full"></span>
+            <span class="w-3 h-3 bg-emerald-500 dark:bg-emerald-400 rounded-full"></span>
             Tecnológico
           </h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {
-              techSkills.map((skill) => (
-                <div
-                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
-                  data-name={skill.name}
-                  data-desc={skill.desc}
-                >
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-medium">{skill.name}</span>
-                    <div class="flex gap-1">
-                      {Array(5)
-                        .fill(0)
-                        .map((_, i) => (
-                          <span
-                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-emerald-400" : "bg-white/20"}`}
-                          />
-                        ))}
-                    </div>
+            {techSkills.map((skill) => (
+              <div
+                class="skill-card bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 hover:border-emerald-300 dark:hover:bg-white/[0.07] transition-colors cursor-pointer"
+                data-name={skill.name}
+                data-desc={skill.desc}
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium text-gray-900 dark:text-white">{skill.name}</span>
+                  <div class="flex gap-1">
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <span class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-emerald-500 dark:bg-emerald-400" : "bg-gray-200 dark:bg-white/20"}`} />
+                      ))}
                   </div>
-                  <p class="text-xs text-gray-500">{skill.desc}</p>
                 </div>
-              ))
-            }
+                <p class="text-xs text-gray-500 dark:text-gray-400">{skill.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Desarrollo */}
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
-            <span class="w-3 h-3 bg-blue-400 rounded-full"></span>
+            <span class="w-3 h-3 bg-blue-500 dark:bg-blue-400 rounded-full"></span>
             Desarrollo
           </h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {
-              devSkills.map((skill) => (
-                <div
-                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
-                  data-name={skill.name}
-                  data-desc={skill.desc}
-                >
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-medium">{skill.name}</span>
-                    <div class="flex gap-1">
-                      {Array(5)
-                        .fill(0)
-                        .map((_, i) => (
-                          <span
-                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-blue-400" : "bg-white/20"}`}
-                          />
-                        ))}
-                    </div>
+            {devSkills.map((skill) => (
+              <div
+                class="skill-card bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 hover:border-blue-300 dark:hover:bg-white/[0.07] transition-colors cursor-pointer"
+                data-name={skill.name}
+                data-desc={skill.desc}
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium text-gray-900 dark:text-white">{skill.name}</span>
+                  <div class="flex gap-1">
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <span class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-blue-500 dark:bg-blue-400" : "bg-gray-200 dark:bg-white/20"}`} />
+                      ))}
                   </div>
-                  <p class="text-xs text-gray-500">{skill.desc}</p>
                 </div>
-              ))
-            }
+                <p class="text-xs text-gray-500 dark:text-gray-400">{skill.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* IA */}
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
-            <span class="w-3 h-3 bg-purple-400 rounded-full"></span>
+            <span class="w-3 h-3 bg-purple-500 dark:bg-purple-400 rounded-full"></span>
             Inteligencia Artificial
           </h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {
-              aiSkills.map((skill) => (
-                <div
-                  class="skill-card bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.07] transition-colors cursor-pointer"
-                  data-name={skill.name}
-                  data-desc={skill.desc}
-                >
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-medium">{skill.name}</span>
-                    <div class="flex gap-1">
-                      {Array(5)
-                        .fill(0)
-                        .map((_, i) => (
-                          <span
-                            class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-purple-400" : "bg-white/20"}`}
-                          />
-                        ))}
-                    </div>
+            {aiSkills.map((skill) => (
+              <div
+                class="skill-card bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 hover:border-purple-300 dark:hover:bg-white/[0.07] transition-colors cursor-pointer"
+                data-name={skill.name}
+                data-desc={skill.desc}
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium text-gray-900 dark:text-white">{skill.name}</span>
+                  <div class="flex gap-1">
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <span class={`w-1.5 h-1.5 rounded-full ${i < skill.level ? "bg-purple-500 dark:bg-purple-400" : "bg-gray-200 dark:bg-white/20"}`} />
+                      ))}
                   </div>
-                  <p class="text-xs text-gray-500">{skill.desc}</p>
                 </div>
-              ))
-            }
+                <p class="text-xs text-gray-500 dark:text-gray-400">{skill.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
       </div>
 
       {/* Modal */}
-      <div
-        id="skillModal"
-        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
-      >
-        <div
-          class="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 max-w-md w-full"
-        >
+      <div id="skillModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 rounded-2xl p-6 max-w-md w-full shadow-xl">
           <div class="flex justify-between items-start mb-4">
-            <h3 id="modalSkillName" class="text-2xl font-bold"></h3>
-            <button id="closeModal" class="text-gray-400 hover:text-white">
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"></path>
+            <h3 id="modalSkillName" class="text-2xl font-bold text-gray-900 dark:text-white"></h3>
+            <button id="closeModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-white">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
           </div>
-          <p id="modalSkillDesc" class="text-gray-400"></p>
+          <p id="modalSkillDesc" class="text-gray-600 dark:text-gray-400"></p>
         </div>
       </div>
     </main>
@@ -296,7 +247,7 @@ const aiSkills = [
         { name: "TypeScript", category: "Desarrollo" },
         { name: "Node.js", category: "Desarrollo" },
         { name: "GitHub Copilot", category: "IA" },
-        { name: "Claude", category: "IA" },
+        { name: "Gemini", category: "IA" },
         { name: "ChatGPT", category: "IA" },
         { name: "Cursor IDE", category: "IA" },
         { name: "Ollama", category: "IA" },
@@ -312,15 +263,12 @@ const aiSkills = [
 
       function renderSelectedSkills() {
         selectedContainer.innerHTML = selectedSkills
-          .map(
-            (skill) => `
-          <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-sm">
+          .map((skill) => `
+          <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-full text-sm">
             ${skill}
-            <button onclick="removeSkill('${skill}')" class="hover:text-white">×</button>
+            <button onclick="removeSkill('${skill}')" class="hover:text-emerald-800 dark:hover:text-white ml-1 font-bold leading-none">×</button>
           </span>
-        `,
-          )
-          .join("");
+        `).join("");
       }
 
       window.removeSkill = function (skill) {
@@ -347,9 +295,7 @@ const aiSkills = [
 
         selectedSkills.forEach((req) => {
           const found = allSkills.find(
-            (s) =>
-              s.name.toLowerCase() === req.toLowerCase() ||
-              s.name.toLowerCase().includes(req.toLowerCase()),
+            (s) => s.name.toLowerCase() === req.toLowerCase() || s.name.toLowerCase().includes(req.toLowerCase())
           );
           if (found) {
             matched.push(found);
@@ -358,37 +304,18 @@ const aiSkills = [
           }
         });
 
-        const score = Math.round(
-          (matched.length / selectedSkills.length) * 100,
-        );
-
+        const score = Math.round((matched.length / selectedSkills.length) * 100);
         document.getElementById("matchScore").textContent = `${score}% Match`;
 
         document.getElementById("matchedSkills").innerHTML =
           matched.length > 0
-            ? matched
-                .map(
-                  (s) => `
-            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-sm">
-              ${s.name}
-            </span>
-          `,
-                )
-                .join("")
+            ? matched.map((s) => `<span class="px-3 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 rounded-full text-sm">${s.name}</span>`).join("")
             : '<span class="text-gray-500">Sin coincidencias</span>';
 
         document.getElementById("missingSkills").innerHTML =
           missing.length > 0
-            ? missing
-                .map(
-                  (s) => `
-            <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-sm">
-              ${s}
-            </span>
-          `,
-                )
-                .join("")
-            : '<span class="text-emerald-400">Todas las skills encontradas!</span>';
+            ? missing.map((s) => `<span class="px-3 py-1 bg-red-500/20 text-red-700 dark:text-red-400 rounded-full text-sm">${s}</span>`).join("")
+            : '<span class="text-emerald-600 dark:text-emerald-400">¡Todas las skills encontradas!</span>';
 
         matchResults.classList.remove("hidden");
       });
@@ -397,12 +324,8 @@ const aiSkills = [
       const modal = document.getElementById("skillModal");
       document.querySelectorAll(".skill-card").forEach((card) => {
         card.addEventListener("click", () => {
-          const skillName = card.dataset.name;
-          const skillDesc = card.dataset.desc;
-
-          document.getElementById("modalSkillName").textContent = skillName;
-          document.getElementById("modalSkillDesc").textContent = skillDesc;
-
+          document.getElementById("modalSkillName").textContent = card.dataset.name;
+          document.getElementById("modalSkillDesc").textContent = card.dataset.desc;
           modal.classList.remove("hidden");
         });
       });
@@ -412,9 +335,7 @@ const aiSkills = [
       });
 
       modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          modal.classList.add("hidden");
-        }
+        if (e.target === modal) modal.classList.add("hidden");
       });
     </script>
   </body>
