@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  color?: 'cyan' | 'magenta' | 'green' | 'amber';
+  class?: string;
+  href?: string;
+  icon?: string;
+}
+
+const { title, subtitle, color = 'cyan', class: className = '', href, icon } = Astro.props;
+
+const colorMap = {
+  cyan: {
+    border: 'border-neon-cyan/25',
+    borderSolid: 'border-neon-cyan',
+    text: 'text-neon-cyan',
+    bg: 'bg-neon-cyan/10',
+    shadow: 'hover:shadow-[0_0_24px_rgba(0,240,255,0.15)]',
+    hoverText: 'group-hover:text-neon-cyan',
+  },
+  magenta: {
+    border: 'border-neon-magenta/25',
+    borderSolid: 'border-neon-magenta',
+    text: 'text-neon-magenta',
+    bg: 'bg-neon-magenta/10',
+    shadow: 'hover:shadow-[0_0_24px_rgba(255,0,255,0.15)]',
+    hoverText: 'group-hover:text-neon-magenta',
+  },
+  green: {
+    border: 'border-neon-green/25',
+    borderSolid: 'border-neon-green',
+    text: 'text-neon-green',
+    bg: 'bg-neon-green/10',
+    shadow: 'hover:shadow-[0_0_24px_rgba(0,255,65,0.15)]',
+    hoverText: 'group-hover:text-neon-green',
+  },
+  amber: {
+    border: 'border-neon-amber/25',
+    borderSolid: 'border-neon-amber',
+    text: 'text-neon-amber',
+    bg: 'bg-neon-amber/10',
+    shadow: 'hover:shadow-[0_0_24px_rgba(255,184,0,0.15)]',
+    hoverText: 'group-hover:text-neon-amber',
+  },
+};
+
+const c = colorMap[color];
+
+const Wrapper = href ? 'a' : 'div';
+---
+
+<Wrapper
+  href={href}
+  class:list={[
+    'group relative overflow-hidden rounded-md bg-card/80 border transition-all duration-300',
+    c.border,
+    c.shadow,
+    href && 'block cursor-pointer',
+    className,
+  ]}
+>
+  <div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none"></div>
+  <div class:list={['absolute top-0 left-0 w-2 h-2 border-t border-l opacity-60 transition-all duration-300 group-hover:w-3 group-hover:h-3', c.borderSolid]}></div>
+  <div class:list={['absolute top-0 right-0 w-2 h-2 border-t border-r opacity-60 transition-all duration-300 group-hover:w-3 group-hover:h-3', c.borderSolid]}></div>
+  <div class:list={['absolute bottom-0 left-0 w-2 h-2 border-b border-l opacity-60 transition-all duration-300 group-hover:w-3 group-hover:h-3', c.borderSolid]}></div>
+  <div class:list={['absolute bottom-0 right-0 w-2 h-2 border-b border-r opacity-60 transition-all duration-300 group-hover:w-3 group-hover:h-3', c.borderSolid]}></div>
+
+  <div class="relative p-5 sm:p-6">
+    <div class="flex items-start gap-4 mb-4">
+      {icon && (
+        <div class:list={['flex-shrink-0 w-10 h-10 rounded flex items-center justify-center', c.bg, c.text]} set:html={icon}></div>
+      )}
+      <div class="flex-1 min-w-0">
+        <div class:list={['font-mono text-xs uppercase tracking-[0.18em] mb-1 opacity-80', c.text]}>
+          {subtitle || 'HUD.PANEL'}
+        </div>
+        <h3 class:list={['text-lg sm:text-xl font-bold text-foreground leading-tight transition-colors duration-300', c.hoverText]}>
+          {title}
+        </h3>
+      </div>
+    </div>
+    <div class="text-sm reading-text leading-relaxed">
+      <slot />
+    </div>
+  </div>
+</Wrapper>

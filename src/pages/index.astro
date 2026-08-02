@@ -2,46 +2,67 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import HudCard from "../components/HudCard.astro";
+import TerminalBlock from "../components/TerminalBlock.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 const capabilities = [
   {
-    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
     title: "Desarrollo Full Stack con IA",
-    desc: "Construyo aplicaciones web completas integrando modelos de lenguaje y asistentes de IA en el flujo de trabajo: PHP, JavaScript, Astro, MySQL y APIs modernas.",
+    subtitle: "dev.core",
+    desc: "Aplicaciones web completas con PHP, JavaScript, Astro, MySQL y APIs modernas. Integro asistentes de IA en el flujo de trabajo para acelerar resultados reales.",
+    color: "cyan" as const,
   },
   {
-    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
     title: "Infraestructura y DevOps",
-    desc: "Administro servidores Debian, contenedores Docker, virtualización y redes VPN para desplegar productos estables, seguros y escalables.",
+    subtitle: "sys.core",
+    desc: "Servidores Debian, contenedores Docker, virtualización y redes VPN. Despliegues estables, seguros y escalables para productos que no pueden caerse.",
+    color: "green" as const,
   },
   {
-    icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
     title: "Arquitectura de productos",
-    desc: "Diseño soluciones end-to-end: desde la base de datos y la API hasta la interfaz, priorizando rendimiento, mantenibilidad y experiencia de usuario.",
+    subtitle: "arch.core",
+    desc: "Soluciones end-to-end: desde la base de datos y la API hasta la interfaz. Priorizo rendimiento, mantenibilidad y experiencia de usuario.",
+    color: "magenta" as const,
   },
 ];
 
 const projects = [
   {
     title: "ramonmenor.es",
-    subtitle: "Este portfolio",
-    description: "Sitio personal moderno construido con Astro 5, Tailwind CSS y despliegue estático. Incluye modo oscuro, blog con RSS y datos estructurados.",
+    subtitle: "portfolio",
+    description: "Este sitio personal: Astro 5, Tailwind CSS, despliegue estático, blog con RSS y datos estructurados.",
     href: "/stack",
     tags: ["Astro", "Tailwind", "TypeScript"],
+    color: "cyan" as const,
   },
   {
     title: "Mis Perlas",
-    subtitle: "Colección personal",
-    description: "Aplicación para guardar, consultar y navegar perlas de sabiduría. Usa Astro, Turso (@libsql/client) y una base de datos serverless.",
+    subtitle: "colección",
+    description: "Aplicación para guardar, consultar y navegar perlas de sabiduría con Astro, Turso (@libsql/client) y base de datos serverless.",
     href: "/misperlas",
     tags: ["Astro", "Turso", "TypeScript"],
+    color: "magenta" as const,
   },
 ];
 
 const stack = [
   "PHP", "JavaScript", "TypeScript", "Astro", "Tailwind CSS",
   "MySQL", "Debian", "Docker", "Yii2", "GitHub Copilot", "Gemini", "Cursor"
+];
+
+const terminalLines = [
+  "CMD:whoami",
+  "OUT:Ramón Menor — Full Stack Developer",
+  "CMD:ls -la /skills",
+  "OUT:PHP  Yii2  MySQL  Docker  Debian  Astro  Tailwind  TypeScript",
+  "CMD:cat /etc/stack/ia",
+  "OUT:GitHub Copilot  Gemini  Cursor  Ollama",
+  "CMD:uptime",
+  "OUT:Desde 2006 construyendo productos digitales",
 ];
 ---
 
@@ -50,153 +71,269 @@ const stack = [
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-background text-foreground">
     <Header title={SITE_TITLE} currentPath="/" />
 
-    <!-- Hero Section -->
-    <main class="flex-1 flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-
-      {/* Background glowing effects */}
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 dark:bg-indigo-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-600/10 dark:bg-purple-600/20 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-
-      <div class="max-w-4xl mx-auto text-center z-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 rounded-full mb-8">
-          <span class="flex h-2 w-2 rounded-full bg-green-400"></span>
-          Disponible para proyectos
+    <main class="flex-1 relative">
+      {/* Hero section */}
+      <section class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+        {/* Background grid + node visualization */}
+        <div class="absolute inset-0 grid-bg pointer-events-none" aria-hidden="true">
+          <div class="absolute inset-0 opacity-40">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(0,240,255,0.25)" />
+                  <stop offset="100%" stop-color="rgba(255,0,255,0.12)" />
+                </linearGradient>
+              </defs>
+              {/* Horizontal data lines */}
+              <line x1="0" y1="30" x2="100" y2="30" stroke="rgba(0,240,255,0.06)" stroke-width="0.1" />
+              <line x1="0" y1="70" x2="100" y2="70" stroke="rgba(0,240,255,0.06)" stroke-width="0.1" />
+              <line x1="30" y1="0" x2="30" y2="100" stroke="rgba(255,0,255,0.05)" stroke-width="0.1" />
+              <line x1="70" y1="0" x2="70" y2="100" stroke="rgba(255,0,255,0.05)" stroke-width="0.1" />
+              {/* Central node */}
+              <circle cx="50" cy="50" r="1.2" fill="url(#nodeGrad)" />
+              <circle cx="50" cy="50" r="0.4" fill="rgba(0,240,255,0.8)" />
+              <circle cx="50" cy="50" r="6" fill="none" stroke="rgba(0,240,255,0.15)" stroke-width="0.2" />
+              <circle cx="50" cy="50" r="12" fill="none" stroke="rgba(255,0,255,0.08)" stroke-width="0.15" />
+              {/* Satellite nodes */}
+              <circle cx="20" cy="25" r="0.5" fill="rgba(0,255,65,0.4)" />
+              <circle cx="80" cy="35" r="0.5" fill="rgba(0,255,65,0.4)" />
+              <circle cx="25" cy="75" r="0.5" fill="rgba(255,184,0,0.35)" />
+              <circle cx="78" cy="78" r="0.5" fill="rgba(255,184,0,0.35)" />
+              {/* Connecting lines */}
+              <line x1="50" y1="50" x2="20" y2="25" stroke="rgba(0,240,255,0.1)" stroke-width="0.1" />
+              <line x1="50" y1="50" x2="80" y2="35" stroke="rgba(0,240,255,0.1)" stroke-width="0.1" />
+              <line x1="50" y1="50" x2="25" y2="75" stroke="rgba(255,0,255,0.08)" stroke-width="0.1" />
+              <line x1="50" y1="50" x2="78" y2="78" stroke="rgba(255,0,255,0.08)" stroke-width="0.1" />
+            </svg>
+          </div>
         </div>
 
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
-          Desarrollador Full Stack<br />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">con IA integrada</span>
-        </h1>
+        {/* Scanline overlay */}
+        <div class="absolute inset-0 scanlines pointer-events-none opacity-30" aria-hidden="true"></div>
 
-        {/* Typing animation */}
-        <p class="text-lg md:text-2xl text-indigo-600 dark:text-indigo-400 mb-8 min-h-8 overflow-hidden font-medium typing-cursor" id="typingText"></p>
+        <div class="relative z-10 max-w-6xl mx-auto w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: main hero text */}
+            <div class="order-1">
+              {/* Status badge */}
+              <div class="inline-flex items-center gap-3 border border-neon-green/30 bg-neon-green/5 px-3 py-1.5 mb-6 sm:mb-8" aria-hidden="true">
+                <span class="status-dot status-pulse"></span>
+                <span class="font-mono text-xs uppercase tracking-[0.16em] text-neon-green">Disponible para proyectos</span>
+              </div>
 
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Soy Ramón Menor. Construyo productos digitales combinando desarrollo sólido, infraestructura y herramientas de Inteligencia Artificial para multiplicar resultados reales.
-        </p>
+              {/* Main headline */}
+              <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-4" aria-label="Ramón Menor">
+                <span class="block bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 dark:from-cyan-400 dark:via-cyan-200 dark:to-fuchsia-400 bg-clip-text text-transparent">RAMÓN</span>
+                <span class="block text-foreground">MENOR</span>
+              </h1>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="/stack" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
-            Ver mi stack
-          </a>
-          <a href="/contact" class="w-full sm:w-auto px-8 py-4 bg-gray-100 text-gray-900 dark:bg-white/5 dark:text-white font-semibold rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors backdrop-blur-sm">
-            Hablemos
-          </a>
-        </div>
-      </div>
-    </main>
+              <div class="h-px w-full max-w-md bg-gradient-to-r from-neon-cyan via-neon-magenta to-transparent mb-6 sm:mb-8"></div>
 
-    {/* Capabilities Section */}
-    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 relative">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16 animate-on-scroll">
-          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-            ¿Qué puedo hacer por <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">tu proyecto</span>?
-          </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Tres pilares con los que afronto cada producto: desarrollo integral, infraestructura sólida y visión de producto.
-          </p>
-        </div>
+              <p class="text-lg sm:text-xl md:text-2xl font-medium text-neon-cyan mb-4 min-h-[2rem]" id="typingText" aria-live="off"></p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {capabilities.map((item, i) => (
-            <div class={`animate-on-scroll delay-${i + 1} group bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:border-indigo-300 dark:hover:bg-white/10 shadow-sm dark:shadow-none hover:shadow-lg dark:shadow-black/50 transition-all duration-300`}>
-              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform" set:html={item.icon}></div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">{item.title}</h3>
-              <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{item.desc}</p>
+              <p class="text-base sm:text-lg reading-text leading-relaxed max-w-xl mb-8 sm:mb-10">
+                Construyo productos digitales combinando desarrollo sólido, infraestructura y herramientas de Inteligencia Artificial para multiplicar resultados reales.
+              </p>
+
+              {/* CTAs */}
+              <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
+                <a href="/stack" class="btn-console btn-console-green text-center justify-center">
+                  <span>Ver mi stack</span>
+                </a>
+                <a href="/contact" class="btn-console btn-console-magenta text-center justify-center">
+                  <span>Hablemos de tu proyecto</span>
+                </a>
+                <a href="/resume" class="btn-console text-center justify-center">
+                  <span>Descargar perfil</span>
+                </a>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
 
-    <!-- Projects Section -->
-    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20 relative">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16 animate-on-scroll">
-          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-            Trabajos y productos <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">reales</span>
-          </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Proyectos que mantengo y evoluciono activamente.
-          </p>
-        </div>
+            {/* Right: terminal node */}
+            <div class="order-2 lg:order-2">
+              <div class="relative">
+                {/* Decorative orbital rings */}
+                <div class="absolute -inset-4 sm:-inset-8 border border-neon-cyan/10 rounded-lg pointer-events-none" aria-hidden="true"></div>
+                <div class="absolute -inset-8 sm:-inset-12 border border-neon-magenta/5 rounded-lg pointer-events-none" aria-hidden="true"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, i) => (
-            <a
-              href={project.href}
-              class={`animate-on-scroll delay-${i + 1} group block bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:border-indigo-300 dark:hover:bg-white/10 shadow-sm dark:shadow-none hover:shadow-lg transition-all duration-300`}
-            >
-              <div class="flex items-start justify-between mb-4">
-                <div>
-                  <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{project.title}</h3>
-                  <p class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">{project.subtitle}</p>
+                <div class="hud-panel p-4 sm:p-5">
+                  <div class="hud-title-bar mb-4">
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan"></span>
+                    <span class="text-neon-cyan">NODO_PRINCIPAL</span>
+                  </div>
+                  <TerminalBlock
+                    title="ramonmenor@core — bash"
+                    lines={terminalLines}
+                    typing={true}
+                    prompt="rm@core:~$"
+                    class="rounded"
+                  />
+                  <div class="mt-4 flex flex-wrap items-center gap-2 font-mono text-xs text-terminal-muted">
+                    <span class="mono-tag text-neon-cyan">PHP</span>
+                    <span class="mono-tag text-neon-magenta">IA</span>
+                    <span class="mono-tag text-neon-green">DOCKER</span>
+                    <span class="mono-tag text-neon-amber">ASTRO</span>
+                  </div>
                 </div>
-                <svg class="w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom scroll hint */}
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neon-cyan">
+          <span class="font-mono text-xs uppercase tracking-widest">Scroll down</span>
+          <svg class="w-4 h-4 text-neon-cyan animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Capabilities section */}
+      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+        <div class="relative z-10 max-w-6xl mx-auto w-full">
+          <div class="mb-12 sm:mb-16">
+            <div class="hud-section-label mb-3">02 // capabilities</div>
+              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
+                Módulos de <span class="neon-text-cyan">capacidad</span>
+              </h2>
+            <p class="text-base sm:text-lg reading-text max-w-2xl">
+              Tres pilares con los que afronto cada producto: desarrollo integral, infraestructura sólida y visión de producto.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+            {capabilities.map((item, i) => (
+              <HudCard
+                title={item.title}
+                subtitle={item.subtitle}
+                color={item.color}
+                icon={item.icon}
+                class="animate-on-scroll"
+              >
+                <p>{item.desc}</p>
+                  <div class="mt-4 flex items-center gap-2 font-mono text-xs text-terminal-muted">
+                  <span class="text-neon-green">STATUS:</span>
+                  <span>OPERATIONAL</span>
+                </div>
+              </HudCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects section */}
+      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+        <div class="relative z-10 max-w-6xl mx-auto w-full">
+          <div class="mb-12 sm:mb-16">
+            <div class="hud-section-label mb-3">03 // products</div>
+              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
+                Trabajos y productos <span class="neon-text-magenta">reales</span>
+              </h2>
+            <p class="text-base sm:text-lg reading-text max-w-2xl">
+              Proyectos que mantengo y evoluciono activamente.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {projects.map((project, i) => (
+              <HudCard
+                href={project.href}
+                title={project.title}
+                subtitle={project.subtitle}
+                color={project.color}
+                class="animate-on-scroll"
+              >
+                <p class="mb-5">{project.description}</p>
+                <div class="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span class="mono-tag">{tag}</span>
+                  ))}
+                </div>
+                <div class="mt-5 flex items-center gap-2 font-mono text-xs text-neon-cyan group-hover:text-foreground transition-colors">
+                  <span>{'>'} Abrir producto</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </HudCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stack section */}
+      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+        <div class="relative z-10 max-w-6xl mx-auto w-full">
+          <div class="mb-12 sm:mb-16">
+            <div class="hud-section-label mb-3">04 // stack</div>
+              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
+                Stack <span class="neon-text-green">resumido</span>
+              </h2>
+            <p class="text-base sm:text-lg reading-text max-w-2xl">
+              Tecnologías y herramientas que uso a diario.
+            </p>
+          </div>
+
+          <div class="hud-panel p-5 sm:p-6 animate-on-scroll">
+            <div class="hud-title-bar mb-6">
+              <span class="text-neon-green">INSTALLED_PACKAGES</span>
+              <span class="ml-auto text-terminal-muted">{stack.length} items</span>
+            </div>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+              {stack.map((tech, i) => {
+                const colors = ['text-neon-cyan', 'text-neon-magenta', 'text-neon-green', 'text-neon-amber'];
+                const color = colors[i % colors.length];
+                return (
+                  <span class={`mono-tag ${color} border-current/20 hover:border-current/60 hover:shadow-[0_0_12px_currentColor]/20 transition-all duration-300 cursor-default`}>
+                    {tech}
+                  </span>
+                );
+              })}
+            </div>
+              <div class="mt-6 pt-6 border-t border-foreground/5 flex items-center justify-between">
+                <span class="font-mono text-xs text-terminal-muted">$ apt list --installed</span>
+                <a href="/skills" class="inline-flex items-center gap-2 font-mono text-xs text-neon-cyan hover:text-foreground transition-colors">
+                <span>{'>'} Ver todas las skills</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">{project.description}</p>
-              <div class="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span class="px-3 py-1 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm text-gray-600 dark:text-gray-300 font-medium">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA section */}
+      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-neon-cyan/[0.03] via-neon-magenta/[0.02] to-transparent pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-6xl mx-auto w-full text-center">
+          <div class="hud-section-label mb-4">05 // connect</div>
+              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-6">
+                ¿Tienes un proyecto en mente?
+              </h2>
+          <p class="text-base sm:text-lg reading-text mb-8 sm:mb-10 max-w-2xl mx-auto">
+            Hablemos sobre cómo puedo ayudarte a convertir tu idea en un producto funcional.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/contact" class="btn-console btn-console-magenta text-center justify-center w-full sm:w-auto">
+              <span>Contactar</span>
             </a>
-          ))}
+            <a href="/resume" class="btn-console text-center justify-center w-full sm:w-auto">
+              <span>Ver currículum</span>
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Stack Summary Section -->
-    <section class="w-full py-24 border-t border-gray-200 dark:border-white/10 relative">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12 animate-on-scroll">
-          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
-            Stack <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">resumido</span>
-          </h2>
-          <p class="text-lg text-gray-600 dark:text-gray-400">Tecnologías y herramientas que uso a diario.</p>
-        </div>
-
-        <div class="flex flex-wrap justify-center gap-3 animate-on-scroll delay-1">
-          {stack.map((tech) => (
-            <span class="px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-300 font-medium hover:border-indigo-400 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all cursor-default shadow-sm dark:shadow-none">
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <div class="text-center mt-10 animate-on-scroll delay-2">
-          <a href="/skills" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-semibold transition-colors">
-            Ver todas mis habilidades
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="w-full py-24 relative overflow-hidden border-t border-gray-200 dark:border-white/10">
-      <div class="absolute inset-0 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-600/10 dark:via-purple-600/10 dark:to-pink-600/10 -z-10"></div>
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 text-gray-900 dark:text-white">
-          ¿Tienes un proyecto en mente?
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
-          Hablemos sobre cómo puedo ayudarte a convertir tu idea en un producto funcional.
-        </p>
-        <a href="/contact" class="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
-          Contactar
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        </a>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <Footer />
 
@@ -219,11 +356,11 @@ const stack = [
         if (isDeleting) {
           typingEl.textContent = current.substring(0, charIndex - 1);
           charIndex--;
-          typingSpeed = 50;
+          typingSpeed = 45;
         } else {
           typingEl.textContent = current.substring(0, charIndex + 1);
           charIndex++;
-          typingSpeed = 100;
+          typingSpeed = 95;
         }
         if (!isDeleting && charIndex === current.length) {
           typingSpeed = 2000;
@@ -243,6 +380,7 @@ const stack = [
         setTimeout(type, 1000);
       }
 
+      // Scroll animations
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -252,6 +390,7 @@ const stack = [
         { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
       );
       document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
+
     </script>
   </body>
 </html>

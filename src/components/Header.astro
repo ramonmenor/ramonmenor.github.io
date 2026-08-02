@@ -1,125 +1,141 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
 
 interface Props {
-  title: string;
+  title?: string;
   currentPath?: string;
 }
 
-const { title, currentPath = "/" } = Astro.props;
+const { title = SITE_TITLE, currentPath = "/" } = Astro.props;
 
 const navLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/about", label: "Sobre mí" },
-  { href: "/stack", label: "Stack & IA" },
-  { href: "/skills", label: "Skills" },
-  { href: "/resume", label: "Currículum" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contacto" },
+  { href: "/", label: "INICIO", id: "home" },
+  { href: "/about", label: "SOBRE_MÍ", id: "about" },
+  { href: "/stack", label: "STACK", id: "stack" },
+  { href: "/skills", label: "SKILLS", id: "skills" },
+  { href: "/resume", label: "CV", id: "resume" },
+  { href: "/blog", label: "BLOG", id: "blog" },
+  { href: "/contact", label: "CONTACTO", id: "contact" },
 ];
+
+const isActive = (href: string) => {
+  if (href === "/") return currentPath === "/";
+  return currentPath === href || currentPath.startsWith(href + "/");
+};
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-black/50 backdrop-blur-md">
-  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center gap-4">
-      <a href="/" class="flex items-center gap-2 group">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white shadow-lg transition-transform group-hover:scale-105">
-           <span class="font-bold text-lg">RM</span>
-        </div>
-        <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white hidden sm:inline">{SITE_TITLE}</span>
-      </a>
-    </div>
+<header class="fixed top-0 z-50 w-full border-b border-neon-cyan/20 bg-background/90 backdrop-blur-md dark:bg-void/90">
+  <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    {/* Operator / Logo */}
+    <a href="/" class="group flex items-center gap-3 select-none">
+      <div class="relative flex h-9 w-9 items-center justify-center rounded border border-neon-cyan/40 bg-card dark:bg-void-card text-neon-cyan font-mono text-sm font-bold shadow-[0_0_12px_rgba(0,240,255,0.15)] transition-all duration-300 group-hover:shadow-[0_0_18px_rgba(0,240,255,0.3)] group-hover:border-neon-cyan">
+        RM
+        <span class="absolute -bottom-1 -right-1 flex h-2.5 w-2.5" aria-hidden="true">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-green opacity-70"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-neon-green"></span>
+        </span>
+      </div>
+      <div class="hidden sm:flex flex-col leading-none">
+        <span class="text-xs font-mono uppercase tracking-[0.16em] text-terminal-muted">Operador</span>
+        <span class="text-sm font-bold text-foreground tracking-tight">{title}</span>
+      </div>
+    </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-300">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          class={`transition-colors hover:text-gray-900 dark:hover:text-white ${
-            currentPath === link.href
-              ? "text-gray-900 dark:text-white border-b-2 border-indigo-500 dark:border-indigo-400 pb-0.5 font-semibold"
-              : ""
-          }`}
-        >
-          {link.label}
-        </a>
-      ))}
+    {/* Desktop nav */}
+    <nav class="hidden md:flex items-center gap-1 text-xs font-mono font-medium text-terminal-muted">
+      {navLinks.map((link) => {
+        const active = isActive(link.href);
+        return (
+          <a
+            href={link.href}
+            class={`relative px-3 py-1.5 transition-colors duration-200 focus-visible ${
+              active
+                ? 'text-neon-cyan bg-neon-cyan/10 border border-neon-cyan/30'
+                : 'hover:text-foreground hover:bg-foreground/5'
+            }`}
+            aria-current={active ? 'page' : undefined}
+          >
+            <span class={active ? '' : 'opacity-70'}>{link.label}</span>
+          </a>
+        );
+      })}
 
-      <!-- Theme toggle -->
       <button
         id="themeToggle"
         type="button"
-        class="ml-2 p-2 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+        class="ml-3 p-2 border border-neon-cyan/20 text-terminal-muted hover:text-neon-cyan hover:border-neon-cyan/40 hover:bg-neon-cyan/5 transition-all duration-200 rounded"
         aria-label="Cambiar tema"
       >
-        <!-- Moon icon (default, shown in light mode) -->
-        <svg id="moonIcon" class="w-4 h-4 text-gray-600 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-        <!-- Sun icon (shown in dark mode) -->
-        <svg id="sunIcon" class="w-4 h-4 text-yellow-400 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       </button>
     </nav>
 
-    <!-- Mobile menu button -->
+    {/* Mobile controls */}
     <div class="flex md:hidden items-center gap-2">
       <button
         id="themeToggleMobile"
         type="button"
-        class="p-2 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+        class="p-2 border border-neon-cyan/20 text-terminal-muted hover:text-neon-cyan hover:border-neon-cyan/40 transition-all duration-200 rounded"
         aria-label="Cambiar tema"
       >
-        <svg class="w-4 h-4 text-gray-600 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-        <svg class="w-4 h-4 text-yellow-400 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       </button>
       <button
         id="mobileMenuBtn"
         type="button"
-        class="p-2 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+        class="p-2 border border-neon-cyan/20 text-terminal-muted hover:text-neon-cyan hover:border-neon-cyan/40 transition-all duration-200 rounded"
         aria-label="Abrir menú"
         aria-expanded="false"
       >
-        <svg id="hamburgerIcon" class="w-5 h-5 text-gray-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="hamburgerIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <svg id="closeIcon" class="w-5 h-5 text-gray-700 dark:text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg id="closeIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
   </div>
 
-  <!-- Mobile menu panel -->
+  {/* Mobile menu panel */}
   <div
     id="mobileMenu"
-    class="md:hidden hidden border-t border-gray-200 dark:border-white/10 bg-white dark:bg-black/95 backdrop-blur-lg"
+    class="md:hidden hidden border-t border-neon-cyan/20 bg-background/95 backdrop-blur-lg dark:bg-void/95"
   >
-    <nav class="flex flex-col px-4 py-4 gap-1">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          class={`mobile-nav-link px-4 py-3 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-colors ${
-            currentPath === link.href
-              ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-white/10 font-semibold"
-              : ""
-          }`}
-        >
-          {link.label}
-        </a>
-      ))}
+    <nav class="flex flex-col px-4 py-3 gap-1 font-mono text-sm text-terminal-muted">
+      {navLinks.map((link) => {
+        const active = isActive(link.href);
+        return (
+          <a
+            href={link.href}
+            class={`mobile-nav-link px-4 py-3 transition-colors duration-200 ${
+              active
+                ? 'text-neon-cyan bg-neon-cyan/10 border border-neon-cyan/30'
+                : 'hover:text-foreground hover:bg-foreground/5'
+            }`}
+            aria-current={active ? 'page' : undefined}
+          >
+            {active ? '> ' : '  '}
+            {link.label}
+          </a>
+        );
+      })}
     </nav>
   </div>
+
 </header>
 
 <script>
-  // Mobile menu toggle
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
   const mobileMenu = document.getElementById("mobileMenu");
   const hamburgerIcon = document.getElementById("hamburgerIcon");
@@ -133,8 +149,7 @@ const navLinks = [
     mobileMenuBtn?.setAttribute("aria-expanded", String(!isOpen));
   });
 
-  // Close mobile menu on link click
-  document.querySelectorAll(".mobile-nav-link").forEach(link => {
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
     link.addEventListener("click", () => {
       mobileMenu?.classList.add("hidden");
       hamburgerIcon?.classList.remove("hidden");
@@ -143,8 +158,6 @@ const navLinks = [
     });
   });
 
-  // Theme toggle - the initial class is already applied inline in <head> to avoid FOUC.
-  // This script only handles user toggles and persists the choice.
   function applyTheme(dark: boolean) {
     document.documentElement.classList.toggle("dark", dark);
     localStorage.setItem("theme", dark ? "dark" : "light");
@@ -157,3 +170,9 @@ const navLinks = [
     applyTheme(!document.documentElement.classList.contains("dark"));
   });
 </script>
+
+<style>
+  header {
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.06);
+  }
+</style>

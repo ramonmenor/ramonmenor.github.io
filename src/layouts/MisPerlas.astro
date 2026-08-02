@@ -16,23 +16,25 @@ const { title } = Astro.props;
     <BaseHead title={`${title} | ${SITE_TITLE}`} />
   </head>
 
-  <body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+  <body class="bg-background text-foreground min-h-screen flex flex-col">
     <Header title={SITE_TITLE} currentPath="/misperlas" />
-    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <article>
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <article class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">
-          <a href="/misperlas" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors">
+          <a href="/misperlas" class="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-neon-magenta transition-colors">
             <i class="fa-solid fa-arrow-left"></i>
+            <span class="hidden sm:inline">Volver</span>
           </a>
-          <a href="/misperlas" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors">
+          <a href="/misperlas" class="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-neon-magenta transition-colors">
+            <span class="hidden sm:inline">Índice</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
         <div class="text-center mb-8">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-white ">{title}</h3>
-          <div class="w-16 h-1 bg-indigo-500 rounded-full mx-auto mt-3"></div>
+          <h3 class="text-2xl font-bold text-foreground">{title}</h3>
+          <div class="w-16 h-1 bg-neon-magenta rounded-full mx-auto mt-3"></div>
         </div>
-        <div class="prose prose-lg max-w-none text-[#d31c1c]">
+        <div class="prose prose-lg max-w-none text-red-600 dark:text-red-300">
           <slot />
         </div>
       </article>

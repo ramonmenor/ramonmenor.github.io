@@ -10,68 +10,66 @@ import { SITE_TITLE } from '../consts';
 <head>
   <BaseHead title={`Sobre mí | ${SITE_TITLE}`} description="Sobre Ramón Menor — desarrollador Full Stack con más de 10 años de experiencia." />
 </head>
-<body class="bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-gray-100 min-h-screen flex flex-col">
+  <body class="bg-background text-foreground min-h-screen flex flex-col">
   <Header title={SITE_TITLE} currentPath="/about" />
-  <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
-    <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100 dark:bg-indigo-900/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+  <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+    <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-cyan/10 rounded-full blur-[150px] -z-10 pointer-events-none" aria-hidden="true"></div>
 
-    <div class="max-w-3xl mx-auto animate-on-scroll">
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 text-center">
-        Sobre <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400">mí</span>
-      </h1>
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 text-center animate-on-scroll">
+      Sobre <span class="text-neon-cyan">mí</span>
+    </h1>
 
-      <section class="mb-10">
-        <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-          <span class="w-8 h-1 bg-indigo-500 rounded-full"></span>
-          Experiencia Profesional
-        </h2>
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-          Con más de 10 años de experiencia en el sector de desarrollo de software, he tenido el privilegio de trabajar en diversas empresas desde el año 2006. Mi trayectoria profesional me ha permitido sumergirme en diferentes proyectos y desafíos, contribuyendo al crecimiento y éxito de cada equipo en el que he participado.
-        </p>
-      </section>
+    <section class="mb-10 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+        <span class="w-8 h-1 bg-neon-cyan rounded-full"></span>
+        Experiencia Profesional
+      </h2>
+      <p class="text-muted-foreground leading-relaxed">
+        Desde el año 2006 trabajo en el sector del desarrollo de software, con paso por diversas empresas y proyectos. Mi trayectoria profesional me ha permitido sumergirme en diferentes desafíos, contribuyendo al crecimiento y éxito de cada equipo en el que he participado.
+      </p>
+    </section>
 
-      <section class="mb-10">
-        <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
-          <span class="w-8 h-1 bg-purple-500 rounded-full"></span>
-          Perfil Técnico
-        </h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-          Soy un apasionado desarrollador de software especializado en varias tecnologías clave:
-        </p>
-        <ul class="space-y-4">
-          <li class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4">
-            <strong class="text-indigo-600 dark:text-indigo-400">Lenguajes de Programación:</strong>
-            <ul class="mt-2 ml-4 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+    <section class="mb-10 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+        <span class="w-8 h-1 bg-neon-magenta rounded-full"></span>
+        Perfil Técnico
+      </h2>
+      <p class="text-muted-foreground mb-4 leading-relaxed">
+        Soy un apasionado desarrollador de software especializado en varias tecnologías clave:
+      </p>
+      <ul class="space-y-4">
+          <li class="bg-card border border-border rounded-xl p-4">
+            <strong class="text-neon-cyan">Lenguajes de Programación:</strong>
+            <ul class="mt-2 ml-4 space-y-1 text-sm text-muted-foreground">
               <li>• <strong>PHP:</strong> Aplicaciones web robustas y eficientes</li>
               <li>• <strong>JavaScript:</strong> Aplicaciones interactivas y dinámicas</li>
             </ul>
           </li>
-          <li class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4">
-            <strong class="text-indigo-600 dark:text-indigo-400">Tecnologías Web:</strong>
-            <ul class="mt-2 ml-4 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <li class="bg-card border border-border rounded-xl p-4">
+            <strong class="text-neon-cyan">Tecnologías Web:</strong>
+            <ul class="mt-2 ml-4 space-y-1 text-sm text-muted-foreground">
               <li>• <strong>HTML5:</strong> Estructuras sólidas para páginas web</li>
               <li>• <strong>CSS3:</strong> Diseño y estilización visual atractiva</li>
             </ul>
           </li>
-          <li class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4">
-            <strong class="text-indigo-600 dark:text-indigo-400">Administración de Servidores:</strong>
-            <ul class="mt-2 ml-4 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <li class="bg-card border border-border rounded-xl p-4">
+            <strong class="text-neon-cyan">Administración de Servidores:</strong>
+            <ul class="mt-2 ml-4 space-y-1 text-sm text-muted-foreground">
               <li>• Servidores Linux: Creación y mantenimiento</li>
               <li>• Máquinas Virtuales: Configuración y gestión</li>
               <li>• Docker: Implementación y mantenimiento</li>
             </ul>
           </li>
-          <li class="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4">
-            <strong class="text-indigo-600 dark:text-indigo-400">Dominios y Alojamiento Web:</strong>
-            <ul class="mt-2 ml-4 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <li class="bg-card border border-border rounded-xl p-4">
+            <strong class="text-neon-cyan">Dominios y Alojamiento Web:</strong>
+            <ul class="mt-2 ml-4 space-y-1 text-sm text-muted-foreground">
               <li>• Registro y gestión de dominios</li>
               <li>• Alojamiento web: Configuración y mantenimiento</li>
             </ul>
           </li>
         </ul>
       </section>
-    </div>
-  </main>
+    </main>
   <Footer />
 
   <script>

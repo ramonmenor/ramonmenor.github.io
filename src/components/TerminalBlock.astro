@@ -1,0 +1,46 @@
+---
+interface Props {
+  lines?: string[];
+  prompt?: string;
+  class?: string;
+  title?: string;
+  typing?: boolean;
+}
+
+const { lines = [], prompt = 'rm@ramonmenor:~$', class: className = '', title = 'terminal — bash', typing = false } = Astro.props;
+
+const displayLines = lines.map((line) => {
+  if (line.startsWith('OUT:')) return { type: 'output', text: line.slice(4) };
+  if (line.startsWith('CMD:')) return { type: 'command', text: line.slice(4) };
+  return { type: 'output', text: line };
+});
+---
+
+<div class={`terminal-block ${className}`} aria-live="off">
+  <div class="terminal-header">
+    <span class="terminal-dot terminal-dot-red"></span>
+    <span class="terminal-dot terminal-dot-amber"></span>
+    <span class="terminal-dot terminal-dot-green"></span>
+    <span class="ml-2 font-mono text-xs uppercase tracking-widest text-terminal-muted">{title}</span>
+  </div>
+  <div class="terminal-body">
+    {displayLines.map((line) => (
+      <span class="terminal-line">
+        {line.type === 'command' ? (
+          <>
+            <span class="terminal-prompt">{prompt}</span>
+            <span class="terminal-command">{' '}{line.text}</span>
+          </>
+        ) : (
+          <span class="terminal-output">{line.text}</span>
+        )}
+      </span>
+    ))}
+    {typing && (
+      <span class="terminal-line">
+        <span class="terminal-prompt">{prompt}</span>
+        <span class="terminal-cursor"></span>
+      </span>
+    )}
+  </div>
+</div>

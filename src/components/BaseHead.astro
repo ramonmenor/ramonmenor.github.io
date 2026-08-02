@@ -35,11 +35,14 @@ const personSchema = {
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Theme: apply saved preference before first paint to prevent FOUC -->
+<!-- Theme: default dark; apply saved light preference before first paint to prevent FOUC -->
 <script is:inline>
   (function () {
     const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
+    // Neon Core is dark-first; light mode is an explicit opt-in.
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
       document.documentElement.classList.add('dark');
     }
   })();

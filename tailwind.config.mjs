@@ -4,9 +4,28 @@ import typography from '@tailwindcss/typography';
 export default {
 	darkMode: 'class',
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-	theme: {
-		extend: {
-			colors: {
+		theme: {
+			extend: {
+				fontFamily: {
+					mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+				},
+				colors: {
+					void: {
+						DEFAULT: '#050510',
+						light: '#0a0a1a',
+						card: '#0c0c1f',
+					},
+					neon: {
+						cyan: 'var(--neon-cyan)',
+						magenta: 'var(--neon-magenta)',
+						green: 'var(--neon-green)',
+						amber: 'var(--neon-amber)',
+					},
+					terminal: {
+						green: '#00ff41',
+						cyan: '#00f0ff',
+						muted: 'hsl(var(--terminal-muted))',
+					}, 
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
