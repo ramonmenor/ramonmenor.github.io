@@ -1,0 +1,88 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import AiPlayground from "../components/AiPlayground.astro";
+import { SITE_TITLE } from "../consts";
+
+const title = `Demostración de Integración de IA — ${SITE_TITLE}`;
+const description = "Ejemplo interactivo en tiempo real de generación de arquitectura web, prompts de producción y pipelines de Inteligencia Artificial creados por Ramón Menor.";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-background text-foreground">
+    <Header title={SITE_TITLE} currentPath="/ejemplo-ia" />
+
+    <main class="flex-1 pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      {/* Page Hero Header */}
+      <div class="mb-10 text-center max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan font-mono text-xs mb-4">
+          <span>⚡ DEMOSTRACIÓN EN VIVO</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black text-foreground tracking-tight mb-4">
+          Integración Real de <span class="bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 dark:from-cyan-400 dark:via-cyan-200 dark:to-fuchsia-400 bg-clip-text text-transparent">Inteligencia Artificial</span>
+        </h1>
+        <p class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          Esta herramienta en vivo demuestra cómo diseño e integro modelos LLM (Gemini, Claude, Ollama), bases de datos vectoriales y pipelines de automatización en aplicaciones web reales.
+        </p>
+      </div>
+
+      {/* Embedded AiPlayground widget */}
+      <AiPlayground />
+
+      {/* AI Capabilities Breakdown */}
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl border border-border/60 bg-card/60 backdrop-blur-md">
+          <div class="w-10 h-10 rounded-lg bg-neon-cyan/10 text-neon-cyan flex items-center justify-center font-bold text-lg mb-4">
+            🧠
+          </div>
+          <h3 class="text-lg font-bold text-foreground mb-2">Modelos & RAG</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Conexión con Gemini API, OpenAI GPT-4o, Claude Sonnet y modelos locales Ollama. Búsqueda semántica sobre bases de datos privadas mediante embeddings.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-xl border border-border/60 bg-card/60 backdrop-blur-md">
+          <div class="w-10 h-10 rounded-lg bg-neon-magenta/10 text-neon-magenta flex items-center justify-center font-bold text-lg mb-4">
+            ⚡
+          </div>
+          <h3 class="text-lg font-bold text-foreground mb-2">Streaming & Low Latency</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Interfaces reactivas con Server-Sent Events (SSE) y WebSockets para respuestas inmediatas palabra por palabra en el navegador.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-xl border border-border/60 bg-card/60 backdrop-blur-md">
+          <div class="w-10 h-10 rounded-lg bg-neon-green/10 text-neon-green flex items-center justify-center font-bold text-lg mb-4">
+            🛠️
+          </div>
+          <h3 class="text-lg font-bold text-foreground mb-2">Agentes & Function Calling</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            Agentes que ejecutan acciones reales en tu sistema: consultas a SQL, envío de emails, APIs externas y ejecución de scripts.
+          </p>
+        </div>
+      </div>
+
+      {/* Bottom CTA */}
+      <div class="mt-16 p-8 rounded-2xl border border-neon-cyan/30 bg-gradient-to-r from-neon-cyan/5 via-transparent to-neon-magenta/5 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">¿Quieres integrar Inteligencia Artificial en tu web o negocio?</h2>
+        <p class="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-6">
+          Analicemos tu proyecto y creemos una solución a medida, eficiente y rentable.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-neon-cyan text-void font-bold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-neon-cyan/20"
+        >
+          <span>Hablemos de tu proyecto</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

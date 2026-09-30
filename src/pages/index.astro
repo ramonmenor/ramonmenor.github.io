@@ -2,67 +2,72 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import HudCard from "../components/HudCard.astro";
-import TerminalBlock from "../components/TerminalBlock.astro";
+import AiPlayground from "../components/AiPlayground.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const capabilities = [
+const aiCapabilities = [
   {
-    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
-    title: "Desarrollo Full Stack con IA",
-    subtitle: "dev.core",
-    desc: "Aplicaciones web completas con PHP, JavaScript, Astro, MySQL y APIs modernas. Integro asistentes de IA en el flujo de trabajo para acelerar resultados reales.",
+    icon: `🤖`,
+    title: "Integración de IA & LLMs",
+    badge: "AI.CORE",
+    desc: "Conexión de modelos de lenguaje (Gemini, Claude Sonnet, OpenAI, Ollama local), embeddings vectoriales y RAG sobre datos privados para potenciar aplicaciones web realistas.",
     color: "cyan" as const,
   },
   {
-    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
-    title: "Infraestructura y DevOps",
-    subtitle: "sys.core",
-    desc: "Servidores Debian, contenedores Docker, virtualización y redes VPN. Despliegues estables, seguros y escalables para productos que no pueden caerse.",
+    icon: `⚡`,
+    title: "Desarrollo Web Full Stack",
+    badge: "DEV.CORE",
+    desc: "Aplicaciones web completas y de alta velocidad con Astro, TypeScript, PHP (Yii2), Tailwind CSS y bases de datos relacionales/serverless (MySQL, Turso).",
     color: "green" as const,
   },
   {
-    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
-    title: "Arquitectura de productos",
-    subtitle: "arch.core",
-    desc: "Soluciones end-to-end: desde la base de datos y la API hasta la interfaz. Priorizo rendimiento, mantenibilidad y experiencia de usuario.",
+    icon: `🧩`,
+    title: "Agentes & Automatización",
+    badge: "AGENT.CORE",
+    desc: "Diseño de flujos de trabajo con agentes autónomos, Function Calling y herramientas MCP que ejecutan consultas SQL, llamadas a APIs y tareas repetitivas sin intervención humana.",
     color: "magenta" as const,
+  },
+  {
+    icon: `🛡️`,
+    title: "Infraestructura & DevOps",
+    badge: "SYS.CORE",
+    desc: "Servidores Linux Debian, contenedores Docker, despliegues continuos y seguridad en la nube para garantizar que tus aplicaciones funcionen 24/7 sin caídas.",
+    color: "amber" as const,
   },
 ];
 
-const projects = [
+const featuredProjects = [
   {
     title: "ramonmenor.es",
-    subtitle: "portfolio",
-    description: "Este sitio personal: Astro 5, Tailwind CSS, despliegue estático, blog con RSS y datos estructurados.",
-    href: "/stack",
-    tags: ["Astro", "Tailwind", "TypeScript"],
-    color: "cyan" as const,
+    subtitle: "PORTFOLIO CON IA",
+    description: "Sitio web oficial desarrollado con Astro 5, TypeScript, Tailwind CSS y módulo interactivo de IA en vivo para simular arquitecturas y prompts de producción.",
+    href: "/ejemplo-ia",
+    tags: ["Astro 5", "TypeScript", "AI Playground", "Tailwind"],
+    highlight: true,
   },
   {
-    title: "Mis Perlas",
-    subtitle: "colección",
-    description: "Aplicación para guardar, consultar y navegar perlas de sabiduría con Astro, Turso (@libsql/client) y base de datos serverless.",
-    href: "/misperlas",
-    tags: ["Astro", "Turso", "TypeScript"],
-    color: "magenta" as const,
+    title: "Mis Perlas — RAG & Turso",
+    subtitle: "BÚSQUEDA SEMÁNTICA",
+    description: "Aplicación de consulta semántica de sabiduría conectada a base de datos serverless Turso (@libsql/client) y procesamiento de lenguaje natural.",
+    href: "/stack",
+    tags: ["Astro", "Turso DB", "Embeddings", "TypeScript"],
+    highlight: false,
+  },
+  {
+    title: "Orquestador de Agentes LLM",
+    subtitle: "IA AUTÓNOMA",
+    description: "Pipeline de agentes de IA con Function Calling para ejecución de scripts, consultas de base de datos y generación de reportes estructurados.",
+    href: "/skills",
+    tags: ["Gemini API", "Claude 3.5", "Docker", "Node.js"],
+    highlight: false,
   },
 ];
 
-const stack = [
-  "PHP", "JavaScript", "TypeScript", "Astro", "Tailwind CSS",
-  "MySQL", "Debian", "Docker", "Yii2", "GitHub Copilot", "Gemini", "Cursor"
-];
-
-const terminalLines = [
-  "CMD:whoami",
-  "OUT:Ramón Menor — Full Stack Developer",
-  "CMD:ls -la /skills",
-  "OUT:PHP  Yii2  MySQL  Docker  Debian  Astro  Tailwind  TypeScript",
-  "CMD:cat /etc/stack/ia",
-  "OUT:GitHub Copilot  Gemini  Cursor  Ollama",
-  "CMD:uptime",
-  "OUT:Desde 2006 construyendo productos digitales",
+const techStack = [
+  { category: "IA & Modelos", items: ["Gemini API", "Claude Sonnet", "OpenAI GPT-4o", "Ollama Local", "RAG & Vector DB", "Cursor", "Copilot"] },
+  { category: "Frontend Web", items: ["Astro 5", "TypeScript", "JavaScript", "Tailwind CSS", "HTML5 Semántico", "UI Reactiva"] },
+  { category: "Backend & DB", items: ["PHP", "Yii2 Framework", "Node.js", "MySQL", "Turso / LibSQL", "APIs RESTful"] },
+  { category: "Infra & DevOps", items: ["Linux Debian", "Docker", "Nginx", "Git / GitHub", "Cloudflare", "Serverless"] },
 ];
 ---
 
@@ -71,264 +76,273 @@ const terminalLines = [
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="min-h-screen flex flex-col bg-background text-foreground">
+  <body class="min-h-screen flex flex-col bg-background text-foreground selection:bg-neon-cyan/20 selection:text-neon-cyan">
     <Header title={SITE_TITLE} currentPath="/" />
 
     <main class="flex-1 relative">
-      {/* Hero section */}
-      <section class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20 pb-24 px-4 sm:px-6 lg:px-8">
-        {/* Background grid + node visualization */}
-        <div class="absolute inset-0 grid-bg pointer-events-none" aria-hidden="true">
-          <div class="absolute inset-0 opacity-40">
-            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="rgba(0,240,255,0.25)" />
-                  <stop offset="100%" stop-color="rgba(255,0,255,0.12)" />
-                </linearGradient>
-              </defs>
-              {/* Horizontal data lines */}
-              <line x1="0" y1="30" x2="100" y2="30" stroke="rgba(0,240,255,0.06)" stroke-width="0.1" />
-              <line x1="0" y1="70" x2="100" y2="70" stroke="rgba(0,240,255,0.06)" stroke-width="0.1" />
-              <line x1="30" y1="0" x2="30" y2="100" stroke="rgba(255,0,255,0.05)" stroke-width="0.1" />
-              <line x1="70" y1="0" x2="70" y2="100" stroke="rgba(255,0,255,0.05)" stroke-width="0.1" />
-              {/* Central node */}
-              <circle cx="50" cy="50" r="1.2" fill="url(#nodeGrad)" />
-              <circle cx="50" cy="50" r="0.4" fill="rgba(0,240,255,0.8)" />
-              <circle cx="50" cy="50" r="6" fill="none" stroke="rgba(0,240,255,0.15)" stroke-width="0.2" />
-              <circle cx="50" cy="50" r="12" fill="none" stroke="rgba(255,0,255,0.08)" stroke-width="0.15" />
-              {/* Satellite nodes */}
-              <circle cx="20" cy="25" r="0.5" fill="rgba(0,255,65,0.4)" />
-              <circle cx="80" cy="35" r="0.5" fill="rgba(0,255,65,0.4)" />
-              <circle cx="25" cy="75" r="0.5" fill="rgba(255,184,0,0.35)" />
-              <circle cx="78" cy="78" r="0.5" fill="rgba(255,184,0,0.35)" />
-              {/* Connecting lines */}
-              <line x1="50" y1="50" x2="20" y2="25" stroke="rgba(0,240,255,0.1)" stroke-width="0.1" />
-              <line x1="50" y1="50" x2="80" y2="35" stroke="rgba(0,240,255,0.1)" stroke-width="0.1" />
-              <line x1="50" y1="50" x2="25" y2="75" stroke="rgba(255,0,255,0.08)" stroke-width="0.1" />
-              <line x1="50" y1="50" x2="78" y2="78" stroke="rgba(255,0,255,0.08)" stroke-width="0.1" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Scanline overlay */}
-        <div class="absolute inset-0 scanlines pointer-events-none opacity-30" aria-hidden="true"></div>
+      {/* Hero Section */}
+      <section class="relative min-h-[90vh] flex flex-col justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Subtle grid background */}
+        <div class="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true"></div>
 
         <div class="relative z-10 max-w-6xl mx-auto w-full">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: main hero text */}
-            <div class="order-1">
-              {/* Status badge */}
-              <div class="inline-flex items-center gap-3 border border-neon-green/30 bg-neon-green/5 px-3 py-1.5 mb-6 sm:mb-8" aria-hidden="true">
-                <span class="status-dot status-pulse"></span>
-                <span class="font-mono text-xs uppercase tracking-[0.16em] text-neon-green">Disponible para proyectos</span>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Main Info (Left 7 cols) */}
+            <div class="lg:col-span-7">
+              {/* Active Badge */}
+              <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-neon-green/30 bg-neon-green/10 text-neon-green text-xs font-mono mb-6 shadow-[0_0_12px_rgba(0,255,65,0.1)]">
+                <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span>
+                <span>Desarrollador Web Activo con Inteligencia Artificial</span>
               </div>
 
-              {/* Main headline */}
+              {/* Headline */}
               <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] mb-4" aria-label="Ramón Menor">
                 <span class="block bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 dark:from-cyan-400 dark:via-cyan-200 dark:to-fuchsia-400 bg-clip-text text-transparent">RAMÓN</span>
                 <span class="block text-foreground">MENOR</span>
               </h1>
 
-              <div class="h-px w-full max-w-md bg-gradient-to-r from-neon-cyan via-neon-magenta to-transparent mb-6 sm:mb-8"></div>
-
-              <p class="text-lg sm:text-xl md:text-2xl font-medium text-neon-cyan mb-4 min-h-[2rem]" id="typingText" aria-live="off"></p>
-
-              <p class="text-base sm:text-lg reading-text leading-relaxed max-w-xl mb-8 sm:mb-10">
-                Construyo productos digitales combinando desarrollo sólido, infraestructura y herramientas de Inteligencia Artificial para multiplicar resultados reales.
+              <p class="text-xl sm:text-2xl font-bold text-neon-cyan mb-6">
+                Full Stack Web Developer & AI Integration Architect
               </p>
 
-              {/* CTAs */}
-              <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
-                <a href="/stack" class="btn-console btn-console-green text-center justify-center">
-                  <span>Ver mi stack</span>
+              <p class="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mb-8">
+                Combino más de 15 años de ingeniería de software web (PHP, TypeScript, Astro, SQL, Docker) con la aplicación práctica de <strong class="text-foreground">Inteligencia Artificial</strong> (Gemini, Claude, OpenAI, Ollama, RAG y Agentes) para construir productos rápidos, inteligentes y rentables.
+              </p>
+
+              {/* Action Buttons */}
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <a
+                  href="/ejemplo-ia"
+                  class="px-6 py-3.5 rounded-xl bg-neon-cyan text-void font-bold text-sm text-center shadow-lg shadow-neon-cyan/20 hover:opacity-90 transition-all flex items-center justify-center gap-2 font-mono"
+                >
+                  <span>⚡ Probar Ejemplo IA en Vivo</span>
                 </a>
-                <a href="/contact" class="btn-console btn-console-magenta text-center justify-center">
+                <a
+                  href="/contact"
+                  class="px-6 py-3.5 rounded-xl bg-secondary/80 border border-border/80 text-foreground font-semibold text-sm text-center hover:bg-secondary transition-all flex items-center justify-center gap-2"
+                >
                   <span>Hablemos de tu proyecto</span>
                 </a>
-                <a href="/resume" class="btn-console text-center justify-center">
-                  <span>Descargar perfil</span>
+                <a
+                  href="/resume"
+                  class="px-5 py-3.5 rounded-xl border border-border/40 text-muted-foreground font-mono text-xs text-center hover:text-foreground transition-all"
+                >
+                  <span>Ver CV</span>
                 </a>
               </div>
             </div>
 
-            {/* Right: terminal node */}
-            <div class="order-2 lg:order-2">
-              <div class="relative">
-                {/* Decorative orbital rings */}
-                <div class="absolute -inset-4 sm:-inset-8 border border-neon-cyan/10 rounded-lg pointer-events-none" aria-hidden="true"></div>
-                <div class="absolute -inset-8 sm:-inset-12 border border-neon-magenta/5 rounded-lg pointer-events-none" aria-hidden="true"></div>
+            {/* Quick Feature Stats Card (Right 5 cols) */}
+            <div class="lg:col-span-5">
+              <div class="p-6 sm:p-8 rounded-2xl border border-border/60 bg-card/80 backdrop-blur-xl shadow-2xl space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b border-border/40">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-neon-cyan"></span>
+                    <span class="font-mono text-xs font-bold text-foreground">PERFIL TÉCNICO</span>
+                  </div>
+                  <span class="font-mono text-[11px] text-neon-green">Status: Online</span>
+                </div>
 
-                <div class="hud-panel p-4 sm:p-5">
-                  <div class="hud-title-bar mb-4">
-                    <span class="w-2 h-2 rounded-full bg-neon-cyan"></span>
-                    <span class="text-neon-cyan">NODO_PRINCIPAL</span>
+                <div class="space-y-4">
+                  <div class="p-3.5 rounded-lg bg-secondary/50 border border-border/40 flex items-start gap-3">
+                    <span class="text-xl">🚀</span>
+                    <div>
+                      <h4 class="text-xs font-bold text-foreground">Webs de Alto Rendimiento</h4>
+                      <p class="text-xs text-muted-foreground mt-0.5">Astro 5, SSG/SSR, TypeScript y carga instantánea.</p>
+                    </div>
                   </div>
-                  <TerminalBlock
-                    title="ramonmenor@core — bash"
-                    lines={terminalLines}
-                    typing={true}
-                    prompt="rm@core:~$"
-                    class="rounded"
-                  />
-                  <div class="mt-4 flex flex-wrap items-center gap-2 font-mono text-xs text-terminal-muted">
-                    <span class="mono-tag text-neon-cyan">PHP</span>
-                    <span class="mono-tag text-neon-magenta">IA</span>
-                    <span class="mono-tag text-neon-green">DOCKER</span>
-                    <span class="mono-tag text-neon-amber">ASTRO</span>
+
+                  <div class="p-3.5 rounded-lg bg-secondary/50 border border-border/40 flex items-start gap-3">
+                    <span class="text-xl">🧠</span>
+                    <div>
+                      <h4 class="text-xs font-bold text-foreground">Sistemas Potenciados por IA</h4>
+                      <p class="text-xs text-muted-foreground mt-0.5">Integración de LLMs, RAG, Prompt Engineering y Agentes.</p>
+                    </div>
                   </div>
+
+                  <div class="p-3.5 rounded-lg bg-secondary/50 border border-border/40 flex items-start gap-3">
+                    <span class="text-xl">⚙️</span>
+                    <div>
+                      <h4 class="text-xs font-bold text-foreground">Backend & Infraestructura</h4>
+                      <p class="text-xs text-muted-foreground mt-0.5">PHP, Yii2, Node.js, SQL, Docker y servidores Linux.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-between text-xs font-mono text-muted-foreground">
+                  <span>Exp: +15 Años</span>
+                  <span>Stack: Full Stack + IA</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Bottom scroll hint */}
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neon-cyan">
-          <span class="font-mono text-xs uppercase tracking-widest">Scroll down</span>
-          <svg class="w-4 h-4 text-neon-cyan animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
       </section>
 
-      {/* Capabilities section */}
-      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
-        <div class="relative z-10 max-w-6xl mx-auto w-full">
-          <div class="mb-12 sm:mb-16">
-            <div class="hud-section-label mb-3">02 // capabilities</div>
-              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
-                Módulos de <span class="neon-text-cyan">capacidad</span>
-              </h2>
-            <p class="text-base sm:text-lg reading-text max-w-2xl">
-              Tres pilares con los que afronto cada producto: desarrollo integral, infraestructura sólida y visión de producto.
+      {/* Embedded Live AI Demo Section */}
+      <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border/40 bg-secondary/20">
+        <div class="max-w-6xl mx-auto w-full">
+          <div class="mb-10 text-center max-w-2xl mx-auto">
+            <span class="text-xs font-mono uppercase tracking-widest text-neon-cyan">Demostración interactiva</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-foreground mt-2 mb-3">
+              Inteligencia Artificial <span class="text-neon-cyan">en Acción</span>
+            </h2>
+            <p class="text-sm sm:text-base text-muted-foreground">
+              Prueba este generador interactivo en tiempo real para explorar cómo estructuro soluciones de IA para aplicaciones web.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {capabilities.map((item, i) => (
-              <HudCard
-                title={item.title}
-                subtitle={item.subtitle}
-                color={item.color}
-                icon={item.icon}
-                class="animate-on-scroll"
-              >
-                <p>{item.desc}</p>
-                  <div class="mt-4 flex items-center gap-2 font-mono text-xs text-terminal-muted">
-                  <span class="text-neon-green">STATUS:</span>
-                  <span>OPERATIONAL</span>
-                </div>
-              </HudCard>
-            ))}
-          </div>
+          <AiPlayground />
         </div>
       </section>
 
-      {/* Projects section */}
-      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
-        <div class="relative z-10 max-w-6xl mx-auto w-full">
-          <div class="mb-12 sm:mb-16">
-            <div class="hud-section-label mb-3">03 // products</div>
-              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
-                Trabajos y productos <span class="neon-text-magenta">reales</span>
-              </h2>
-            <p class="text-base sm:text-lg reading-text max-w-2xl">
-              Proyectos que mantengo y evoluciono activamente.
+      {/* Capabilities Section */}
+      <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border/40">
+        <div class="max-w-6xl mx-auto w-full">
+          <div class="mb-12">
+            <span class="text-xs font-mono uppercase tracking-widest text-neon-cyan">Especialidades</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-foreground mt-2 mb-3">
+              ¿Qué puedo aportar a tu proyecto?
+            </h2>
+            <p class="text-sm sm:text-base text-muted-foreground max-w-2xl">
+              Soluciones integrales de desarrollo web potenciadas por las herramientas y modelos de Inteligencia Artificial más avanzados.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-            {projects.map((project, i) => (
-              <HudCard
-                href={project.href}
-                title={project.title}
-                subtitle={project.subtitle}
-                color={project.color}
-                class="animate-on-scroll"
-              >
-                <p class="mb-5">{project.description}</p>
-                <div class="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span class="mono-tag">{tag}</span>
-                  ))}
-                </div>
-                <div class="mt-5 flex items-center gap-2 font-mono text-xs text-neon-cyan group-hover:text-foreground transition-colors">
-                  <span>{'>'} Abrir producto</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-              </HudCard>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stack section */}
-      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
-        <div class="relative z-10 max-w-6xl mx-auto w-full">
-          <div class="mb-12 sm:mb-16">
-            <div class="hud-section-label mb-3">04 // stack</div>
-              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-4">
-                Stack <span class="neon-text-green">resumido</span>
-              </h2>
-            <p class="text-base sm:text-lg reading-text max-w-2xl">
-              Tecnologías y herramientas que uso a diario.
-            </p>
-          </div>
-
-          <div class="hud-panel p-5 sm:p-6 animate-on-scroll">
-            <div class="hud-title-bar mb-6">
-              <span class="text-neon-green">INSTALLED_PACKAGES</span>
-              <span class="ml-auto text-terminal-muted">{stack.length} items</span>
-            </div>
-            <div class="flex flex-wrap gap-2 sm:gap-3">
-              {stack.map((tech, i) => {
-                const colors = ['text-neon-cyan', 'text-neon-magenta', 'text-neon-green', 'text-neon-amber'];
-                const color = colors[i % colors.length];
-                return (
-                  <span class={`mono-tag ${color} border-current/20 hover:border-current/60 hover:shadow-[0_0_12px_currentColor]/20 transition-all duration-300 cursor-default`}>
-                    {tech}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {aiCapabilities.map((cap) => (
+              <div class="p-6 sm:p-8 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-md hover:border-neon-cyan/40 transition-all duration-300 group">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-3xl">{cap.icon}</span>
+                  <span class="font-mono text-xs text-neon-cyan px-2.5 py-1 rounded bg-neon-cyan/10 border border-neon-cyan/20">
+                    {cap.badge}
                   </span>
-                );
-              })}
-            </div>
-              <div class="mt-6 pt-6 border-t border-foreground/5 flex items-center justify-between">
-                <span class="font-mono text-xs text-terminal-muted">$ apt list --installed</span>
-                <a href="/skills" class="inline-flex items-center gap-2 font-mono text-xs text-neon-cyan hover:text-foreground transition-colors">
-                <span>{'>'} Ver todas las skills</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </div>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-neon-cyan transition-colors">
+                  {cap.title}
+                </h3>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                  {cap.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA section */}
-      <section class="relative border-t border-neon-cyan/10 py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-neon-cyan/[0.03] via-neon-magenta/[0.02] to-transparent pointer-events-none"></div>
-
-        <div class="relative z-10 max-w-6xl mx-auto w-full text-center">
-          <div class="hud-section-label mb-4">05 // connect</div>
-              <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-6">
-                ¿Tienes un proyecto en mente?
+      {/* Projects Showcase */}
+      <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border/40 bg-secondary/20">
+        <div class="max-w-6xl mx-auto w-full">
+          <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-neon-cyan">Proyectos Destacados</span>
+              <h2 class="text-3xl sm:text-4xl font-black text-foreground mt-2">
+                Casos de Uso & Desarrollos
               </h2>
-          <p class="text-base sm:text-lg reading-text mb-8 sm:mb-10 max-w-2xl mx-auto">
-            Hablemos sobre cómo puedo ayudarte a convertir tu idea en un producto funcional.
+            </div>
+            <a href="/ejemplo-ia" class="font-mono text-xs text-neon-cyan hover:underline flex items-center gap-1">
+              <span>Ver demostración en vivo</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {featuredProjects.map((proj) => (
+              <div class={`p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
+                proj.highlight
+                  ? 'border-neon-cyan/40 bg-neon-cyan/5 shadow-[0_0_20px_rgba(0,240,255,0.08)]'
+                  : 'border-border/60 bg-card/60'
+              }`}>
+                <div>
+                  <div class="flex items-center justify-between mb-3 font-mono text-xs">
+                    <span class="text-neon-cyan font-bold">{proj.subtitle}</span>
+                    {proj.highlight && <span class="px-2 py-0.5 rounded bg-neon-cyan text-void text-[10px] font-bold">Destacado</span>}
+                  </div>
+                  <h3 class="text-xl font-bold text-foreground mb-2">{proj.title}</h3>
+                  <p class="text-xs text-muted-foreground leading-relaxed mb-6">{proj.description}</p>
+                </div>
+
+                <div>
+                  <div class="flex flex-wrap gap-1.5 mb-4 font-mono text-[11px]">
+                    {proj.tags.map((tag) => (
+                      <span class="px-2 py-0.5 rounded bg-secondary border border-border text-muted-foreground">{tag}</span>
+                    ))}
+                  </div>
+                  <a
+                    href={proj.href}
+                    class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-neon-cyan hover:underline"
+                  >
+                    <span>Ver proyecto</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Matrix */}
+      <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border/40">
+        <div class="max-w-6xl mx-auto w-full">
+          <div class="mb-12">
+            <span class="text-xs font-mono uppercase tracking-widest text-neon-cyan">Stack Tecnológico</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-foreground mt-2 mb-3">
+              Herramientas & Ecosistema
+            </h2>
+            <p class="text-sm text-muted-foreground max-w-xl">
+              Tecnologías que utilizo activamente para construir, desplegar y mantener soluciones web con IA.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {techStack.map((group) => (
+              <div class="p-5 rounded-xl border border-border/60 bg-card/40">
+                <h3 class="text-xs font-mono uppercase tracking-wider text-neon-cyan font-bold mb-4 pb-2 border-b border-border/40">
+                  {group.category}
+                </h3>
+                <ul class="space-y-2 font-mono text-xs text-foreground">
+                  {group.items.map((item) => (
+                    <li class="flex items-center gap-2">
+                      <span class="text-neon-green">›</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-8 text-center">
+            <a href="/stack" class="inline-flex items-center gap-2 font-mono text-xs text-neon-cyan hover:underline">
+              <span>Ver desglose completo de Stack & Habilidades</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA Banner */}
+      <section class="py-20 px-4 sm:px-6 lg:px-8 border-t border-border/40 bg-gradient-to-b from-transparent via-neon-cyan/[0.03] to-transparent">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
+            ¿Tienes una idea o proyecto web con IA?
+          </h2>
+          <p class="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Hablemos sobre cómo podemos desarrollarlo con una arquitectura moderna, segura y orientada a resultados reales.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact" class="btn-console btn-console-magenta text-center justify-center w-full sm:w-auto">
-              <span>Contactar</span>
+            <a
+              href="/contact"
+              class="w-full sm:w-auto px-8 py-4 rounded-xl bg-neon-cyan text-void font-bold text-sm text-center shadow-lg shadow-neon-cyan/20 hover:opacity-90 transition-all font-mono"
+            >
+              <span>Contactar con Ramón</span>
             </a>
-            <a href="/resume" class="btn-console text-center justify-center w-full sm:w-auto">
-              <span>Ver currículum</span>
+            <a
+              href="/ejemplo-ia"
+              class="w-full sm:w-auto px-8 py-4 rounded-xl bg-secondary border border-border text-foreground font-semibold text-sm text-center hover:bg-secondary/80 transition-all font-mono"
+            >
+              <span>Ver Demo IA Interactivo</span>
             </a>
           </div>
         </div>
@@ -336,61 +350,5 @@ const terminalLines = [
     </main>
 
     <Footer />
-
-    <script>
-      const texts = [
-        "Desarrollo web full stack",
-        "Infraestructura Linux / Docker",
-        "Agentes y asistentes de IA",
-        "Productos end-to-end"
-      ];
-      const typingEl = document.getElementById("typingText");
-      let textIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let typingSpeed = 100;
-
-      function type() {
-        if (!typingEl) return;
-        const current = texts[textIndex];
-        if (isDeleting) {
-          typingEl.textContent = current.substring(0, charIndex - 1);
-          charIndex--;
-          typingSpeed = 45;
-        } else {
-          typingEl.textContent = current.substring(0, charIndex + 1);
-          charIndex++;
-          typingSpeed = 95;
-        }
-        if (!isDeleting && charIndex === current.length) {
-          typingSpeed = 2000;
-          isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          textIndex = (textIndex + 1) % texts.length;
-          typingSpeed = 500;
-        }
-        setTimeout(type, typingSpeed);
-      }
-
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (prefersReducedMotion) {
-        if (typingEl) typingEl.textContent = texts[0];
-      } else {
-        setTimeout(type, 1000);
-      }
-
-      // Scroll animations
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add("is-visible");
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-      );
-      document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
-
-    </script>
   </body>
 </html>
