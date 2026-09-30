@@ -1,15 +1,38 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Navbar from "../components/Navbar.astro";
-import SmartAssistant from "../components/SmartAssistant.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+const aiEditorialPoints = [
+  {
+    number: "01",
+    title: "Búsqueda Semántica & RAG (Retrieval-Augmented Generation)",
+    subtitle: "Consulta contextualizada sobre datos privados y catálogos",
+    desc: "Conecto modelos de lenguaje de primer nivel (Gemini API, Claude Sonnet 3.5, OpenAI GPT-4o o modelos locales con Ollama) con bases de datos vectoriales (Turso / LibSQL, Pinecone). Esto permite a los usuarios buscar y consultar catálogos complejos, documentación o conocimientos empresariales respondiendo en lenguaje natural de forma precisa.",
+    tags: ["Gemini API", "Claude 3.5", "Turso DB", "Embeddings", "RAG"]
+  },
+  {
+    number: "02",
+    title: "Agentes Autónomos & Workflows (Function Calling / MCP)",
+    subtitle: "Automatización inteligente de procesos y APIs de servidor",
+    desc: "Orquesto agentes de Inteligencia Artificial capaces de razonar y ejecutar acciones seguras en tu backend mediante Function Calling y protocolo MCP. Automatizan tareas repetitivas como consultas SQL complejas, procesamiento de APIs de terceros, extracción semántica de información y generación de informes.",
+    tags: ["Function Calling", "MCP", "Node.js", "PHP / Yii2", "Agentes"]
+  },
+  {
+    number: "03",
+    title: "Desarrollo Acelerado con Herramientas de IA",
+    subtitle: "Mayor velocidad de entrega manteniendo la calidad de producción",
+    desc: "Integro asistentes de codificación de vanguardia (GitHub Copilot, Cursor, Gemini Studio, MCP) en todo el ciclo de ingeniería de software. Esto permite acelerar la entrega de productos web, refactorizar código heredado, generar pruebas y mantener altos estándares de arquitectura.",
+    tags: ["Cursor", "GitHub Copilot", "DevOps", "Astro 5", "TypeScript"]
+  }
+];
 
 const capabilities = [
   {
     icon: "🧠",
     title: "Integración de IA & LLMs",
-    desc: "Conexión de modelos de lenguaje (Gemini API, Claude 3.5, OpenAI GPT-4o, Ollama local), embeddings vectoriales y sistemas RAG para aplicaciones web."
+    desc: "Conexión de modelos de lenguaje (Gemini API, Claude 3.5, OpenAI, Ollama local), embeddings vectoriales y RAG para aplicaciones web."
   },
   {
     icon: "⚡",
@@ -31,9 +54,9 @@ const capabilities = [
 const projects = [
   {
     title: "ramonmenor.es — AI Portfolio",
-    tag: "Astro 5 + AI Assistant",
-    desc: "Sitio web oficial desarrollado con Astro 5, TypeScript, Tailwind CSS y asistente conversacional de IA integrado en tiempo real.",
-    tech: ["Astro 5", "TypeScript", "Tailwind", "AI Assistant"]
+    tag: "Astro 5 + TypeScript",
+    desc: "Sitio web oficial desarrollado con Astro 5, TypeScript y Tailwind CSS, diseñado con un enfoque editorial minimalista y limpio.",
+    tech: ["Astro 5", "TypeScript", "Tailwind CSS"]
   },
   {
     title: "Mis Perlas — Búsqueda Semántica RAG",
@@ -97,15 +120,15 @@ const experiences = [
           </p>
 
           <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-8">
-            Más de 15 años de experiencia acumulada en ingeniería de software web (<strong class="text-slate-900">PHP, Astro, TypeScript, MySQL, Docker, Linux Debian</strong>) aplicados al desarrollo de soluciones modernas e integración directa de <strong class="text-slate-900">Inteligencia Artificial</strong> (Gemini, Claude, OpenAI, Ollama, RAG y Agentes).
+            Más de 15 años de experiencia acumulada en ingeniería de software web (<strong class="text-slate-900">PHP, Astro, TypeScript, MySQL, Docker, Linux Debian</strong>) aplicados al desarrollo de soluciones modernas e integración práctica de <strong class="text-slate-900">Inteligencia Artificial</strong> (Gemini, Claude, OpenAI, Ollama, RAG y Agentes).
           </p>
 
           <div class="flex flex-wrap items-center gap-3">
             <a
-              href="#asistente-ia"
+              href="#ia-web"
               class="px-5 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm"
             >
-              ⚡ Probar Asistente IA
+              IA en la Web
             </a>
             <a
               href="#experiencia"
@@ -123,9 +146,40 @@ const experiences = [
         </div>
       </section>
 
-      {/* SMART ASSISTANT DEMO */}
-      <section class="py-16 border-b border-slate-200">
-        <SmartAssistant />
+      {/* EDITORIAL SECTION: INTELIGENCIA ARTIFICIAL EN EL DESARROLLO WEB */}
+      <section id="ia-web" class="py-16 border-b border-slate-200 scroll-mt-16">
+        <div class="mb-12">
+          <span class="text-xs font-mono uppercase tracking-wider text-blue-600 font-bold">Enfoque Técnico</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mt-1 mb-4">
+            Cómo integro Inteligencia Artificial en proyectos web
+          </h2>
+          <p class="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed">
+            La Inteligencia Artificial en la web va mucho más allá de un chat. Consiste en incorporar capacidades cognitivas tanto en el servidor como en la interfaz para hacer los productos más rápidos, precisos y rentables.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          {aiEditorialPoints.map((point) => (
+            <div class="clean-card p-6 sm:p-8 bg-slate-50/50">
+              <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                <div>
+                  <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-full">
+                    {point.number} // {point.subtitle}
+                  </span>
+                  <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-3">{point.title}</h3>
+                </div>
+              </div>
+              <p class="text-sm sm:text-base text-slate-600 leading-relaxed mb-6">
+                {point.desc}
+              </p>
+              <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                {point.tags.map((tag) => (
+                  <span class="px-2.5 py-1 rounded bg-white border border-slate-200 text-slate-700">{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* CAPABILITIES SECTION */}
