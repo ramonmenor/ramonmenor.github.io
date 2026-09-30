@@ -1,0 +1,153 @@
+---
+const categories = [
+  {
+    id: "ai",
+    title: "Inteligencia Artificial & Modelos",
+    icon: "🧠",
+    color: "from-cyan-500 to-teal-400",
+    badge: "IA & RAG",
+    description: "Orquestación de modelos LLM multimodales, embeddings vectoriales, sistemas RAG y agentes autónomos para aplicaciones web.",
+    items: [
+      { name: "Gemini API", level: "Avanzado", desc: "Modelos multimodales de Google, estructuración JSON y Function Calling." },
+      { name: "Claude Sonnet 3.5", level: "Avanzado", desc: "Razonamiento complejo, agentes y análisis de código de alta precisión." },
+      { name: "OpenAI GPT-4o", level: "Avanzado", desc: "Integración de chat, visión y asistencia en tiempo real." },
+      { name: "Ollama Local", level: "Avanzado", desc: "Modelos Open Source locales (Llama 3, Qwen) para privacidad total." },
+      { name: "Vector DB & RAG", level: "Avanzado", desc: "Embeddings con Turso / LibSQL y Pinecone sobre datos empresariales." }
+    ]
+  },
+  {
+    id: "frontend",
+    title: "Desarrollo Frontend Moderno",
+    icon: "⚡",
+    color: "from-purple-500 to-indigo-500",
+    badge: "UI REACTIVA",
+    description: "Creación de interfaces web ultra-rápidas, semánticas y reactivas con Astro 5, TypeScript y Tailwind CSS.",
+    items: [
+      { name: "Astro 5", level: "Experto", desc: "Arquitectura de islas, velocidad estática (SSG) y renderizado servidor (SSR)." },
+      { name: "TypeScript", level: "Avanzado", desc: "Tipado estricto, interfaces seguras e integración de librerías." },
+      { name: "Tailwind CSS", level: "Experto", desc: "Diseño utilitario responsive, animaciones fluidas y glassmorphism." },
+      { name: "JavaScript / ESNext", level: "Experto", desc: "DOM dinámico, APIs nativas del navegador, SSE y WebSockets." }
+    ]
+  },
+  {
+    id: "backend",
+    title: "Backend & Bases de Datos",
+    icon: "⚙️",
+    color: "from-emerald-500 to-cyan-500",
+    badge: "API & SQL",
+    description: "Arquitecturas de servidor robustas, desarrollo en PHP (Yii2), Node.js y bases de datos relacionales y serverless.",
+    items: [
+      { name: "PHP & Yii2", level: "Experto (+15 años)", desc: "Desarrollo backend empresarial, ORM, migraciones y servicios de alto tráfico." },
+      { name: "MySQL / PostgreSQL", level: "Experto", desc: "Modelado relacional, optimización de consultas, índices y procedimientos." },
+      { name: "Turso / LibSQL", level: "Avanzado", desc: "Base de datos SQLite distribuida en el edge con extensiones vectoriales." },
+      { name: "Node.js / Express", level: "Avanzado", desc: "Servicios de streaming, microservicios e integración de webhooks." }
+    ]
+  },
+  {
+    id: "devops",
+    title: "DevOps & Servidores Linux",
+    icon: "🛡️",
+    color: "from-amber-500 to-orange-500",
+    badge: "INFRAESTRUCTURA",
+    description: "Despliegues estables, administración de servidores Debian, virtualización y contenedores Docker para disponibilidad total.",
+    items: [
+      { name: "Linux Debian", level: "Experto", desc: "Administración de sistemas, seguridad, firewalls y gestión de paquetes." },
+      { name: "Docker & Contenedores", level: "Experto", desc: "Containerización de servicios, Compose y aislamiento de entornos." },
+      { name: "Nginx & Servidores Web", level: "Experto", desc: "Proxy inverso, certificados SSL, cachés y balanceo de carga." },
+      { name: "Proxmox / VMware", level: "Avanzado", desc: "Virtualización de servidores, respaldos y entornos de pruebas." }
+    ]
+  }
+];
+---
+
+<div id="tech-matrix" class="py-16 sm:py-24">
+  <div class="mb-12 text-center max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 font-mono text-xs mb-3">
+      <span>⚙️ ECOSISTEMA TÉCNICO</span>
+    </div>
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground tracking-tight">
+      Stack Tecnológico <span class="gradient-text-cyan">& IA</span>
+    </h2>
+    <p class="text-base sm:text-lg text-muted-foreground mt-3 leading-relaxed">
+      Explora las áreas de especialización de Ramón Menor. Selecciona cualquier categoría para inspeccionar las tecnologías y su grado de aplicación.
+    </p>
+  </div>
+
+  {/* Category Tabs */}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    {categories.map((cat, idx) => (
+      <button
+        type="button"
+        data-cat-id={cat.id}
+        class={`matrix-tab text-left p-5 rounded-2xl border transition-all duration-300 ${
+          idx === 0
+            ? 'border-cyan-500/50 bg-cyan-500/10 text-foreground shadow-lg shadow-cyan-500/10'
+            : 'border-border/60 bg-white/[0.02] text-muted-foreground hover:border-cyan-500/30 hover:text-foreground'
+        }`}
+      >
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-2xl">{cat.icon}</span>
+          <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-white/5 border border-border/40 text-cyan-400">
+            {cat.badge}
+          </span>
+        </div>
+        <h3 class="font-bold text-sm text-foreground">{cat.title}</h3>
+      </button>
+    ))}
+  </div>
+
+  {/* Display Panel */}
+  <div class="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden" id="matrixContentPanel">
+    <div id="catDescription" class="mb-6 pb-6 border-b border-border/40 text-sm text-muted-foreground leading-relaxed">
+      {categories[0].description}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="catItemsContainer">
+      {categories[0].items.map((item) => (
+        <div class="p-4 rounded-xl border border-border/40 bg-black/40 flex items-start justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-foreground">{item.name}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{item.level}</span>
+            </div>
+            <p class="text-xs text-muted-foreground mt-1">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ categories }}>
+  const tabs = document.querySelectorAll('.matrix-tab');
+  const catDescription = document.getElementById('catDescription');
+  const catItemsContainer = document.getElementById('catItemsContainer');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const catId = tab.getAttribute('data-cat-id');
+      const found = categories.find(c => c.id === catId);
+      if (found) {
+        tabs.forEach(t => {
+          t.className = 'matrix-tab text-left p-5 rounded-2xl border transition-all duration-300 border-border/60 bg-white/[0.02] text-muted-foreground hover:border-cyan-500/30 hover:text-foreground';
+        });
+        tab.className = 'matrix-tab text-left p-5 rounded-2xl border transition-all duration-300 border-cyan-500/50 bg-cyan-500/10 text-foreground shadow-lg shadow-cyan-500/10';
+
+        if (catDescription) catDescription.textContent = found.description;
+        if (catItemsContainer) {
+          catItemsContainer.innerHTML = found.items.map(item => `
+            <div class="p-4 rounded-xl border border-border/40 bg-black/40 flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm text-foreground">${item.name}</span>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${item.level}</span>
+                </div>
+                <p class="text-xs text-muted-foreground mt-1">${item.desc}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    });
+  });
+</script>

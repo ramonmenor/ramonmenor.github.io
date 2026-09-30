@@ -1,0 +1,60 @@
+---
+---
+
+<header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl">
+  <div class="glass-panel glass-panel-glow px-4 py-2.5 rounded-full flex items-center justify-between shadow-2xl">
+    {/* Brand & Status */}
+    <a href="#hero" class="flex items-center gap-3 group">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-mono font-bold text-xs shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+        RM
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm font-bold text-foreground tracking-tight leading-none group-hover:text-cyan-400 transition-colors">Ramón Menor</span>
+        <span class="text-[10px] font-mono text-emerald-400 flex items-center gap-1 leading-tight mt-0.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          Full Stack & IA
+        </span>
+      </div>
+    </a>
+
+    {/* Center Navigation Links */}
+    <nav class="hidden md:flex items-center gap-1 font-mono text-xs text-muted-foreground">
+      <a href="#hero" class="px-3 py-1.5 rounded-full hover:text-foreground hover:bg-white/5 transition-all">Inicio</a>
+      <a href="#ai-shell" class="px-3 py-1.5 rounded-full text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 hover:bg-cyan-500/20 transition-all">⚡ Demo IA</a>
+      <a href="#tech-matrix" class="px-3 py-1.5 rounded-full hover:text-foreground hover:bg-white/5 transition-all">Stack & IA</a>
+      <a href="#projects" class="px-3 py-1.5 rounded-full hover:text-foreground hover:bg-white/5 transition-all">Proyectos</a>
+      <a href="#contact" class="px-3 py-1.5 rounded-full hover:text-foreground hover:bg-white/5 transition-all">Contacto</a>
+    </nav>
+
+    {/* Right Action CTA & Theme */}
+    <div class="flex items-center gap-2">
+      <a
+        href="#ai-shell"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-mono text-xs font-semibold shadow-md shadow-cyan-500/20 hover:opacity-90 transition-opacity"
+      >
+        <span>⚡ Probar IA</span>
+      </a>
+
+      <button
+        id="themeToggleBtn"
+        type="button"
+        class="p-2 rounded-full border border-border/40 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
+        aria-label="Cambiar tema"
+      >
+        <svg class="w-4 h-4 block dark:hidden text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
+</script>
