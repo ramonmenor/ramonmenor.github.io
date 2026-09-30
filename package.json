@@ -1,5 +1,5 @@
 {
-  "name": "apparent-asteroid",
+  "name": "ramonmenor-portfolio",
   "type": "module",
   "version": "0.0.2",
   "scripts": {
@@ -12,8 +12,6 @@
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/db": "^0.21.1",
-    "@astrojs/mdx": "^5.0.4",
-    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
     "@fortawesome/fontawesome-free": "^6.6.0",
