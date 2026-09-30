@@ -2,52 +2,50 @@
 const today = new Date();
 ---
 
-<footer id="contact" class="py-16 border-t border-border/40 mt-20 relative">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="glass-panel glass-panel-glow rounded-3xl p-8 sm:p-12 mb-12 text-center relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-indigo-500/5 to-purple-500/5 pointer-events-none"></div>
+<footer id="contacto" class="border-t border-slate-200 bg-slate-50 py-16 mt-20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-12 border-b border-slate-200">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          Ramón Menor
+        </h2>
+        <p class="text-sm text-slate-600 mt-1 max-w-md">
+          Desarrollador Web Full Stack & Especialista en Integración de Inteligencia Artificial.
+        </p>
+      </div>
 
-      <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest">¿Hablamos de tu proyecto?</span>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mt-3 mb-4">
-        Construyamos algo <span class="gradient-text-cyan">extraordinario</span>
-      </h2>
-      <p class="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-        Estoy disponible para desarrollos web integrales, soluciones asistidas por Inteligencia Artificial y consultoría técnica.
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div class="flex flex-wrap items-center gap-3 font-medium text-xs">
         <a
           href="mailto:ramonmenor@gmail.com"
-          class="px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-mono font-bold text-sm shadow-xl shadow-cyan-500/20 hover:opacity-90 transition-opacity"
+          class="px-4 py-2.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors"
         >
-          ✉️ ramonmenor@gmail.com
+          ramonmenor@gmail.com
         </a>
         <a
           href="https://linkedin.com/in/ramonmenor"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-6 py-3.5 rounded-full bg-white/5 border border-border/60 text-foreground font-mono text-xs hover:bg-white/10 transition-all"
+          class="px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:border-slate-400 transition-colors"
         >
-          LinkedIn: /in/ramonmenor
+          LinkedIn
         </a>
         <a
           href="https://github.com/ramonmenor"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-6 py-3.5 rounded-full bg-white/5 border border-border/60 text-foreground font-mono text-xs hover:bg-white/10 transition-all"
+          class="px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:border-slate-400 transition-colors"
         >
-          GitHub: @ramonmenor
+          GitHub
         </a>
       </div>
     </div>
 
-    <div class="flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-muted-foreground gap-4">
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-500 gap-4">
       <div>
-        &copy; {today.getFullYear()} Ramón Menor — Full Stack & AI Developer
+        &copy; {today.getFullYear()} Ramón Menor — Todos los derechos reservados.
       </div>
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>ramonmenor.es</span>
+      <div>
+        ramonmenor.es
       </div>
     </div>
   </div>
