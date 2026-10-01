@@ -4,46 +4,76 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const microApps = [
+const apps = [
   {
-    href: "/tools/json",
+    id: "json",
+    href: "/apps/json-formatter/",
     title: "Formateador & Validador JSON",
     icon: "{ }",
     color: "bg-blue-50 text-blue-600 border-blue-100",
-    desc: "Valida la sintaxis, embellece con sangría configurable y compacta (minifica) datos JSON en tiempo real.",
+    isPrivate: false,
+    desc: "Valida la sintaxis, embellece con sangría configurable y compacta (minifica) datos JSON en tiempo real sin salir del navegador.",
     tags: ["JSON", "Formateador", "Validador", "Minify"]
   },
   {
-    href: "/tools/sql",
+    id: "sql",
+    href: "/apps/sql-formatter/",
     title: "Formateador SQL",
     icon: "SQL",
     color: "bg-indigo-50 text-indigo-600 border-indigo-100",
-    desc: "Convierte consultas SQL desordenadas en código limpio, estructurado y con palabras clave en mayúsculas estándar.",
+    isPrivate: false,
+    desc: "Convierte consultas SQL complejas o desordenadas en código limpio, formateado y con palabras clave en mayúsculas estándar.",
     tags: ["SQL", "Consultas", "Bases de datos", "Limpieza"]
   },
   {
-    href: "/tools/hash-uuid",
+    id: "hash-uuid",
+    href: "/apps/hash-uuid/",
     title: "Generador de Hashes & UUIDs",
     icon: "#",
     color: "bg-purple-50 text-purple-600 border-purple-100",
-    desc: "Crea UUIDs v4 en masa, contraseñas aleatorias seguras y calcula hashes SHA-256, SHA-512 y SHA-1 al instante.",
-    tags: ["UUID v4", "SHA-256", "Contraseñas", "Crypto"]
+    isPrivate: false,
+    desc: "Genera UUIDs v4 en lote, passwords criptográficamente seguros y calcula hashes SHA-256, SHA-512 y SHA-1 al vuelo.",
+    tags: ["UUID v4", "SHA-256", "Contraseñas", "WebCrypto"]
   },
   {
-    href: "/tools/colores",
+    id: "color",
+    href: "/apps/color-converter/",
     title: "Convertidor de Colores & Contraste",
     icon: "🎨",
     color: "bg-pink-50 text-pink-600 border-pink-100",
-    desc: "Conversión simultánea entre HEX, RGB, HSL y cálculo de contraste de accesibilidad según normativa WCAG.",
-    tags: ["HEX", "RGB", "HSL", "Contraste WCAG"]
+    isPrivate: false,
+    desc: "Conversión bidireccional entre HEX, RGB y HSL con calculadora en vivo de ratios de contraste WCAG (AA/AAA).",
+    tags: ["HEX", "RGB", "HSL", "WCAG Contrast"]
   },
   {
-    href: "/tools/base64",
+    id: "base64",
+    href: "/apps/base64-converter/",
     title: "Codificador Base64 & URL",
     icon: "64",
     color: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    desc: "Codifica y decodifica texto en Base64 con soporte UTF-8 completo y conversor de URL encode/decode.",
-    tags: ["Base64", "URL Encode", "UTF-8", "Texto"]
+    isPrivate: false,
+    desc: "Codifica y decodifica texto con soporte UTF-8 completo, además de utilidades directas para URL encoding.",
+    tags: ["Base64", "URL Encode", "UTF-8", "String Tools"]
+  },
+  {
+    id: "notas-privadas",
+    href: "/apps/notas-privadas/",
+    title: "Bloc de Notas Privado",
+    icon: "📝",
+    color: "bg-amber-50 text-amber-600 border-amber-100",
+    isPrivate: true,
+    desc: "Bloc de notas rápido y persistente en almacenamiento local. Ideal para borradores, snippets temporales y listas de tareas.",
+    tags: ["Privada", "Notas", "LocalStorage", "Borradores"]
+  },
+  {
+    id: "mis-servidores",
+    href: "/apps/mis-servidores/",
+    title: "Mis Servidores & Accesos",
+    icon: "⚡",
+    color: "bg-rose-50 text-rose-600 border-rose-100",
+    isPrivate: true,
+    desc: "Fichero privado de servidores, IPs, accesos SSH habituales y gestor del PIN maestro de acceso.",
+    tags: ["Privada", "DevOps", "Servidores", "Seguridad"]
   }
 ];
 ---
@@ -51,17 +81,17 @@ const microApps = [
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`${SITE_TITLE} — Espacio Personal & Herramientas`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${SITE_TITLE} — Espacio Personal & Apps`} description={SITE_DESCRIPTION} />
   </head>
   <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
     <Navbar currentPath="/" />
 
     <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 flex-1">
-      {/* Hero / Presentation */}
+      {/* Hero / Presentación */}
       <section class="max-w-3xl mb-12 sm:mb-16">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-mono mb-4">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          ramonmenor.es // Espacio personal
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          ramonmenor.es // Hub de aplicaciones
         </div>
 
         <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-none mb-4">
@@ -69,7 +99,7 @@ const microApps = [
         </h1>
 
         <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6">
-          Desarrollador web. Este es mi rincón digital donde desarrollo y tengo a mano pequeñas aplicaciones y utilidades que me ayudan en el trabajo del día a día.
+          Desarrollador web. Este es mi espacio personal donde desarrollo y tengo centralizadas pequeñas aplicaciones independientes que me facilitan el trabajo y el día a día.
         </p>
 
         <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
@@ -88,46 +118,84 @@ const microApps = [
         </div>
       </section>
 
-      {/* Micro-apps List */}
-      <section id="herramientas" class="scroll-mt-20">
-        <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+      {/* Catálogo de Aplicaciones */}
+      <section id="aplicaciones" class="scroll-mt-20">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
           <div>
             <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-              Herramientas & Utilidades
+              Mis Aplicaciones & Utilidades
             </h2>
             <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Micro-aplicaciones ligeras, privadas y ejecutadas al 100% en tu navegador.
+              Cada aplicación es 100% autónoma, ubicada en su propio directorio independiente.
             </p>
           </div>
-          <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
-            {microApps.length} utilidades
-          </span>
+
+          {/* Filtros y Estado de sesión */}
+          <div class="flex items-center gap-2 flex-wrap">
+            <div class="inline-flex bg-slate-100 p-1 rounded-xl text-xs font-medium text-slate-600">
+              <button type="button" class="filter-btn active px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm" data-filter="all">
+                Todas ({apps.length})
+              </button>
+              <button type="button" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="public">
+                Públicas ({apps.filter(a => !a.isPrivate).length})
+              </button>
+              <button type="button" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="private">
+                🔒 Privadas ({apps.filter(a => a.isPrivate).length})
+              </button>
+            </div>
+
+            <button
+              id="auth-toggle-btn"
+              type="button"
+              class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-600 hover:border-slate-300 transition-colors"
+              title="Estado del acceso privado"
+            >
+              <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-300"></span>
+              <span id="auth-status-text">Comprobando...</span>
+            </button>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {microApps.map((app) => (
+        {/* Grid de Aplicaciones */}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="apps-grid">
+          {apps.map((app) => (
             <a
               href={app.href}
-              class="group clean-card p-6 flex flex-col justify-between hover:border-blue-300 hover:shadow-md transition-all"
+              data-type={app.isPrivate ? "private" : "public"}
+              class="app-card group clean-card p-6 flex flex-col justify-between hover:border-blue-300 hover:shadow-md transition-all relative"
             >
               <div>
-                <div class="flex items-center gap-3 mb-3">
-                  <span class={`w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm border ${app.color}`}>
-                    {app.icon}
-                  </span>
-                  <div>
-                    <h3 class="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-1.5">
-                      <span>{app.title}</span>
-                      <svg class="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </h3>
+                <div class="flex items-start justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-3">
+                    <span class={`w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm border ${app.color}`}>
+                      {app.icon}
+                    </span>
+                    <div>
+                      <h3 class="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                        <span>{app.title}</span>
+                        <svg class="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                      </h3>
+                      <span class="text-[11px] font-mono text-slate-400">/apps/{app.id}/</span>
+                    </div>
                   </div>
+
+                  {app.isPrivate ? (
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
+                      🔒 Privada
+                    </span>
+                  ) : (
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                      Pública
+                    </span>
+                  )}
                 </div>
+
                 <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
                   {app.desc}
                 </p>
               </div>
 
-              <div class="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 font-mono text-[10px]">
+              <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 font-mono text-[10px]">
                 {app.tags.map((tag) => (
                   <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
                     {tag}
@@ -139,17 +207,101 @@ const microApps = [
         </div>
       </section>
 
-      {/* Note about privacy and client-side execution */}
-      <section class="mt-12 p-5 bg-slate-50 border border-slate-200 rounded-2xl flex items-start gap-3 text-xs text-slate-600">
-        <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <p>
-          <strong class="text-slate-800">Privacidad total:</strong> Todas las herramientas se procesan exclusivamente en el navegador local de tu dispositivo. Ningún dato, JSON, consulta SQL o texto se envía a servidores externos.
-        </p>
+      {/* Información técnica del Hub */}
+      <section class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm mb-2">
+            <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-mono">⚡</span>
+            Arquitectura Independiente
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Cada aplicación reside en su propia carpeta en <code class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[11px]">/public/apps/</code> de forma completamente autónoma. Pueden desarrollarse con HTML/Vanilla JS, React, Vue, Svelte o cualquier tecnología sin atarse al framework de la web.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm mb-2">
+            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-mono">🔒</span>
+            Control de Acceso Cifrado
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Las aplicaciones privadas incorporan validación por PIN maestro (SHA-256) en local mediante <code class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[11px]">auth-guard.js</code>. Tus datos y notas permanecen estrictamente en tu navegador sin subirse a ningún servidor.
+          </p>
+        </div>
       </section>
     </main>
 
     <Footer />
+
+    {/* Client script for filtering & session status */}
+    <script>
+      const STORAGE_KEY = 'rm_private_access_session';
+
+      function isUnlocked() {
+        return sessionStorage.getItem(STORAGE_KEY) === 'unlocked' || localStorage.getItem(STORAGE_KEY) === 'unlocked';
+      }
+
+      function updateAuthUI() {
+        const dot = document.getElementById('auth-status-dot');
+        const text = document.getElementById('auth-status-text');
+        const btn = document.getElementById('auth-toggle-btn');
+        if (!dot || !text || !btn) return;
+
+        if (isUnlocked()) {
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+          text.textContent = '🔒 Privadas: Desbloqueadas';
+          btn.title = 'Haz clic para bloquear el acceso privado';
+        } else {
+          dot.className = 'w-2 h-2 rounded-full bg-rose-400';
+          text.textContent = '🔒 Privadas: Bloqueadas';
+          btn.title = 'Las aplicaciones privadas pedirán PIN al entrar';
+        }
+      }
+
+      // Handle Filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.app-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('active', 'bg-white', 'text-slate-900', 'shadow-sm');
+            b.classList.add('text-slate-600');
+          });
+          btn.classList.add('active', 'bg-white', 'text-slate-900', 'shadow-sm');
+          btn.classList.remove('text-slate-600');
+
+          const filter = btn.getAttribute('data-filter');
+          cards.forEach(card => {
+            const type = card.getAttribute('data-type');
+            if (filter === 'all' || filter === type) {
+              (card as HTMLElement).style.display = 'flex';
+            } else {
+              (card as HTMLElement).style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Handle Lock / Unlock toggle
+      const toggleBtn = document.getElementById('auth-toggle-btn');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          if (isUnlocked()) {
+            if (confirm('¿Deseas bloquear el acceso a las aplicaciones privadas?')) {
+              sessionStorage.removeItem(STORAGE_KEY);
+              localStorage.removeItem(STORAGE_KEY);
+              updateAuthUI();
+            }
+          } else {
+            // Redirect to private app to unlock
+            window.location.href = '/apps/notas-privadas/';
+          }
+        });
+      }
+
+      // Initial check
+      updateAuthUI();
+    </script>
   </body>
 </html>

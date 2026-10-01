@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codificador Base64 & URL — Ramón Menor</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+    }
+    .back-link { font-size: 13px; color: #2563eb; text-decoration: none; font-weight: 500; }
+    .badge {
+      font-size: 11px;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 24px; flex: 1; display: flex; flex-direction: column; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+    }
+    .btn-primary { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    .btn-dark { background: #0f172a; color: #ffffff; border-color: #0f172a; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; min-height: 450px; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .panel { display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
+    .panel-header { padding: 10px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px; font-weight: 600; color: #64748b; }
+    textarea { flex: 1; width: 100%; border: none; padding: 16px; font-family: monospace; font-size: 13px; line-height: 1.5; resize: none; outline: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link">← ramonmenor.es</a>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <strong style="font-size: 15px;">Codificador Base64 & URL</strong>
+      <span class="badge">Pública</span>
+    </div>
+    <div style="font-size: 12px; color: #64748b; font-family: monospace;">Apps // Base64</div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <button class="btn-primary" id="btn-b64-enc">Base64 Codificar</button>
+      <button class="btn-primary" id="btn-b64-dec">Base64 Decodificar</button>
+      <button id="btn-url-enc">URL Encode</button>
+      <button id="btn-url-dec">URL Decode</button>
+      <button id="btn-swap">⇄ Intercambiar</button>
+      <button id="btn-clear" style="color: #dc2626; margin-left: auto;">Limpiar</button>
+      <button class="btn-dark" id="btn-copy">Copiar Resultado</button>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <div class="panel-header">ENTRADA</div>
+        <textarea id="inp" placeholder="Escribe el texto aquí...">Hola, mundo desde ramonmenor.es</textarea>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">RESULTADO</div>
+        <textarea id="out" readonly placeholder="El resultado aparecerá aquí..." style="background: #fafafa;"></textarea>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const inp = document.getElementById('inp');
+    const out = document.getElementById('out');
+    const btnCopy = document.getElementById('btn-copy');
+
+    function utf8ToB64(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p) => String.fromCharCode(parseInt(p, 16))));
+    }
+    function b64ToUtf8(str) {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    }
+
+    document.getElementById('btn-b64-enc').addEventListener('click', () => {
+      try { out.value = utf8ToB64(inp.value); } catch(e) { out.value = 'Error: ' + e.message; }
+    });
+    document.getElementById('btn-b64-dec').addEventListener('click', () => {
+      try { out.value = b64ToUtf8(inp.value.trim()); } catch(e) { out.value = 'Error: Base64 inválido.'; }
+    });
+    document.getElementById('btn-url-enc').addEventListener('click', () => {
+      out.value = encodeURIComponent(inp.value);
+    });
+    document.getElementById('btn-url-dec').addEventListener('click', () => {
+      try { out.value = decodeURIComponent(inp.value); } catch(e) { out.value = 'Error en URL.'; }
+    });
+    document.getElementById('btn-swap').addEventListener('click', () => {
+      const tmp = inp.value; inp.value = out.value; out.value = tmp;
+    });
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      inp.value = ''; out.value = '';
+    });
+    btnCopy.addEventListener('click', () => {
+      if (out.value) {
+        navigator.clipboard.writeText(out.value).then(() => {
+          btnCopy.textContent = '¡Copiado!';
+          setTimeout(() => btnCopy.textContent = 'Copiar Resultado', 1500);
+        });
+      }
+    });
+
+    try { out.value = utf8ToB64(inp.value); } catch(e) {}
+  </script>
+</body>
+</html>

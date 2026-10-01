@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Colores — Ramón Menor</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+    }
+    .back-link { font-size: 13px; color: #2563eb; text-decoration: none; font-weight: 500; }
+    .badge {
+      font-size: 11px;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    main { max-width: 900px; width: 100%; margin: 0 auto; padding: 32px 20px; flex: 1; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .preview {
+      width: 100%;
+      height: 150px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 16px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    button {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    button:hover { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link">← ramonmenor.es</a>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <strong style="font-size: 15px;">Conversor de Colores & Contraste</strong>
+      <span class="badge">Pública</span>
+    </div>
+    <div style="font-size: 12px; color: #64748b; font-family: monospace;">Apps // Colors</div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <div class="card">
+        <div id="box-preview" class="preview" style="background-color: #2563eb;">#2563eb</div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" id="picker" value="#2563eb" style="width: 44px; height: 44px; border: none; cursor: pointer; border-radius: 8px;" />
+          <input type="text" id="hex-text" value="#2563eb" style="flex: 1; padding: 10px; font-family: monospace; font-size: 14px; border: 1px solid #cbd5e1; border-radius: 8px; text-transform: uppercase;" />
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #475569;">FORMATOS</h3>
+        
+        <div class="row">
+          <div>
+            <span style="font-size: 10px; color: #64748b; display: block;">HEX</span>
+            <strong id="fmt-hex">#2563EB</strong>
+          </div>
+          <button onclick="navigator.clipboard.writeText(document.getElementById('fmt-hex').textContent)">Copiar</button>
+        </div>
+
+        <div class="row">
+          <div>
+            <span style="font-size: 10px; color: #64748b; display: block;">RGB</span>
+            <strong id="fmt-rgb">rgb(37, 99, 235)</strong>
+          </div>
+          <button onclick="navigator.clipboard.writeText(document.getElementById('fmt-rgb').textContent)">Copiar</button>
+        </div>
+
+        <div class="row">
+          <div>
+            <span style="font-size: 10px; color: #64748b; display: block;">HSL</span>
+            <strong id="fmt-hsl">hsl(221, 83%, 53%)</strong>
+          </div>
+          <button onclick="navigator.clipboard.writeText(document.getElementById('fmt-hsl').textContent)">Copiar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const picker = document.getElementById('picker');
+    const hexText = document.getElementById('hex-text');
+    const preview = document.getElementById('box-preview');
+    const fmtHex = document.getElementById('fmt-hex');
+    const fmtRgb = document.getElementById('fmt-rgb');
+    const fmtHsl = document.getElementById('fmt-hsl');
+
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c+c).join('');
+      const n = parseInt(hex, 16);
+      return { r: (n>>16)&255, g: (n>>8)&255, b: n&255 };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h = 0, s = 0, l = (max + min) / 2;
+      if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function update(hex) {
+      if (!hex.startsWith('#')) hex = '#' + hex;
+      if (!/^#([0-9A-Fa-f]{3}){1,2}$/.test(hex)) return;
+      const rgb = hexToRgb(hex);
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+      preview.style.backgroundColor = hex;
+      preview.textContent = hex.toLowerCase();
+      picker.value = hex;
+      if (document.activeElement !== hexText) hexText.value = hex;
+
+      fmtHex.textContent = hex.toUpperCase();
+      fmtRgb.textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      fmtHsl.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+    }
+
+    picker.addEventListener('input', e => update(e.target.value));
+    hexText.addEventListener('input', e => update(e.target.value));
+  </script>
+</body>
+</html>
