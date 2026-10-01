@@ -168,6 +168,13 @@ const externasApps = apps.filter(a => a.group === 'externas');
       .glow-badge {
         box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
       }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
     </style>
   </head>
   <body class="bg-[#080d16] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-300">
@@ -473,19 +480,49 @@ const externasApps = apps.filter(a => a.group === 'externas');
               </div>
             </a>
           ))}
-      <!-- Section 4: Mis Herramientas Externas -->
+        </div>
+      </section>
+
+      <!-- Section 4: Mis Herramientas Externas (Slider) -->
       <section id="externas" class="mb-12">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
-            MIS HERRAMIENTAS EXTERNAS
-          </h2>
-          <a href="/apps/herramientas-externas/" class="text-xs font-mono text-cyan-400 hover:underline">
-            editar
-          </a>
+          <div class="flex items-center gap-3">
+            <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+              MIS HERRAMIENTAS EXTERNAS
+            </h2>
+            <a href="/apps/herramientas-externas/" class="text-xs font-mono text-cyan-400 hover:underline">
+              editar
+            </a>
+          </div>
+
+          <!-- Slider Controls -->
+          <div class="flex items-center gap-1.5">
+            <button
+              type="button"
+              id="slider-prev-btn"
+              class="w-8 h-8 rounded-lg bg-[#0e1626] border border-[#192438] text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 flex items-center justify-center transition-all text-sm font-mono cursor-pointer"
+              title="Anterior"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              id="slider-next-btn"
+              class="w-8 h-8 rounded-lg bg-[#0e1626] border border-[#192438] text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 flex items-center justify-center transition-all text-sm font-mono cursor-pointer"
+              title="Siguiente"
+            >
+              ›
+            </button>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5" id="home-external-tools">
-          <!-- Rendered dynamically by script or defaults -->
+        <div class="relative overflow-hidden">
+          <div
+            class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar py-1"
+            id="home-external-tools"
+          >
+            <!-- Rendered dynamically by script -->
+          </div>
         </div>
       </section>
 
@@ -679,6 +716,67 @@ const externasApps = apps.filter(a => a.group === 'externas');
         });
       }
 
+      let autoSlideTimer: any = null;
+
+      function setupSliderControls() {
+        const slider = document.getElementById('home-external-tools');
+        const prevBtn = document.getElementById('slider-prev-btn');
+        const nextBtn = document.getElementById('slider-next-btn');
+        if (!slider) return;
+
+        function slideNext() {
+          if (!slider) return;
+          const maxScroll = slider.scrollWidth - slider.clientWidth;
+          if (slider.scrollLeft >= maxScroll - 15) {
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            slider.scrollBy({ left: 290, behavior: 'smooth' });
+          }
+        }
+
+        function slidePrev() {
+          if (!slider) return;
+          if (slider.scrollLeft <= 15) {
+            const maxScroll = slider.scrollWidth - slider.clientWidth;
+            slider.scrollTo({ left: maxScroll, behavior: 'smooth' });
+          } else {
+            slider.scrollBy({ left: -290, behavior: 'smooth' });
+          }
+        }
+
+        if (prevBtn) {
+          prevBtn.onclick = () => {
+            slidePrev();
+            resetAutoSlide();
+          };
+        }
+        if (nextBtn) {
+          nextBtn.onclick = () => {
+            slideNext();
+            resetAutoSlide();
+          };
+        }
+
+        function startAutoSlide() {
+          clearInterval(autoSlideTimer);
+          autoSlideTimer = setInterval(() => {
+            slideNext();
+          }, 4500);
+        }
+
+        function resetAutoSlide() {
+          clearInterval(autoSlideTimer);
+          startAutoSlide();
+        }
+
+        slider.onmouseenter = () => clearInterval(autoSlideTimer);
+        slider.onmouseleave = () => startAutoSlide();
+        slider.ontouchstart = () => clearInterval(autoSlideTimer);
+        slider.ontouchend = () => startAutoSlide();
+
+        startAutoSlide();
+      }
+
       function renderHomeExternalTools() {
         const container = document.getElementById('home-external-tools');
         if (!container) return;
@@ -695,7 +793,7 @@ const externasApps = apps.filter(a => a.group === 'externas');
         } catch (e) {}
 
         container.innerHTML = '';
-        tools.slice(0, 6).forEach((t: any) => {
+        tools.forEach((t: any) => {
           let u = (t.url || '').trim();
           if (!u.startsWith('http://') && !u.startsWith('https://')) u = 'https://' + u;
 
@@ -703,20 +801,22 @@ const externasApps = apps.filter(a => a.group === 'externas');
           card.href = u;
           card.target = '_blank';
           card.rel = 'noopener noreferrer';
-          card.className = 'group bg-[#0e1626]/80 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/40 rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between';
+          card.className = 'w-[260px] sm:w-[280px] shrink-0 snap-start bg-[#0e1626]/90 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/50 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between';
           card.innerHTML = `
             <div>
               <div class="text-[11px] font-mono text-slate-500 group-hover:text-cyan-400 transition-colors uppercase tracking-wider mb-2">EXTERNO</div>
-              <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1">${t.title}</h3>
-              <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">${t.desc || ''}</p>
+              <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1 truncate">${t.title}</h3>
+              <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4">${t.desc || 'Acceso directo externo'}</p>
             </div>
-            <div class="pt-2 border-t border-[#182337] flex items-center justify-between text-[11px] font-mono text-cyan-400">
+            <div class="pt-3 border-t border-[#182337] flex items-center justify-between text-xs font-mono text-cyan-400 font-semibold">
               <span>Abrir</span>
               <span class="group-hover:translate-x-0.5 transition-transform">↗</span>
             </div>
           `;
           container.appendChild(card);
         });
+
+        setupSliderControls();
       }
 
       window.addEventListener('rm_external_tools_updated', renderHomeExternalTools);
