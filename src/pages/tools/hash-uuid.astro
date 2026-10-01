@@ -1,0 +1,270 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead
+      title={`Generador de Hashes & UUID — ${SITE_TITLE}`}
+      description="Genera UUIDs v4 válidos en masa, contraseñas seguras y calcula hashes SHA-256, SHA-512 y SHA-1 en el navegador."
+    />
+  </head>
+  <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
+    <Navbar currentPath="/tools/hash-uuid" />
+
+    <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-1">
+      {/* Header */}
+      <div class="mb-8">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-blue-600 transition-colors mb-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Volver a Herramientas
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg font-mono font-bold border border-purple-100">
+            #
+          </span>
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Generador de Hashes & UUIDs</h1>
+            <p class="text-sm text-slate-500">Herramientas criptográficas rápidas ejecutadas 100% de forma local en tu navegador.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        {/* SECTION 1: UUID GENERATOR */}
+        <div class="clean-card p-6 bg-slate-50/50">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-200">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900">Generador de UUID v4</h2>
+              <p class="text-xs text-slate-500">Identificadores universales únicos según estándar RFC 4122.</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <label class="text-xs font-mono text-slate-600">Cantidad:</label>
+              <select id="uuidCount" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none">
+                <option value="1">1 UUID</option>
+                <option value="5" selected>5 UUIDs</option>
+                <option value="10">10 UUIDs</option>
+                <option value="25">25 UUIDs</option>
+              </select>
+              <button id="generateUuidBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition-colors shadow-sm">
+                Generar Nuevos
+              </button>
+            </div>
+          </div>
+
+          <div class="relative bg-white border border-slate-200 rounded-xl p-4 font-mono text-xs text-slate-800">
+            <div id="uuidList" class="space-y-1.5">
+              <!-- Dynamically populated -->
+            </div>
+            <button id="copyUuidListBtn" type="button" class="mt-4 px-3 py-1.5 rounded-lg bg-slate-900 text-white font-medium text-xs hover:bg-slate-800 transition-colors flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Copiar Lista</span>
+            </button>
+          </div>
+        </div>
+
+        {/* SECTION 2: HASH CALCULATOR */}
+        <div class="clean-card p-6 bg-slate-50/50">
+          <div class="mb-4 pb-4 border-b border-slate-200">
+            <h2 class="text-lg font-bold text-slate-900">Calculadora de Hashes Criptográficos</h2>
+            <p class="text-xs text-slate-500">Calcula los resúmenes SHA-256, SHA-512 y SHA-1 en tiempo real con Web Crypto API.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-mono text-slate-600 mb-1">Texto de entrada:</label>
+              <input
+                type="text"
+                id="hashInput"
+                placeholder="Escribe o pega cualquier texto aquí..."
+                class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
+              />
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] mb-1">
+                  <span class="font-bold text-slate-700">SHA-256</span>
+                  <button type="button" class="copy-hash-btn text-blue-600 hover:underline" data-target="hashSha256">Copiar</button>
+                </div>
+                <div id="hashSha256" class="text-slate-800 break-all select-all font-mono">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+              </div>
+
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] mb-1">
+                  <span class="font-bold text-slate-700">SHA-512</span>
+                  <button type="button" class="copy-hash-btn text-blue-600 hover:underline" data-target="hashSha512">Copiar</button>
+                </div>
+                <div id="hashSha512" class="text-slate-800 break-all select-all font-mono text-[11px]">cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e</div>
+              </div>
+
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] mb-1">
+                  <span class="font-bold text-slate-700">SHA-1</span>
+                  <button type="button" class="copy-hash-btn text-blue-600 hover:underline" data-target="hashSha1">Copiar</button>
+                </div>
+                <div id="hashSha1" class="text-slate-800 break-all select-all font-mono">da39a3ee5e6b4b0d3255bfef95601890afd80709</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 3: RANDOM SECURE PASSWORD GENERATOR */}
+        <div class="clean-card p-6 bg-slate-50/50">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-200">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900">Generador de Contraseñas Seguras</h2>
+              <p class="text-xs text-slate-500">Crea cadenas aleatorias y seguras usando entropía criptográfica.</p>
+            </div>
+            <button id="generatePassBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition-colors shadow-sm">
+              Generar Contraseña
+            </button>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <div class="relative w-full">
+              <input
+                type="text"
+                id="passwordOutput"
+                readonly
+                class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-slate-900 font-bold select-all focus:outline-none"
+              />
+            </div>
+            <div class="flex items-center gap-2 text-xs font-mono">
+              <label>Longitud:</label>
+              <input type="number" id="passLength" min="8" max="64" value="20" class="w-16 px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-center" />
+              <button id="copyPassBtn" type="button" class="px-3.5 py-2 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-colors">
+                Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      // UUID Generator
+      const uuidList = document.getElementById('uuidList');
+      const uuidCount = document.getElementById('uuidCount') as HTMLSelectElement;
+      const generateUuidBtn = document.getElementById('generateUuidBtn');
+      const copyUuidListBtn = document.getElementById('copyUuidListBtn');
+
+      function generateUUID() {
+        return crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          const r = Math.random() * 16 | 0;
+          const v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+
+      function updateUUIDs() {
+        if (!uuidList) return;
+        const count = parseInt(uuidCount.value, 10) || 5;
+        let html = '';
+        for (let i = 0; i < count; i++) {
+          const id = generateUUID();
+          html += `<div class="flex items-center justify-between py-1 border-b border-slate-100 last:border-none">
+            <span class="text-slate-800 select-all font-mono">${id}</span>
+            <button type="button" class="text-blue-600 hover:underline text-[11px]" onclick="navigator.clipboard.writeText('${id}')">Copiar</button>
+          </div>`;
+        }
+        uuidList.innerHTML = html;
+      }
+
+      generateUuidBtn?.addEventListener('click', updateUUIDs);
+      uuidCount?.addEventListener('change', updateUUIDs);
+
+      copyUuidListBtn?.addEventListener('click', () => {
+        const text = Array.from(uuidList?.querySelectorAll('span') || []).map(s => s.textContent).join('\n');
+        navigator.clipboard.writeText(text);
+        const span = copyUuidListBtn.querySelector('span');
+        if (span) {
+          span.textContent = '¡Copiado!';
+          setTimeout(() => { span.textContent = 'Copiar Lista'; }, 1500);
+        }
+      });
+
+      // Hash Calculator
+      const hashInput = document.getElementById('hashInput') as HTMLInputElement;
+      const hashSha256 = document.getElementById('hashSha256');
+      const hashSha512 = document.getElementById('hashSha512');
+      const hashSha1 = document.getElementById('hashSha1');
+
+      async function computeHash(algo: string, message: string) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(message);
+        const hashBuffer = await crypto.subtle.digest(algo, data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function updateHashes() {
+        const text = hashInput.value;
+        const [sha256, sha512, sha1] = await Promise.all([
+          computeHash('SHA-256', text),
+          computeHash('SHA-512', text),
+          computeHash('SHA-1', text)
+        ]);
+
+        if (hashSha256) hashSha256.textContent = sha256;
+        if (hashSha512) hashSha512.textContent = sha512;
+        if (hashSha1) hashSha1.textContent = sha1;
+      }
+
+      hashInput?.addEventListener('input', updateHashes);
+
+      document.querySelectorAll('.copy-hash-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          if (targetId) {
+            const el = document.getElementById(targetId);
+            if (el?.textContent) {
+              navigator.clipboard.writeText(el.textContent);
+              btn.textContent = '¡Copiado!';
+              setTimeout(() => { btn.textContent = 'Copiar'; }, 1500);
+            }
+          }
+        });
+      });
+
+      // Password Generator
+      const passwordOutput = document.getElementById('passwordOutput') as HTMLInputElement;
+      const passLength = document.getElementById('passLength') as HTMLInputElement;
+      const generatePassBtn = document.getElementById('generatePassBtn');
+      const copyPassBtn = document.getElementById('copyPassBtn');
+
+      function generatePassword() {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+        const len = parseInt(passLength?.value || '20', 10);
+        const array = new Uint32Array(len);
+        crypto.getRandomValues(array);
+        let pass = '';
+        for (let i = 0; i < len; i++) {
+          pass += chars[array[i] % chars.length];
+        }
+        if (passwordOutput) passwordOutput.value = pass;
+      }
+
+      generatePassBtn?.addEventListener('click', generatePassword);
+      passLength?.addEventListener('change', generatePassword);
+      copyPassBtn?.addEventListener('click', () => {
+        if (passwordOutput?.value) {
+          navigator.clipboard.writeText(passwordOutput.value);
+          copyPassBtn.textContent = '¡Copiado!';
+          setTimeout(() => { copyPassBtn.textContent = 'Copiar'; }, 1500);
+        }
+      });
+
+      // Init
+      updateUUIDs();
+      generatePassword();
+    </script>
+  </body>
+</html>

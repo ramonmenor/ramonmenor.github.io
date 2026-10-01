@@ -1,0 +1,221 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead
+      title={`Formateador & Validador JSON — ${SITE_TITLE}`}
+      description="Herramienta rápida para formatear, validar, embellecer y minificar JSON en el navegador."
+    />
+  </head>
+  <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
+    <Navbar currentPath="/tools/json" />
+
+    <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-1">
+      {/* Header */}
+      <div class="mb-8">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-blue-600 transition-colors mb-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Volver a Herramientas
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-mono font-bold border border-blue-100">
+            {`{ }`}
+          </span>
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Formateador & Validador JSON</h1>
+            <p class="text-sm text-slate-500">Valida la sintaxis, embellece con sangría configurable o minifica cadenas JSON.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Toolbar */}
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="formatBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-1.5">
+            <span>✨ Formatear</span>
+          </button>
+          <button id="minifyBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium text-xs hover:border-slate-400 transition-colors">
+            Compactar (Minify)
+          </button>
+          <button id="sampleBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium text-xs hover:border-slate-400 transition-colors">
+            Cargar ejemplo
+          </button>
+          <button id="clearBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-600 font-medium text-xs hover:text-red-600 hover:border-red-300 transition-colors">
+            Limpiar
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <label for="indentSelect" class="text-xs text-slate-500 font-mono">Espacios:</label>
+          <select id="indentSelect" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500">
+            <option value="2">2 espacios</option>
+            <option value="4">4 espacios</option>
+            <option value="tab">Tabulador</option>
+          </select>
+          <button id="copyBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 text-white font-medium text-xs hover:bg-slate-800 transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span id="copyBtnText">Copiar</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Editor & Viewer */}
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Input */}
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-mono mb-1.5 px-1">
+            <span>Entrada JSON</span>
+            <span id="inputStats">0 caracteres</span>
+          </div>
+          <textarea
+            id="jsonInput"
+            placeholder="Pega aquí tu JSON sin procesar o dañado..."
+            class="w-full h-[450px] p-4 font-mono text-xs text-slate-800 bg-slate-50/50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-y"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        {/* Output */}
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-mono mb-1.5 px-1">
+            <span>Resultado</span>
+            <span id="validationStatus" class="font-bold text-slate-400">Esperando entrada...</span>
+          </div>
+          <div class="relative w-full h-[450px] bg-slate-900 text-slate-100 rounded-xl p-4 overflow-auto border border-slate-800 font-mono text-xs">
+            <pre id="jsonOutput" class="whitespace-pre-wrap break-all leading-relaxed text-slate-200">// El resultado formateado aparecerá aquí...</pre>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      const jsonInput = document.getElementById('jsonInput') as HTMLTextAreaElement;
+      const jsonOutput = document.getElementById('jsonOutput') as HTMLPreElement;
+      const formatBtn = document.getElementById('formatBtn');
+      const minifyBtn = document.getElementById('minifyBtn');
+      const sampleBtn = document.getElementById('sampleBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const copyBtnText = document.getElementById('copyBtnText');
+      const indentSelect = document.getElementById('indentSelect') as HTMLSelectElement;
+      const validationStatus = document.getElementById('validationStatus');
+      const inputStats = document.getElementById('inputStats');
+
+      const sampleJson = {
+        sitio: "ramonmenor.es",
+        autor: "Ramón Menor",
+        perfil: "Full Stack Web Developer & AI",
+        herramientas: ["JSON", "SQL", "Hashes", "Colores", "Base64"],
+        configuracion: {
+          entorno: "produccion",
+          seguridad: true,
+          version: 2.0
+        }
+      };
+
+      function updateStats() {
+        if (inputStats && jsonInput) {
+          const len = jsonInput.value.length;
+          inputStats.textContent = `${len.toLocaleString()} caracteres`;
+        }
+      }
+
+      function getIndent() {
+        const val = indentSelect?.value;
+        if (val === '4') return 4;
+        if (val === 'tab') return '\t';
+        return 2;
+      }
+
+      function formatJson() {
+        const raw = jsonInput.value.trim();
+        if (!raw) {
+          if (jsonOutput) jsonOutput.textContent = '// El resultado formateado aparecerá aquí...';
+          if (validationStatus) {
+            validationStatus.textContent = 'Esperando entrada...';
+            validationStatus.className = 'font-bold text-slate-400';
+          }
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(raw);
+          const formatted = JSON.stringify(parsed, null, getIndent());
+          if (jsonOutput) jsonOutput.textContent = formatted;
+          if (validationStatus) {
+            validationStatus.textContent = '✓ JSON Válido';
+            validationStatus.className = 'font-bold text-emerald-500';
+          }
+        } catch (err: any) {
+          if (jsonOutput) jsonOutput.textContent = `Error de sintaxis:\n${err.message}`;
+          if (validationStatus) {
+            validationStatus.textContent = '✕ Error en JSON';
+            validationStatus.className = 'font-bold text-rose-500';
+          }
+        }
+      }
+
+      function minifyJson() {
+        const raw = jsonInput.value.trim();
+        if (!raw) return;
+
+        try {
+          const parsed = JSON.parse(raw);
+          const minified = JSON.stringify(parsed);
+          if (jsonOutput) jsonOutput.textContent = minified;
+          if (validationStatus) {
+            validationStatus.textContent = '✓ JSON Minificado';
+            validationStatus.className = 'font-bold text-emerald-500';
+          }
+        } catch (err: any) {
+          if (jsonOutput) jsonOutput.textContent = `Error de sintaxis:\n${err.message}`;
+          if (validationStatus) {
+            validationStatus.textContent = '✕ Error en JSON';
+            validationStatus.className = 'font-bold text-rose-500';
+          }
+        }
+      }
+
+      jsonInput?.addEventListener('input', () => {
+        updateStats();
+        formatJson();
+      });
+
+      formatBtn?.addEventListener('click', formatJson);
+      minifyBtn?.addEventListener('click', minifyJson);
+      indentSelect?.addEventListener('change', formatJson);
+
+      sampleBtn?.addEventListener('click', () => {
+        jsonInput.value = JSON.stringify(sampleJson, null, 2);
+        updateStats();
+        formatJson();
+      });
+
+      clearBtn?.addEventListener('click', () => {
+        jsonInput.value = '';
+        updateStats();
+        formatJson();
+      });
+
+      copyBtn?.addEventListener('click', () => {
+        const text = jsonOutput?.textContent || '';
+        if (text && !text.startsWith('//') && !text.startsWith('Error')) {
+          navigator.clipboard.writeText(text).then(() => {
+            if (copyBtnText) copyBtnText.textContent = '¡Copiado!';
+            setTimeout(() => {
+              if (copyBtnText) copyBtnText.textContent = 'Copiar';
+            }, 1500);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

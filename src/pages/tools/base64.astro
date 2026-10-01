@@ -1,0 +1,206 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead
+      title={`Codificador & Decodificador Base64 y URL — ${SITE_TITLE}`}
+      description="Codifica y decodifica cadenas de texto en Base64 y URL Encode de forma instantánea y segura en el navegador."
+    />
+  </head>
+  <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
+    <Navbar currentPath="/tools/base64" />
+
+    <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-1">
+      {/* Header */}
+      <div class="mb-8">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-blue-600 transition-colors mb-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Volver a Herramientas
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-mono font-bold border border-emerald-100">
+            64
+          </span>
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Codificador Base64 & URL</h1>
+            <p class="text-sm text-slate-500">Convierte texto a Base64 y URL Encode (y viceversa) con soporte completo para caracteres UTF-8.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Toolbar */}
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="base64EncodeBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition-colors shadow-sm">
+            🔒 Base64 Codificar
+          </button>
+          <button id="base64DecodeBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition-colors shadow-sm">
+            🔓 Base64 Decodificar
+          </button>
+          <button id="urlEncodeBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium text-xs hover:border-slate-400 transition-colors">
+            URL Encode
+          </button>
+          <button id="urlDecodeBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium text-xs hover:border-slate-400 transition-colors">
+            URL Decode
+          </button>
+          <button id="swapBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 font-medium text-xs hover:border-slate-400 transition-colors flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+            Intercambiar
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="clearBtn" type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-600 font-medium text-xs hover:text-red-600 hover:border-red-300 transition-colors">
+            Limpiar
+          </button>
+          <button id="copyBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-900 text-white font-medium text-xs hover:bg-slate-800 transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span id="copyBtnText">Copiar Resultado</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Editor & Viewer */}
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Input */}
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-mono mb-1.5 px-1">
+            <span>Texto de Entrada</span>
+            <span id="inputStats">0 caracteres</span>
+          </div>
+          <textarea
+            id="textInput"
+            placeholder="Introduce el texto a codificar o decodificar..."
+            class="w-full h-[400px] p-4 font-mono text-xs text-slate-800 bg-slate-50/50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-y"
+            spellcheck="false"
+          >Hola, bienvenidos a ramonmenor.es</textarea>
+        </div>
+
+        {/* Output */}
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between text-xs text-slate-500 font-mono mb-1.5 px-1">
+            <span>Resultado</span>
+            <span id="outputStats" class="font-mono text-blue-600">Listo</span>
+          </div>
+          <textarea
+            id="textOutput"
+            readonly
+            placeholder="El resultado aparecerá aquí..."
+            class="w-full h-[400px] p-4 font-mono text-xs text-slate-800 bg-white border border-slate-200 rounded-xl focus:outline-none select-all transition-all resize-y"
+          ></textarea>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+
+    <script>
+      const textInput = document.getElementById('textInput') as HTMLTextAreaElement;
+      const textOutput = document.getElementById('textOutput') as HTMLTextAreaElement;
+      const inputStats = document.getElementById('inputStats');
+      const outputStats = document.getElementById('outputStats');
+
+      const base64EncodeBtn = document.getElementById('base64EncodeBtn');
+      const base64DecodeBtn = document.getElementById('base64DecodeBtn');
+      const urlEncodeBtn = document.getElementById('urlEncodeBtn');
+      const urlDecodeBtn = document.getElementById('urlDecodeBtn');
+      const swapBtn = document.getElementById('swapBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const copyBtnText = document.getElementById('copyBtnText');
+
+      function updateStats() {
+        if (inputStats && textInput) {
+          inputStats.textContent = `${textInput.value.length} caracteres`;
+        }
+        if (outputStats && textOutput) {
+          outputStats.textContent = `${textOutput.value.length} caracteres`;
+        }
+      }
+
+      // UTF-8 safe base64 encode
+      function utf8ToBase64(str: string) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+          return String.fromCharCode(parseInt(p1, 16));
+        }));
+      }
+
+      // UTF-8 safe base64 decode
+      function base64ToUtf8(str: string) {
+        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+      }
+
+      function handleBase64Encode() {
+        try {
+          textOutput.value = utf8ToBase64(textInput.value);
+          updateStats();
+        } catch (e: any) {
+          textOutput.value = `Error al codificar: ${e.message}`;
+        }
+      }
+
+      function handleBase64Decode() {
+        try {
+          textOutput.value = base64ToUtf8(textInput.value.trim());
+          updateStats();
+        } catch (e: any) {
+          textOutput.value = `Error: La entrada no es una cadena Base64 válida.`;
+        }
+      }
+
+      function handleUrlEncode() {
+        textOutput.value = encodeURIComponent(textInput.value);
+        updateStats();
+      }
+
+      function handleUrlDecode() {
+        try {
+          textOutput.value = decodeURIComponent(textInput.value);
+          updateStats();
+        } catch (e: any) {
+          textOutput.value = `Error al decodificar URL: ${e.message}`;
+        }
+      }
+
+      base64EncodeBtn?.addEventListener('click', handleBase64Encode);
+      base64DecodeBtn?.addEventListener('click', handleBase64Decode);
+      urlEncodeBtn?.addEventListener('click', handleUrlEncode);
+      urlDecodeBtn?.addEventListener('click', handleUrlDecode);
+
+      swapBtn?.addEventListener('click', () => {
+        const temp = textInput.value;
+        textInput.value = textOutput.value;
+        textOutput.value = temp;
+        updateStats();
+      });
+
+      clearBtn?.addEventListener('click', () => {
+        textInput.value = '';
+        textOutput.value = '';
+        updateStats();
+      });
+
+      copyBtn?.addEventListener('click', () => {
+        if (textOutput.value) {
+          navigator.clipboard.writeText(textOutput.value);
+          if (copyBtnText) copyBtnText.textContent = '¡Copiado!';
+          setTimeout(() => {
+            if (copyBtnText) copyBtnText.textContent = 'Copiar Resultado';
+          }, 1500);
+        }
+      });
+
+      textInput?.addEventListener('input', updateStats);
+
+      handleBase64Encode();
+    </script>
+  </body>
+</html>
