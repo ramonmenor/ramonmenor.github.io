@@ -117,6 +117,17 @@
       tags: ["Hábitos", "Rutinas", "Productividad", "Objetivos"],
       isPrivate: false,
       visible: true
+    },
+    {
+      id: "herramientas-externas",
+      title: "Herramientas Externas",
+      path: "/apps/herramientas-externas/",
+      icon: "↗",
+      color: "bg-sky-50 text-sky-600 border-sky-100",
+      desc: "Gestor de accesos directos personalizables a herramientas y servicios web externos con enlaces directos.",
+      tags: ["Accesos", "Enlaces", "Herramientas", "Dashboard"],
+      isPrivate: false,
+      visible: true
     }
   ];
 

@@ -132,12 +132,26 @@ const apps = [
     group: "sistema",
     desc: "Fichero privado de servidores, IPs, accesos SSH habituales y gestor del PIN maestro de acceso.",
     tags: ["Privada", "DevOps", "Servidores", "Seguridad"]
+  },
+  {
+    id: "herramientas-externas",
+    href: "/apps/herramientas-externas/",
+    title: "Herramientas Externas",
+    category: "EXTERNO",
+    accent: "Accesos Directos ↗",
+    icon: "↗",
+    color: "border-sky-500/30 text-sky-400 bg-sky-500/10",
+    isPrivate: false,
+    group: "externas",
+    desc: "Gestor de accesos directos personalizables a herramientas y servicios web externos con enlaces directos.",
+    tags: ["Accesos", "Enlaces", "Herramientas", "Dashboard"]
   }
 ];
 
 const gestionApps = apps.filter(a => a.group === 'gestion');
 const utilidadesApps = apps.filter(a => a.group === 'utilidades');
 const sistemaApps = apps.filter(a => a.group === 'sistema');
+const externasApps = apps.filter(a => a.group === 'externas');
 ---
 
 <!doctype html>
@@ -459,6 +473,19 @@ const sistemaApps = apps.filter(a => a.group === 'sistema');
               </div>
             </a>
           ))}
+      <!-- Section 4: Mis Herramientas Externas -->
+      <section id="externas" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+            MIS HERRAMIENTAS EXTERNAS
+          </h2>
+          <a href="/apps/herramientas-externas/" class="text-xs font-mono text-cyan-400 hover:underline">
+            editar
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5" id="home-external-tools">
+          <!-- Rendered dynamically by script or defaults -->
         </div>
       </section>
 
@@ -652,12 +679,59 @@ const sistemaApps = apps.filter(a => a.group === 'sistema');
         });
       }
 
+      function renderHomeExternalTools() {
+        const container = document.getElementById('home-external-tools');
+        if (!container) return;
+
+        let tools = [
+          { title: 'Nube de archivos', desc: 'Documentos y backup', url: 'https://drive.google.com' },
+          { title: 'Calendario', desc: 'Agenda semanal', url: 'https://calendar.google.com' },
+          { title: 'Lector de notas', desc: 'Notas y listas', url: 'https://keep.google.com' }
+        ];
+
+        try {
+          const saved = localStorage.getItem('rm_external_tools_state');
+          if (saved) tools = JSON.parse(saved);
+        } catch (e) {}
+
+        container.innerHTML = '';
+        tools.slice(0, 6).forEach((t: any) => {
+          let u = (t.url || '').trim();
+          if (!u.startsWith('http://') && !u.startsWith('https://')) u = 'https://' + u;
+
+          const card = document.createElement('a');
+          card.href = u;
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+          card.className = 'group bg-[#0e1626]/80 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/40 rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between';
+          card.innerHTML = `
+            <div>
+              <div class="text-[11px] font-mono text-slate-500 group-hover:text-cyan-400 transition-colors uppercase tracking-wider mb-2">EXTERNO</div>
+              <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1">${t.title}</h3>
+              <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">${t.desc || ''}</p>
+            </div>
+            <div class="pt-2 border-t border-[#182337] flex items-center justify-between text-[11px] font-mono text-cyan-400">
+              <span>Abrir</span>
+              <span class="group-hover:translate-x-0.5 transition-transform">↗</span>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      window.addEventListener('rm_external_tools_updated', renderHomeExternalTools);
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'rm_external_tools_state') renderHomeExternalTools();
+      });
+
       document.addEventListener('DOMContentLoaded', () => {
         updateAuthUI();
         syncWithPermissions();
+        renderHomeExternalTools();
       });
       updateAuthUI();
       syncWithPermissions();
+      renderHomeExternalTools();
     </script>
   </body>
 </html>
