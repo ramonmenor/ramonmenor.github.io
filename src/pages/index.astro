@@ -1,270 +1,474 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Navbar from "../components/Navbar.astro";
-import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 const apps = [
   {
+    id: "dividir-cuenta",
+    href: "/apps/dividir-cuenta/",
+    title: "Dividir Cuenta & Ticket",
+    category: "FINANZAS",
+    accent: "€ Tickets & Grupos",
+    icon: "🧾",
+    color: "border-teal-500/30 text-teal-400 bg-teal-500/10",
+    isPrivate: false,
+    group: "gestion",
+    desc: "Calcula qué paga cada uno según lo que ha pedido o compartido. Incluye escaneo de tickets por cámara/OCR y reparto para Bizum.",
+    tags: ["Restaurante", "Bizum", "OCR", "Calculadora"]
+  },
+  {
+    id: "notas-privadas",
+    href: "/apps/notas-privadas/",
+    title: "Cuaderno Privado",
+    category: "NOTAS",
+    accent: "🔒 LocalStorage",
+    icon: "📝",
+    color: "border-amber-500/30 text-amber-400 bg-amber-500/10",
+    isPrivate: true,
+    group: "gestion",
+    desc: "Bloc de notas rápido y persistente en almacenamiento local. Ideal para borradores, snippets temporales y tareas.",
+    tags: ["Privada", "Notas", "LocalStorage", "Borradores"]
+  },
+  {
     id: "json",
     href: "/apps/json-formatter/",
-    title: "Formateador & Validador JSON",
+    title: "JSON Formatter & Validator",
+    category: "FORMATO",
+    accent: "Validador & Minify",
     icon: "{ }",
-    color: "bg-blue-50 text-blue-600 border-blue-100",
+    color: "border-cyan-500/30 text-cyan-400 bg-cyan-500/10",
     isPrivate: false,
-    desc: "Valida la sintaxis, embellece con sangría configurable y compacta (minifica) datos JSON en tiempo real sin salir del navegador.",
+    group: "utilidades",
+    desc: "Valida sintaxis, embellece con sangría configurable y compacta datos JSON en tiempo real sin salir del navegador.",
     tags: ["JSON", "Formateador", "Validador", "Minify"]
   },
   {
     id: "sql",
     href: "/apps/sql-formatter/",
-    title: "Formateador SQL",
+    title: "SQL Formatter",
+    category: "CONSULTAS",
+    accent: "Limpieza de queries",
     icon: "SQL",
-    color: "bg-indigo-50 text-indigo-600 border-indigo-100",
+    color: "border-blue-500/30 text-blue-400 bg-blue-500/10",
     isPrivate: false,
-    desc: "Convierte consultas SQL complejas o desordenadas en código limpio, formateado y con palabras clave en mayúsculas estándar.",
+    group: "utilidades",
+    desc: "Convierte consultas SQL complejas o desordenadas en código limpio, formateado y con palabras clave en mayúsculas.",
     tags: ["SQL", "Consultas", "Bases de datos", "Limpieza"]
   },
   {
     id: "hash-uuid",
     href: "/apps/hash-uuid/",
-    title: "Generador de Hashes & UUIDs",
+    title: "Hashes & UUIDs",
+    category: "SEGURIDAD",
+    accent: "SHA-256 / UUID v4",
     icon: "#",
-    color: "bg-purple-50 text-purple-600 border-purple-100",
+    color: "border-purple-500/30 text-purple-400 bg-purple-500/10",
     isPrivate: false,
-    desc: "Genera UUIDs v4 en lote, passwords criptográficamente seguros y calcula hashes SHA-256, SHA-512 y SHA-1 al vuelo.",
+    group: "utilidades",
+    desc: "Genera UUIDs v4 en lote, contraseñas criptográficamente seguras y calcula hashes SHA-256, SHA-512 y SHA-1 al vuelo.",
     tags: ["UUID v4", "SHA-256", "Contraseñas", "WebCrypto"]
   },
   {
     id: "color",
     href: "/apps/color-converter/",
-    title: "Convertidor de Colores & Contraste",
+    title: "Colores & Contraste WCAG",
+    category: "DISEÑO",
+    accent: "HEX / RGB / WCAG",
     icon: "🎨",
-    color: "bg-pink-50 text-pink-600 border-pink-100",
+    color: "border-pink-500/30 text-pink-400 bg-pink-500/10",
     isPrivate: false,
+    group: "utilidades",
     desc: "Conversión bidireccional entre HEX, RGB y HSL con calculadora en vivo de ratios de contraste WCAG (AA/AAA).",
     tags: ["HEX", "RGB", "HSL", "WCAG Contrast"]
   },
   {
     id: "base64",
     href: "/apps/base64-converter/",
-    title: "Codificador Base64 & URL",
+    title: "Base64 & URL Encoder",
+    category: "CONVERTIDOR",
+    accent: "UTF-8 / URL Safe",
     icon: "64",
-    color: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    color: "border-emerald-500/30 text-emerald-400 bg-emerald-500/10",
     isPrivate: false,
+    group: "sistema",
     desc: "Codifica y decodifica texto con soporte UTF-8 completo, además de utilidades directas para URL encoding.",
     tags: ["Base64", "URL Encode", "UTF-8", "String Tools"]
   },
   {
-    id: "notas-privadas",
-    href: "/apps/notas-privadas/",
-    title: "Bloc de Notas Privado",
-    icon: "📝",
-    color: "bg-amber-50 text-amber-600 border-amber-100",
-    isPrivate: true,
-    desc: "Bloc de notas rápido y persistente en almacenamiento local. Ideal para borradores, snippets temporales y listas de tareas.",
-    tags: ["Privada", "Notas", "LocalStorage", "Borradores"]
-  },
-  {
     id: "mis-servidores",
     href: "/apps/mis-servidores/",
-    title: "Mis Servidores & Accesos",
+    title: "Servidores & Accesos",
+    category: "SISTEMAS",
+    accent: "🔒 SSH / DevOps",
     icon: "⚡",
-    color: "bg-rose-50 text-rose-600 border-rose-100",
+    color: "border-rose-500/30 text-rose-400 bg-rose-500/10",
     isPrivate: true,
+    group: "sistema",
     desc: "Fichero privado de servidores, IPs, accesos SSH habituales y gestor del PIN maestro de acceso.",
     tags: ["Privada", "DevOps", "Servidores", "Seguridad"]
-  },
-  {
-    id: "dividir-cuenta",
-    href: "/apps/dividir-cuenta/",
-    title: "Dividir Cuenta & Ticket",
-    icon: "🧾",
-    color: "bg-teal-50 text-teal-600 border-teal-100",
-    isPrivate: false,
-    desc: "Calcula qué tiene que pagar cada persona en un restaurante según lo que ha pedido o compartido. Genera desglose para WhatsApp y Bizum.",
-    tags: ["Restaurante", "Bizum", "Finanzas", "Calculadora"]
   }
 ];
+
+const gestionApps = apps.filter(a => a.group === 'gestion');
+const utilidadesApps = apps.filter(a => a.group === 'utilidades');
+const sistemaApps = apps.filter(a => a.group === 'sistema');
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={`${SITE_TITLE} — Espacio Personal & Apps`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${SITE_TITLE} — Suite Personal`} description={SITE_DESCRIPTION} />
     <!-- Dynamic App Permissions & Auth Guard -->
     <script is:inline src="/apps/shared/auth-guard.js"></script>
+    <style>
+      /* Glowing accent utilities */
+      .glow-cyan {
+        box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
+      }
+      .glow-badge {
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+      }
+    </style>
   </head>
-  <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
-    <Navbar currentPath="/" />
+  <body class="bg-[#080d16] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-300">
+    
+    <!-- Top Navbar -->
+    <header class="sticky top-0 z-50 w-full bg-[#080d16]/90 backdrop-blur-md border-b border-[#172234]">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        
+        <!-- Brand -->
+        <a href="/" class="flex items-center gap-3 group">
+          <span class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-black text-sm flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all">
+            T
+          </span>
+          <div class="flex flex-col">
+            <span class="font-bold text-white tracking-wider text-xs sm:text-sm leading-tight uppercase font-mono">
+              TALLER
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono tracking-widest leading-tight uppercase">
+              PANEL PERSONAL
+            </span>
+          </div>
+        </a>
 
-    <main class="w-full max-w-5xl mx-auto px-3.5 sm:px-6 py-6 sm:py-16 flex-1">
-      {/* Hero / Presentación */}
-      <section class="max-w-3xl mb-8 sm:mb-16">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-mono mb-3 sm:mb-4">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          ramonmenor.es // Hub de aplicaciones
-        </div>
+        <!-- Center Nav Links -->
+        <nav class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider uppercase text-slate-400">
+          <a href="#gestion" class="hover:text-cyan-400 transition-colors">FINANZAS</a>
+          <a href="#utilidades" class="hover:text-cyan-400 transition-colors">UTILIDADES</a>
+          <a href="#sistema" class="hover:text-cyan-400 transition-colors">SISTEMA</a>
+          <a href="/cv" class="hover:text-cyan-400 transition-colors">CV</a>
+        </nav>
 
-        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-none mb-3 sm:mb-4">
-          Ramón Menor
-        </h1>
-
-        <p class="text-base sm:text-xl text-slate-600 leading-relaxed mb-5 sm:mb-6">
-          Desarrollador web. Este es mi espacio personal donde desarrollo y tengo centralizadas pequeñas aplicaciones independientes que me facilitan el trabajo y el día a día.
-        </p>
-
-        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-mono">
+        <!-- Right Status & Controls -->
+        <div class="flex items-center gap-3">
           <a
-            href="/cv"
-            class="px-3.5 py-2 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-colors"
+            href="/apps/panel-control/"
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0f172a] border border-[#1e293b] text-xs font-mono text-slate-300 hover:border-cyan-500/50 hover:text-cyan-400 transition-all"
+            title="Panel de permisos y control"
           >
-            Ver Trayectoria / CV →
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse glow-badge"></span>
+            <span class="hidden sm:inline">Suite activa</span>
+            <span class="sm:hidden">Panel</span>
           </a>
-          <button
-            id="pwa-install-btn"
-            type="button"
-            class="hidden px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all shadow-sm items-center gap-1.5 cursor-pointer"
-          >
-            <span>📲 Instalar App</span>
-          </button>
-          <a
-            href="mailto:minombre@ramonmenor.es"
-            class="px-3.5 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 transition-colors"
-          >
-            minombre@ramonmenor.es
-          </a>
-        </div>
-      </section>
 
-      {/* Catálogo de Aplicaciones */}
-      <section id="aplicaciones" class="scroll-mt-20">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-5 sm:mb-6 pb-4 border-b border-slate-200">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-              Mis Aplicaciones & Utilidades
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Cada aplicación es 100% autónoma, ubicada en su propio directorio independiente.
-            </p>
+          <!-- Avatar -->
+          <div class="w-8 h-8 rounded-full bg-[#162338] border border-[#24344d] text-cyan-300 text-xs font-bold font-mono flex items-center justify-center">
+            R
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1">
+      
+      <!-- Top Grid: Hero Left + Quick Summary Widget Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-10">
+        
+        <!-- Left Hero Presentation (8 cols) -->
+        <div class="lg:col-span-7 xl:col-span-8 flex flex-col justify-center">
+          <div class="text-cyan-400 font-mono text-xs tracking-widest uppercase mb-2">
+            HOLA, RAMÓN
           </div>
 
-          {/* Filtros y Estado de sesión */}
-          <div class="flex items-center gap-2 flex-wrap">
-            <div class="inline-flex bg-slate-100 p-1 rounded-xl text-xs font-medium text-slate-600 max-w-full overflow-x-auto">
-              <button type="button" id="filter-all-btn" class="filter-btn active px-2.5 sm:px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm whitespace-nowrap" data-filter="all">
-                Todas ({apps.length})
-              </button>
-              <button type="button" id="filter-public-btn" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors whitespace-nowrap" data-filter="public">
-                Públicas ({apps.filter(a => !a.isPrivate).length})
-              </button>
-              <button type="button" id="filter-private-btn" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors whitespace-nowrap" data-filter="private">
-                🔒 Privadas ({apps.filter(a => a.isPrivate).length})
-              </button>
+          <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-none mb-4">
+            Tu banco de trabajo, <span class="text-cyan-400">listo.</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed mb-6">
+            Cada herramienta en su sitio. Abre lo que necesitas, mide lo que importa y vuelve cuando quieras. Desarrolladas de forma independiente para el día a día.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
+            <a
+              href="/cv"
+              class="px-4 py-2 rounded-xl bg-[#131d2e] border border-[#1e2d42] text-slate-200 hover:text-cyan-300 hover:border-cyan-500/40 transition-all"
+            >
+              Trayectoria / CV →
+            </a>
+            <button
+              id="pwa-install-btn"
+              type="button"
+              class="hidden px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all items-center gap-1.5 cursor-pointer glow-cyan"
+            >
+              <span>📲 Instalar App</span>
+            </button>
+            <a
+              href="mailto:minombre@ramonmenor.es"
+              class="px-4 py-2 rounded-xl bg-[#0f1726] border border-[#1b2637] text-slate-400 hover:text-slate-200 transition-colors"
+            >
+              minombre@ramonmenor.es
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Summary Widget (4 cols, matches mockup) -->
+        <div class="lg:col-span-5 xl:col-span-4 bg-[#0e1524] border border-[#1a263a] rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+          <div class="flex items-center justify-between text-xs font-mono mb-2">
+            <span class="text-cyan-400 font-bold uppercase tracking-widest">DETALLE • SUITE</span>
+            <span class="text-slate-500" id="widget-date">01 OCT 2026</span>
+          </div>
+
+          <h2 class="text-xl font-bold text-white tracking-tight mb-4">
+            Resumen rápido
+          </h2>
+
+          <div class="mb-5">
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-black text-white font-mono" id="stat-total-apps">{apps.length}/{apps.length}</span>
+              <span class="text-xs text-slate-400 font-mono">herramientas listas</span>
+            </div>
+          </div>
+
+          <!-- Progress lines matching mockup -->
+          <div class="space-y-3.5 mb-6 text-xs font-mono">
+            <div>
+              <div class="flex justify-between text-slate-400 mb-1">
+                <span>Herramientas públicas</span>
+                <span class="text-slate-300">6 / 6</span>
+              </div>
+              <div class="h-1.5 w-full bg-[#182337] rounded-full overflow-hidden">
+                <div class="h-full bg-cyan-400 w-full rounded-full"></div>
+              </div>
             </div>
 
-            <a
-              href="/apps/panel-control/"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-700 hover:border-slate-400 hover:bg-slate-50 transition-all shadow-sm"
-              title="Abrir panel de control para gestionar permisos de aplicaciones"
-            >
-              <span>⚙️ Panel</span>
-            </a>
+            <div>
+              <div class="flex justify-between text-slate-400 mb-1">
+                <span>Herramientas privadas</span>
+                <span class="text-slate-300">2 / 2</span>
+              </div>
+              <div class="h-1.5 w-full bg-[#182337] rounded-full overflow-hidden">
+                <div class="h-full bg-cyan-400 w-full rounded-full"></div>
+              </div>
+            </div>
 
-            <button
-              id="auth-toggle-btn"
-              type="button"
-              class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-600 hover:border-slate-300 transition-colors"
-              title="Estado del acceso privado"
-            >
-              <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-300"></span>
-              <span id="auth-status-text">Comprobando...</span>
-            </button>
+            <div>
+              <div class="flex justify-between text-slate-400 mb-1">
+                <span>Almacenamiento seguro</span>
+                <span class="text-cyan-400">100% local</span>
+              </div>
+              <div class="h-1.5 w-full bg-[#182337] rounded-full overflow-hidden">
+                <div class="h-full bg-cyan-400 w-full rounded-full"></div>
+              </div>
+            </div>
           </div>
+
+          <!-- Action Button in Widget -->
+          <a
+            href="/apps/panel-control/"
+            class="block w-full text-center py-3 px-4 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider transition-all glow-cyan"
+          >
+            Abrir Panel de Control
+          </a>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="flex items-center justify-between gap-3 mb-8 pb-3 border-b border-[#162133] flex-wrap">
+        <div class="inline-flex bg-[#0d1422] p-1 rounded-xl text-xs font-mono text-slate-400 border border-[#1b2637]">
+          <button type="button" id="filter-all-btn" class="filter-btn active px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold whitespace-nowrap" data-filter="all">
+            Todas ({apps.length})
+          </button>
+          <button type="button" id="filter-public-btn" class="filter-btn px-3 py-1.5 rounded-lg hover:text-white transition-colors whitespace-nowrap" data-filter="public">
+            Públicas ({apps.filter(a => !a.isPrivate).length})
+          </button>
+          <button type="button" id="filter-private-btn" class="filter-btn px-3 py-1.5 rounded-lg hover:text-white transition-colors whitespace-nowrap" data-filter="private">
+            🔒 Privadas ({apps.filter(a => a.isPrivate).length})
+          </button>
         </div>
 
-        {/* Grid de Aplicaciones */}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4" id="apps-grid">
-          {apps.map((app) => (
+        <button
+          id="auth-toggle-btn"
+          type="button"
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#1b2637] bg-[#0d1422] text-xs font-mono text-slate-400 hover:border-slate-500 hover:text-slate-200 transition-colors"
+          title="Estado del acceso privado"
+        >
+          <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span id="auth-status-text">Comprobando...</span>
+        </button>
+      </div>
+
+      <!-- Section 1: Gestión Personal & Finanzas -->
+      <section id="gestion" class="mb-10">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+            GESTIÓN PERSONAL & FINANZAS
+          </h2>
+          <span class="text-xs font-mono text-slate-500">02</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {gestionApps.map((app) => (
             <a
               href={app.href}
               data-app-id={app.id}
               data-type={app.isPrivate ? "private" : "public"}
-              class="app-card group clean-card p-4 sm:p-6 flex flex-col justify-between hover:border-blue-300 hover:shadow-md transition-all relative"
+              class="app-card group bg-[#0e1626]/80 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/40 rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between"
             >
               <div>
-                <div class="flex items-start justify-between gap-3 mb-3">
-                  <div class="flex items-center gap-3">
-                    <span class={`w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm border ${app.color}`}>
-                      {app.icon}
-                    </span>
-                    <div>
-                      <h3 class="font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors flex items-center gap-1.5">
-                        <span>{app.title}</span>
-                        <svg class="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                      </h3>
-                      <span class="text-[11px] font-mono text-slate-400">/apps/{app.id}/</span>
-                    </div>
-                  </div>
-
+                <div class="flex items-center justify-between text-[11px] font-mono mb-2">
+                  <span class="text-slate-500 group-hover:text-cyan-400 transition-colors uppercase tracking-wider">{app.category}</span>
                   {app.isPrivate ? (
-                    <span class="app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
-                      🔒 Privada
-                    </span>
+                    <span class="text-rose-400 text-[10px]">🔒 Privada</span>
                   ) : (
-                    <span class="app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
-                      Pública
-                    </span>
+                    <span class="text-emerald-400 text-[10px]">Pública</span>
                   )}
                 </div>
-
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1">
+                  {app.title}
+                </h3>
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">
                   {app.desc}
                 </p>
               </div>
 
-              <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 font-mono text-[10px]">
-                {app.tags.map((tag) => (
-                  <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
-                    {tag}
-                  </span>
-                ))}
+              <div class="pt-2 border-t border-[#182337] flex items-center justify-between text-[11px] font-mono">
+                <span class="text-cyan-400 font-semibold">{app.accent}</span>
+                <span class="text-slate-500 group-hover:translate-x-0.5 transition-transform">→</span>
               </div>
             </a>
           ))}
         </div>
       </section>
 
-      {/* Información técnica del Hub */}
-      <section class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
-          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm mb-2">
-            <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-mono">⚡</span>
-            Arquitectura Independiente
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Cada aplicación reside en su propia carpeta en <code class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[11px]">/public/apps/</code> de forma completamente autónoma. Pueden desarrollarse con HTML/Vanilla JS, React, Vue, Svelte o cualquier tecnología sin atarse al framework de la web.
-          </p>
+      <!-- Section 2: Utilidades & Desarrollo -->
+      <section id="utilidades" class="mb-10">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+            UTILIDADES & HERRAMIENTAS DEV
+          </h2>
+          <span class="text-xs font-mono text-slate-500">04</span>
         </div>
 
-        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
-          <div class="flex items-center gap-2 font-bold text-slate-900 text-sm mb-2">
-            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-mono">🔒</span>
-            Control de Acceso Cifrado
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Las aplicaciones privadas incorporan validación por PIN maestro (SHA-256) en local mediante <code class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[11px]">auth-guard.js</code>. Tus datos y notas permanecen estrictamente en tu navegador sin subirse a ningún servidor.
-          </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {utilidadesApps.map((app) => (
+            <a
+              href={app.href}
+              data-app-id={app.id}
+              data-type={app.isPrivate ? "private" : "public"}
+              class="app-card group bg-[#0e1626]/80 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/40 rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center justify-between text-[11px] font-mono mb-2">
+                  <span class="text-slate-500 group-hover:text-cyan-400 transition-colors uppercase tracking-wider">{app.category}</span>
+                  {app.isPrivate ? (
+                    <span class="text-rose-400 text-[10px]">🔒 Privada</span>
+                  ) : (
+                    <span class="text-emerald-400 text-[10px]">Pública</span>
+                  )}
+                </div>
+                <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1">
+                  {app.title}
+                </h3>
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">
+                  {app.desc}
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-[#182337] flex items-center justify-between text-[11px] font-mono">
+                <span class="text-cyan-400 font-semibold">{app.accent}</span>
+                <span class="text-slate-500 group-hover:translate-x-0.5 transition-transform">→</span>
+              </div>
+            </a>
+          ))}
         </div>
       </section>
+
+      <!-- Section 3: Sistema & Servidores -->
+      <section id="sistema" class="mb-12">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+            SISTEMA & INFRAESTRUCTURA
+          </h2>
+          <span class="text-xs font-mono text-slate-500">02</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {sistemaApps.map((app) => (
+            <a
+              href={app.href}
+              data-app-id={app.id}
+              data-type={app.isPrivate ? "private" : "public"}
+              class="app-card group bg-[#0e1626]/80 hover:bg-[#131d31] border border-[#192438] hover:border-cyan-500/40 rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center justify-between text-[11px] font-mono mb-2">
+                  <span class="text-slate-500 group-hover:text-cyan-400 transition-colors uppercase tracking-wider">{app.category}</span>
+                  {app.isPrivate ? (
+                    <span class="text-rose-400 text-[10px]">🔒 Privada</span>
+                  ) : (
+                    <span class="text-emerald-400 text-[10px]">Pública</span>
+                  )}
+                </div>
+                <h3 class="font-bold text-white text-base group-hover:text-cyan-300 transition-colors mb-1">
+                  {app.title}
+                </h3>
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">
+                  {app.desc}
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-[#182337] flex items-center justify-between text-[11px] font-mono">
+                <span class="text-cyan-400 font-semibold">{app.accent}</span>
+                <span class="text-slate-500 group-hover:translate-x-0.5 transition-transform">→</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
     </main>
 
-    <Footer />
+    <!-- Clean Minimal Footer matching mockup -->
+    <footer class="w-full border-t border-[#162133] bg-[#070b13] py-6 text-xs font-mono text-slate-500">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div>
+          <span>TALLER • SUITE PERSONAL</span>
+          <span class="mx-2 text-slate-700">|</span>
+          <span class="text-slate-400">RAMÓN MENOR</span>
+        </div>
+        <div class="flex items-center gap-4 text-[11px]">
+          <span>Uso privado</span>
+          <a href="/cv" class="hover:text-cyan-400 transition-colors">CV</a>
+          <a href="/apps/panel-control/" class="hover:text-cyan-400 transition-colors">Panel</a>
+        </div>
+      </div>
+    </footer>
 
     {/* Client script for filtering, permissions sync & session status */}
     <script>
       const STORAGE_KEY = 'rm_private_access_session';
       let currentFilter = 'all';
+
+      // Set formatted date
+      const dateEl = document.getElementById('widget-date');
+      if (dateEl) {
+        const now = new Date();
+        const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        dateEl.textContent = `${day} ${month} ${year}`;
+      }
 
       function isUnlocked() {
         return sessionStorage.getItem(STORAGE_KEY) === 'unlocked' || localStorage.getItem(STORAGE_KEY) === 'unlocked';
@@ -277,7 +481,7 @@ const apps = [
         if (!dot || !text || !btn) return;
 
         if (isUnlocked()) {
-          dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
           text.textContent = '🔒 Privadas: Desbloqueadas';
           btn.title = 'Haz clic para bloquear el acceso privado';
         } else {
@@ -335,18 +539,6 @@ const apps = [
             if (isPrivate) privateCount++;
             else publicCount++;
           }
-
-          // Update badge in card
-          const badgeSpan = card.querySelector('.app-badge');
-          if (badgeSpan) {
-            if (isPrivate) {
-              badgeSpan.className = 'app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0';
-              badgeSpan.textContent = '🔒 Privada';
-            } else {
-              badgeSpan.className = 'app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0';
-              badgeSpan.textContent = 'Pública';
-            }
-          }
         });
 
         // Update filter buttons text
@@ -366,11 +558,11 @@ const apps = [
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           filterBtns.forEach(b => {
-            b.classList.remove('active', 'bg-white', 'text-slate-900', 'shadow-sm');
-            b.classList.add('text-slate-600');
+            b.classList.remove('active', 'bg-cyan-500', 'text-slate-950', 'font-bold');
+            b.classList.add('text-slate-400');
           });
-          btn.classList.add('active', 'bg-white', 'text-slate-900', 'shadow-sm');
-          btn.classList.remove('text-slate-600');
+          btn.classList.add('active', 'bg-cyan-500', 'text-slate-950', 'font-bold');
+          btn.classList.remove('text-slate-400');
 
           currentFilter = btn.getAttribute('data-filter') || 'all';
           applyCurrentFilter();
@@ -388,7 +580,6 @@ const apps = [
               updateAuthUI();
             }
           } else {
-            // Redirect to panel control to unlock
             window.location.href = '/apps/panel-control/';
           }
         });
@@ -414,7 +605,6 @@ const apps = [
         }
       });
 
-      // Show install button on iOS or mobile if not already standalone
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
       if (!isStandalone && installBtn && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         installBtn.classList.remove('hidden');
@@ -436,12 +626,10 @@ const apps = [
         });
       }
 
-      // Initial check & sync
       document.addEventListener('DOMContentLoaded', () => {
         updateAuthUI();
         syncWithPermissions();
       });
-      // Also execute immediately in case DOM is already loaded
       updateAuthUI();
       syncWithPermissions();
     </script>
