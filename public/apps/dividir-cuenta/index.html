@@ -279,10 +279,135 @@
       border-color: #0f172a;
     }
 
+    /* Ticket Scanner Modal */
+    .scanner-modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .scanner-modal-backdrop.open {
+      display: flex;
+    }
+    .scanner-modal {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .scanner-modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .scanner-modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .scanner-modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #f8fafc;
+    }
+    .scanner-tabs {
+      display: flex;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 12px;
+    }
+    .scanner-tab {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: #64748b;
+    }
+    .scanner-tab.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .ocr-progress-box {
+      display: none;
+      padding: 20px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .ocr-progress-box.active {
+      display: flex;
+    }
+    .ocr-progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .ocr-progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #4338ca;
+      transition: width 0.2s ease;
+    }
+    .scanned-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .scanned-item-row input[type="text"] {
+      flex: 2;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+    .scanned-item-row input[type="number"] {
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+
     @media (max-width: 640px) {
       main { padding: 12px 12px 80px; gap: 14px; }
       .card { padding: 16px; border-radius: 16px; }
       .diner-results-grid { grid-template-columns: 1fr; }
+      .scanner-modal { max-height: 95vh; border-radius: 16px; }
+      .scanned-item-row { flex-wrap: wrap; gap: 6px; }
+      .scanned-item-row input[type="text"] { width: 100%; }
     }
   </style>
 </head>
@@ -313,9 +438,14 @@
 
     <!-- Paso 2: Platos y Bebidas -->
     <section class="card">
-      <div class="card-title">
-        <span class="card-title-icon">🍽️</span>
-        <span>2. Platos, Bebidas & Consumiciones</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+        <div class="card-title" style="margin-bottom: 0;">
+          <span class="card-title-icon">🍽️</span>
+          <span>2. Platos, Bebidas & Consumiciones</span>
+        </div>
+        <button type="button" id="btn-open-scanner" class="btn" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; font-size: 13px;">
+          📸 Escanear Ticket
+        </button>
       </div>
 
       <form id="form-add-item" style="display: flex; flex-direction: column; gap: 12px; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0;">
@@ -400,6 +530,80 @@
       </div>
     </section>
   </main>
+
+  <!-- Modal Escanear Ticket -->
+  <div id="modal-ticket-scanner" class="scanner-modal-backdrop">
+    <div class="scanner-modal">
+      <div class="scanner-modal-header">
+        <div style="font-weight: 800; font-size: 16px; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+          <span>📸</span>
+          <span>Escanear Ticket de Restaurante</span>
+        </div>
+        <button type="button" id="btn-close-scanner" style="background:none; border:none; font-size: 18px; color: #94a3b8; cursor: pointer; padding: 4px;">✕</button>
+      </div>
+
+      <div class="scanner-modal-body">
+        <!-- Tabs: Foto vs Texto -->
+        <div class="scanner-tabs">
+          <button type="button" class="scanner-tab active" id="tab-scan-photo">📷 Foto / Cámara</button>
+          <button type="button" class="scanner-tab" id="tab-scan-text">📝 Pegar Texto</button>
+        </div>
+
+        <!-- Panel Foto -->
+        <div id="panel-scan-photo" style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="file" id="input-ticket-camera" accept="image/*" capture="environment" style="display:none;" />
+          <input type="file" id="input-ticket-gallery" accept="image/*" style="display:none;" />
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" id="btn-trigger-camera" class="btn btn-primary" style="flex: 1; min-width: 140px; padding: 12px;">
+              📸 Hacer Foto con Cámara
+            </button>
+            <button type="button" id="btn-trigger-gallery" class="btn btn-secondary" style="flex: 1; min-width: 140px; padding: 12px;">
+              🖼️ Subir Imagen de Galería
+            </button>
+          </div>
+
+          <!-- Estado / Progreso OCR -->
+          <div id="ocr-status-box" class="ocr-progress-box">
+            <div style="font-size: 13px; font-weight: 700; color: #4338ca;" id="ocr-status-text">Iniciando reconocimiento óptico...</div>
+            <div class="ocr-progress-bar-bg">
+              <div id="ocr-progress-bar" class="ocr-progress-bar-fill"></div>
+            </div>
+            <div style="font-size: 11px; color: #64748b;" id="ocr-status-sub">Analizando líneas y precios...</div>
+          </div>
+        </div>
+
+        <!-- Panel Pegar Texto -->
+        <div id="panel-scan-text" style="display: none; flex-direction: column; gap: 10px;">
+          <textarea id="textarea-ticket-raw" rows="6" placeholder="Pega aquí el texto del ticket o cuenta...&#10;Ejemplo:&#10;1 Pizza Margarita  9.50&#10;2 Cervezas  5.00&#10;1 Tarta de Queso  4.50" style="width: 100%; border-radius: 12px; border: 1px solid #cbd5e1; padding: 10px; font-family: monospace; font-size: 13px;"></textarea>
+          <button type="button" id="btn-parse-text" class="btn btn-secondary" style="align-self: flex-start;">
+            🔍 Extraer Platos y Precios
+          </button>
+        </div>
+
+        <!-- Vista previa de platos detectados -->
+        <div id="detected-items-section" style="display: none; flex-direction: column; gap: 10px; margin-top: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px; font-weight: 700; color: #1e293b;" id="detected-count-label">Platos detectados</span>
+            <button type="button" id="btn-add-manual-row" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
+              + Añadir línea
+            </button>
+          </div>
+
+          <div id="detected-items-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; padding-right: 2px;">
+            <!-- Filas detectadas -->
+          </div>
+        </div>
+      </div>
+
+      <div class="scanner-modal-footer">
+        <button type="button" id="btn-cancel-scanner" class="btn btn-secondary">Cancelar</button>
+        <button type="button" id="btn-apply-scanned-items" class="btn btn-success" disabled>
+          + Añadir seleccionados a la cuenta
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Barra fija inferior con total -->
   <div class="floating-summary">
@@ -846,6 +1050,318 @@
     document.getElementById('btn-scroll-results').addEventListener('click', () => {
       const resultsEl = document.getElementById('diner-results');
       if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ==========================================
+    // TICKET SCANNER & RECEIPT PARSER (OCR)
+    // ==========================================
+    let scannedItems = [];
+
+    function openScannerModal() {
+      const modal = document.getElementById('modal-ticket-scanner');
+      if (modal) modal.classList.add('open');
+    }
+
+    function closeScannerModal() {
+      const modal = document.getElementById('modal-ticket-scanner');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function parseReceiptText(rawText) {
+      if (!rawText) return [];
+      const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+      const detected = [];
+      const ignorePatterns = [
+        /total/i, /subtotal/i, /base\s*imp/i, /iva/i, /i\.v\.a/i, /factura/i,
+        /simplificada/i, /ticket/i, /mesa/i, /camarero/i, /fecha/i, /hora/i,
+        /tarjeta/i, /visa/i, /mastercard/i, /efectivo/i, /cambio/i, /entregado/i,
+        /gracias/i, /visita/i, /cif/i, /nif/i, /tel/i, /tel[ée]fono/i,
+        /operaci[oó]n/i, /autorizac/i, /terminal/i, /propina/i, /atendido/i,
+        /dto/i, /descuento/i, /le\s+atendio/i, /comensales/i
+      ];
+
+      lines.forEach((line) => {
+        if (ignorePatterns.some(p => p.test(line))) return;
+
+        // Match price format: 12,50 or 12.50 or 12,50€ at line end or middle
+        const priceMatch = line.match(/(?:^|\s)(\d{1,4}[.,]\d{2})(?:\s*€|\s*eur)?\s*$/i) ||
+                           line.match(/(\d{1,4}[.,]\d{2})/);
+        if (!priceMatch) return;
+
+        const rawPrice = priceMatch[1].replace(',', '.');
+        const price = parseFloat(rawPrice);
+        if (isNaN(price) || price <= 0 || price > 500) return;
+
+        let name = line.replace(priceMatch[0], '').replace(/€|eur/gi, '').trim();
+
+        // Check quantity prefix: "2x Pizza", "2 X Hamburguesa", "2 Cervezas"
+        let qty = 1;
+        const qtyMatch = name.match(/^(\d{1,2})\s*[xX*]?\s+(.*)/);
+        if (qtyMatch) {
+          qty = parseInt(qtyMatch[1], 10);
+          name = qtyMatch[2].trim();
+        }
+
+        // Clean punctuation and noise
+        name = name.replace(/^[-–—.:*#\s]+|[-–—.:*#\s]+$/g, '').trim();
+
+        if (name.length >= 2) {
+          detected.push({
+            id: Date.now() + Math.random(),
+            name: name,
+            price: price,
+            qty: qty,
+            selected: true
+          });
+        }
+      });
+
+      return detected;
+    }
+
+    function updateScannedHeaderAndButton() {
+      const countLabel = document.getElementById('detected-count-label');
+      const applyBtn = document.getElementById('btn-apply-scanned-items');
+      const selected = scannedItems.filter(i => i.selected);
+
+      if (countLabel) {
+        countLabel.textContent = 'Platos detectados (' + selected.length + ' de ' + scannedItems.length + ' seleccionados)';
+      }
+      if (applyBtn) {
+        applyBtn.disabled = selected.length === 0;
+        applyBtn.textContent = '+ Añadir ' + selected.length + ' plato' + (selected.length !== 1 ? 's' : '') + ' a la cuenta';
+      }
+    }
+
+    function renderScannedItems() {
+      const container = document.getElementById('detected-items-list');
+      const section = document.getElementById('detected-items-section');
+
+      if (!container || !section) return;
+      container.innerHTML = '';
+
+      if (scannedItems.length === 0) {
+        section.style.display = 'none';
+        updateScannedHeaderAndButton();
+        return;
+      }
+
+      section.style.display = 'flex';
+      updateScannedHeaderAndButton();
+
+      scannedItems.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'scanned-item-row';
+        row.innerHTML = `
+          <input type="checkbox" ${item.selected ? 'checked' : ''} data-index="${index}" class="scanned-check" style="cursor: pointer; width: 18px; height: 18px;" />
+          <input type="number" min="1" max="50" value="${item.qty}" data-index="${index}" class="scanned-qty" style="width: 55px;" title="Cantidad" />
+          <input type="text" value="${item.name}" data-index="${index}" class="scanned-name" placeholder="Nombre del plato" />
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <input type="number" step="0.01" min="0" value="${item.price.toFixed(2)}" data-index="${index}" class="scanned-price" style="width: 80px;" placeholder="0.00" />
+            <span style="font-size: 13px; font-weight: 700; color: #64748b;">€</span>
+          </div>
+          <button type="button" data-index="${index}" class="scanned-remove" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size: 16px; padding: 2px 6px;">✕</button>
+        `;
+        container.appendChild(row);
+      });
+
+      // Bind row inputs
+      container.querySelectorAll('.scanned-check').forEach(chk => {
+        chk.addEventListener('change', (e) => {
+          const idx = Number(e.target.getAttribute('data-index'));
+          scannedItems[idx].selected = e.target.checked;
+          updateScannedHeaderAndButton();
+        });
+      });
+
+      container.querySelectorAll('.scanned-qty').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const idx = Number(e.target.getAttribute('data-index'));
+          scannedItems[idx].qty = parseInt(e.target.value) || 1;
+        });
+      });
+
+      container.querySelectorAll('.scanned-name').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const idx = Number(e.target.getAttribute('data-index'));
+          scannedItems[idx].name = e.target.value.trim();
+        });
+      });
+
+      container.querySelectorAll('.scanned-price').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const idx = Number(e.target.getAttribute('data-index'));
+          scannedItems[idx].price = parseFloat(e.target.value) || 0;
+        });
+      });
+
+      container.querySelectorAll('.scanned-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = Number(e.currentTarget.getAttribute('data-index'));
+          scannedItems.splice(idx, 1);
+          renderScannedItems();
+        });
+      });
+    }
+
+    function loadTesseract(callback) {
+      if (window.Tesseract) {
+        callback();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      script.onload = () => {
+        callback();
+      };
+      script.onerror = () => {
+        alert('No se pudo cargar el motor OCR. Revisa tu conexión a internet.');
+        const statusBox = document.getElementById('ocr-status-box');
+        if (statusBox) statusBox.classList.remove('active');
+      };
+      document.head.appendChild(script);
+    }
+
+    function processImageFile(file) {
+      if (!file) return;
+      const statusBox = document.getElementById('ocr-status-box');
+      const statusText = document.getElementById('ocr-status-text');
+      const progressBar = document.getElementById('ocr-progress-bar');
+      const statusSub = document.getElementById('ocr-status-sub');
+
+      if (statusBox) statusBox.classList.add('active');
+      if (progressBar) progressBar.style.width = '10%';
+      if (statusText) statusText.textContent = 'Cargando motor de reconocimiento OCR...';
+      if (statusSub) statusSub.textContent = 'Esto solo tarda unos segundos...';
+
+      loadTesseract(async () => {
+        try {
+          if (statusText) statusText.textContent = 'Analizando ticket...';
+          const worker = await window.Tesseract.createWorker('spa+eng');
+          
+          const ret = await worker.recognize(file);
+          await worker.terminate();
+
+          if (progressBar) progressBar.style.width = '100%';
+          if (statusText) statusText.textContent = '¡Lectura completada!';
+          if (statusSub) statusSub.textContent = 'Separando nombres y precios...';
+
+          const items = parseReceiptText(ret.data.text);
+          if (items.length === 0) {
+            alert('No se detectaron platos automáticamente. Puedes revisar el texto en la pestaña "Pegar Texto" o añadir líneas manualmente.');
+            const textarea = document.getElementById('textarea-ticket-raw');
+            if (textarea) textarea.value = ret.data.text;
+          }
+          scannedItems = items;
+          renderScannedItems();
+
+          setTimeout(() => {
+            if (statusBox) statusBox.classList.remove('active');
+          }, 800);
+        } catch (err) {
+          console.error(err);
+          alert('Error al leer el ticket: ' + (err.message || err));
+          if (statusBox) statusBox.classList.remove('active');
+        }
+      });
+    }
+
+    // Bind Scanner Modal buttons
+    document.getElementById('btn-open-scanner').addEventListener('click', openScannerModal);
+    document.getElementById('btn-close-scanner').addEventListener('click', closeScannerModal);
+    document.getElementById('btn-cancel-scanner').addEventListener('click', closeScannerModal);
+
+    // Tab switching
+    document.getElementById('tab-scan-photo').addEventListener('click', () => {
+      document.getElementById('tab-scan-photo').classList.add('active');
+      document.getElementById('tab-scan-text').classList.remove('active');
+      document.getElementById('panel-scan-photo').style.display = 'flex';
+      document.getElementById('panel-scan-text').style.display = 'none';
+    });
+
+    document.getElementById('tab-scan-text').addEventListener('click', () => {
+      document.getElementById('tab-scan-text').classList.add('active');
+      document.getElementById('tab-scan-photo').classList.remove('active');
+      document.getElementById('panel-scan-photo').style.display = 'none';
+      document.getElementById('panel-scan-text').style.display = 'flex';
+    });
+
+    // Camera and Gallery triggers
+    const inputCamera = document.getElementById('input-ticket-camera');
+    const inputGallery = document.getElementById('input-ticket-gallery');
+
+    document.getElementById('btn-trigger-camera').addEventListener('click', () => {
+      if (inputCamera) inputCamera.click();
+    });
+
+    document.getElementById('btn-trigger-gallery').addEventListener('click', () => {
+      if (inputGallery) inputGallery.click();
+    });
+
+    if (inputCamera) {
+      inputCamera.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          processImageFile(e.target.files[0]);
+        }
+      });
+    }
+
+    if (inputGallery) {
+      inputGallery.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          processImageFile(e.target.files[0]);
+        }
+      });
+    }
+
+    // Parse raw text
+    document.getElementById('btn-parse-text').addEventListener('click', () => {
+      const textarea = document.getElementById('textarea-ticket-raw');
+      if (!textarea) return;
+      const items = parseReceiptText(textarea.value);
+      if (items.length === 0) {
+        alert('No se encontraron líneas con precio. Introduce platos con formato "Nombre Precio", ej. "1 Pizza 10.50".');
+      }
+      scannedItems = items;
+      renderScannedItems();
+    });
+
+    // Add manual row in modal
+    document.getElementById('btn-add-manual-row').addEventListener('click', () => {
+      scannedItems.push({
+        id: Date.now() + Math.random(),
+        name: 'Nuevo plato',
+        price: 1.00,
+        qty: 1,
+        selected: true
+      });
+      renderScannedItems();
+    });
+
+    // Apply scanned items to main state
+    document.getElementById('btn-apply-scanned-items').addEventListener('click', () => {
+      const selected = scannedItems.filter(i => i.selected);
+      if (selected.length === 0) return;
+
+      selected.forEach(item => {
+        state.items.push({
+          id: Date.now() + Math.random(),
+          name: item.name || 'Consumición',
+          price: item.price || 0,
+          qty: item.qty || 1,
+          assignedTo: ['all']
+        });
+      });
+
+      saveState();
+      renderAll();
+      closeScannerModal();
+
+      // Reset scanner state
+      scannedItems = [];
+      renderScannedItems();
+      const textarea = document.getElementById('textarea-ticket-raw');
+      if (textarea) textarea.value = '';
     });
 
     // Init
