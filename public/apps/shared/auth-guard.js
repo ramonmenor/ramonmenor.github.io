@@ -106,6 +106,17 @@
       tags: ["Productividad", "Pomodoro", "Enfoque", "Tiempo"],
       isPrivate: false,
       visible: true
+    },
+    {
+      id: "habitos",
+      title: "Hábitos & Rutinas",
+      path: "/apps/habitos/",
+      icon: "🎯",
+      color: "bg-cyan-50 text-cyan-600 border-cyan-100",
+      desc: "Seguimiento diario de hábitos y rachas semanales para mantener la constancia en tus rutinas.",
+      tags: ["Hábitos", "Rutinas", "Productividad", "Objetivos"],
+      isPrivate: false,
+      visible: true
     }
   ];
 

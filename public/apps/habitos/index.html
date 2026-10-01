@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hábitos & Rutina Diaria — Ramón Menor</title>
+  <!-- Access Control Guard & Mobile Nav -->
+  <link rel="stylesheet" href="/apps/shared/app-nav.css">
+  <script src="/apps/shared/auth-guard.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #080d16;
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      flex: 1;
+    }
+    .header-area {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .overline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .main-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .header-metric {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 16px;
+      color: #64748b;
+    }
+    .header-metric strong {
+      color: #00f0ff;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    /* Add Habit Form */
+    .add-habit-card {
+      background: #0b111e;
+      border: 1px solid #162236;
+      border-radius: 16px;
+      padding: 8px 8px 8px 16px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+    .add-habit-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .add-habit-input::placeholder {
+      color: #475569;
+    }
+    .btn-add {
+      background: #00e5ff;
+      color: #080d16;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      font-family: inherit;
+      box-shadow: 0 0 15px -3px rgba(0, 229, 255, 0.3);
+    }
+    .btn-add:active {
+      transform: scale(0.98);
+      background: #00c8e0;
+    }
+
+    /* Habits Grid */
+    .habits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 16px;
+    }
+
+    .habit-card {
+      background: #0c1322;
+      border: 1px solid #172338;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.15s ease;
+    }
+    .habit-card:hover {
+      border-color: #243550;
+    }
+
+    .habit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .habit-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .habit-delete {
+      background: none;
+      border: none;
+      color: #475569;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+      transition: color 0.15s ease;
+    }
+    .habit-delete:hover {
+      color: #f43f5e;
+    }
+
+    /* Days of Week Tracker */
+    .days-track {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .day-btn {
+      background: #090e18;
+      border: 1px solid #152033;
+      border-radius: 10px;
+      padding: 8px 4px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+      user-select: none;
+    }
+    .day-btn:active {
+      transform: scale(0.96);
+    }
+    .day-btn.completed {
+      background: rgba(6, 182, 212, 0.14);
+      border-color: rgba(6, 182, 212, 0.4);
+    }
+    .day-letter {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+    }
+    .day-btn.completed .day-letter {
+      color: #22d3ee;
+    }
+    .day-status {
+      font-size: 12px;
+      font-weight: 800;
+      color: #334155;
+      line-height: 1;
+    }
+    .day-btn.completed .day-status {
+      color: #00f0ff;
+    }
+
+    .today-indicator {
+      box-shadow: 0 0 0 1px #00f0ff inset;
+    }
+
+    @media (max-width: 640px) {
+      .habits-grid {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding: 20px 14px 80px;
+      }
+      .add-habit-card {
+        flex-wrap: wrap;
+        padding: 10px;
+      }
+      .btn-add {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Managed by auth-guard.js -->
+  </header>
+
+  <main>
+    <div class="header-area">
+      <div>
+        <div class="overline">RUTINA DIARIA</div>
+        <h1 class="main-title">Hábitos</h1>
+      </div>
+      <div class="header-metric">
+        <strong id="metric-today">0</strong> / <span id="metric-total">6</span> hoy
+      </div>
+    </div>
+
+    <!-- Formulario para nuevo hábito -->
+    <form id="form-add-habit" class="add-habit-card">
+      <input
+        type="text"
+        id="input-habit-name"
+        class="add-habit-input"
+        placeholder="Nuevo hábito, p. ej. Salir a correr"
+        required
+      />
+      <button type="submit" class="btn-add">Añadir hábito</button>
+    </form>
+
+    <!-- Grid de Hábitos -->
+    <div class="habits-grid" id="habits-container">
+      <!-- Rendered dynamically by JavaScript -->
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'rm_habits_state';
+
+    // Generar claves de los últimos 7 días terminando en hoy
+    function getLast7Days() {
+      const dayLetters = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+      const days = [];
+      const today = new Date();
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const dateKey = y + '-' + m + '-' + day;
+        days.push({
+          dateKey: dateKey,
+          letter: dayLetters[d.getDay()],
+          isToday: i === 0
+        });
+      }
+      return days;
+    }
+
+    const todayDateKey = (function() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + d;
+    })();
+
+    // Hábitos predeterminados basados en el diseño
+    const DEFAULT_HABITS = [
+      { id: '1', title: 'Beber 2 L de agua', completedDays: [] },
+      { id: '2', title: 'Leer 20 minutos', completedDays: [] },
+      { id: '3', title: 'Ejercicio', completedDays: [] },
+      { id: '4', title: 'Meditar 10 min', completedDays: [] },
+      { id: '5', title: 'Dormir 8 h', completedDays: [] },
+      { id: '6', title: 'Diario', completedDays: [] }
+    ];
+
+    let habits = [];
+
+    function loadHabits() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          habits = JSON.parse(saved);
+        } else {
+          habits = DEFAULT_HABITS;
+        }
+      } catch (e) {
+        habits = DEFAULT_HABITS;
+      }
+    }
+
+    function saveHabits() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
+      } catch (e) {}
+    }
+
+    function renderHabits() {
+      const container = document.getElementById('habits-container');
+      const metricToday = document.getElementById('metric-today');
+      const metricTotal = document.getElementById('metric-total');
+      const days = getLast7Days();
+
+      if (!container) return;
+      container.innerHTML = '';
+
+      let completedTodayCount = 0;
+
+      habits.forEach((habit, habitIndex) => {
+        const isDoneToday = habit.completedDays.includes(todayDateKey);
+        if (isDoneToday) completedTodayCount++;
+
+        const card = document.createElement('div');
+        card.className = 'habit-card';
+
+        let daysHtml = '';
+        days.forEach(day => {
+          const isCompleted = habit.completedDays.includes(day.dateKey);
+          const activeClass = isCompleted ? ' completed' : '';
+          const todayClass = day.isToday ? ' today-indicator' : '';
+          const statusChar = isCompleted ? '✓' : '·';
+
+          daysHtml += `
+            <button
+              type="button"
+              class="day-btn${activeClass}${todayClass}"
+              data-habit-id="${habit.id}"
+              data-date="${day.dateKey}"
+              title="${day.dateKey}"
+            >
+              <span class="day-letter">${day.letter}</span>
+              <span class="day-status">${statusChar}</span>
+            </button>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="habit-header">
+            <span class="habit-title">${habit.title}</span>
+            <button type="button" class="habit-delete" data-habit-id="${habit.id}" title="Eliminar hábito">✕</button>
+          </div>
+          <div class="days-track">
+            ${daysHtml}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Update metrics
+      if (metricToday) metricToday.textContent = completedTodayCount;
+      if (metricTotal) metricTotal.textContent = habits.length;
+
+      // Bind day toggles
+      container.querySelectorAll('.day-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const habitId = e.currentTarget.getAttribute('data-habit-id');
+          const dateKey = e.currentTarget.getAttribute('data-date');
+          const targetHabit = habits.find(h => h.id === habitId);
+          if (!targetHabit || !dateKey) return;
+
+          const exists = targetHabit.completedDays.includes(dateKey);
+          if (exists) {
+            targetHabit.completedDays = targetHabit.completedDays.filter(d => d !== dateKey);
+          } else {
+            targetHabit.completedDays.push(dateKey);
+          }
+          saveHabits();
+          renderHabits();
+        });
+      });
+
+      // Bind delete habit
+      container.querySelectorAll('.habit-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const habitId = e.currentTarget.getAttribute('data-habit-id');
+          if (confirm('¿Eliminar este hábito?')) {
+            habits = habits.filter(h => h.id !== habitId);
+            saveHabits();
+            renderHabits();
+          }
+        });
+      });
+    }
+
+    // Add new habit
+    document.getElementById('form-add-habit').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('input-habit-name');
+      const title = input.value.trim();
+      if (!title) return;
+
+      habits.push({
+        id: String(Date.now()),
+        title: title,
+        completedDays: []
+      });
+      input.value = '';
+      saveHabits();
+      renderHabits();
+    });
+
+    // Init
+    loadHabits();
+    renderHabits();
+  </script>
+</body>
+</html>

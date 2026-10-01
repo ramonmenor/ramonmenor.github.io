@@ -30,6 +30,19 @@ const apps = [
     tags: ["Privada", "Notas", "LocalStorage", "Borradores"]
   },
   {
+    id: "habitos",
+    href: "/apps/habitos/",
+    title: "Hábitos & Rutinas",
+    category: "HÁBITOS",
+    accent: "Rutina Diaria",
+    icon: "🎯",
+    color: "border-cyan-500/30 text-cyan-400 bg-cyan-500/10",
+    isPrivate: false,
+    group: "gestion",
+    desc: "Seguimiento diario de hábitos y rachas semanales para mantener la constancia en tus rutinas.",
+    tags: ["Hábitos", "Rutinas", "Productividad", "Objetivos"]
+  },
+  {
     id: "json",
     href: "/apps/json-formatter/",
     title: "JSON Formatter & Validator",
@@ -326,7 +339,7 @@ const sistemaApps = apps.filter(a => a.group === 'sistema');
           <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
             GESTIÓN PERSONAL & FINANZAS
           </h2>
-          <span class="text-xs font-mono text-slate-500">02</span>
+          <span class="text-xs font-mono text-slate-500">0{gestionApps.length}</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
