@@ -95,6 +95,17 @@
       tags: ["Restaurante", "Bizum", "Finanzas", "Calculadora"],
       isPrivate: false,
       visible: true
+    },
+    {
+      id: "pomodoro",
+      title: "Temporizador Pomodoro",
+      path: "/apps/pomodoro/",
+      icon: "⏱️",
+      color: "bg-cyan-50 text-cyan-600 border-cyan-100",
+      desc: "Temporizador de enfoque y descansos con bloques personalizables, contador de ciclos y avisos sonoros.",
+      tags: ["Productividad", "Pomodoro", "Enfoque", "Tiempo"],
+      isPrivate: false,
+      visible: true
     }
   ];
 

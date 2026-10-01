@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temporizador Pomodoro — Ramón Menor</title>
+  <!-- Access Control Guard & Mobile Nav -->
+  <link rel="stylesheet" href="/apps/shared/app-nav.css">
+  <script src="/apps/shared/auth-guard.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #080d16;
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      flex: 1;
+    }
+    .header-area {
+      margin-bottom: 24px;
+    }
+    .overline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #22d3ee;
+      margin-bottom: 6px;
+    }
+    .main-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    /* Grid Layout */
+    .pomodoro-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: #0e1524;
+      border: 1px solid #1a263a;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+
+    /* Timer card top */
+    .timer-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    .mode-pills {
+      display: inline-flex;
+      gap: 6px;
+      background: #090e18;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid #172236;
+    }
+    .mode-pill {
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .mode-pill.active {
+      background: rgba(6, 182, 212, 0.15);
+      color: #22d3ee;
+      border: 1px solid rgba(6, 182, 212, 0.35);
+    }
+    .cycles-counter {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: #64748b;
+    }
+    .cycles-counter span {
+      color: #22d3ee;
+      font-weight: 700;
+    }
+
+    /* Giant digital display */
+    .display-box {
+      text-align: center;
+      padding: 20px 0 30px;
+    }
+    .time-digits {
+      font-size: 88px;
+      font-weight: 900;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 40px rgba(34, 211, 238, 0.15);
+    }
+
+    /* Progress bar */
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: #162236;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: #00f0ff;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Bottom actions */
+    .timer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn {
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+    .btn-primary {
+      background: #00e5ff;
+      color: #070d18;
+      box-shadow: 0 0 20px -3px rgba(0, 229, 255, 0.4);
+    }
+    .btn-primary:active {
+      transform: scale(0.98);
+      background: #00c8e0;
+    }
+    .btn-secondary {
+      background: #141f33;
+      color: #94a3b8;
+      border: 1px solid #1e2e4a;
+    }
+    .btn-secondary:hover {
+      color: #f1f5f9;
+      border-color: #2b4166;
+    }
+    .btn-secondary:active {
+      background: #0f1827;
+    }
+
+    /* Right Config Card */
+    .config-title {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .setting-group {
+      margin-bottom: 20px;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+    .setting-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .setting-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #00f0ff;
+      min-width: 30px;
+      text-align: right;
+    }
+    .setting-value.green {
+      color: #34d399;
+    }
+
+    /* Range slider custom styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #162236;
+      border-radius: 999px;
+      outline: none;
+      margin: 8px 0;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00f0ff;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+      transition: transform 0.1s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    #slider-break::-webkit-slider-thumb {
+      background: #34d399;
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+    }
+
+    .config-desc {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #162236;
+    }
+
+    @media (max-width: 768px) {
+      .pomodoro-grid {
+        grid-template-columns: 1fr;
+      }
+      .time-digits {
+        font-size: 68px;
+      }
+      main {
+        padding: 20px 14px 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Managed by auth-guard.js -->
+  </header>
+
+  <main>
+    <div class="header-area">
+      <div class="overline">UTILIDAD</div>
+      <h1 class="main-title">Temporizador Pomodoro</h1>
+    </div>
+
+    <div class="pomodoro-grid">
+      <!-- Left Card: Main Timer -->
+      <section class="card">
+        <div class="timer-top-bar">
+          <div class="mode-pills">
+            <button type="button" class="mode-pill active" id="btn-mode-focus">ENFOQUE</button>
+            <button type="button" class="mode-pill" id="btn-mode-break">PAUSA</button>
+          </div>
+          <div class="cycles-counter">
+            ciclos: <span id="counter-cycles">0</span>
+          </div>
+        </div>
+
+        <div class="display-box">
+          <div class="time-digits" id="timer-display">25:00</div>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="timer-progress"></div>
+        </div>
+
+        <div class="timer-actions">
+          <button type="button" class="btn btn-primary" id="btn-toggle">Empezar</button>
+          <button type="button" class="btn btn-secondary" id="btn-reset">Reiniciar</button>
+        </div>
+      </section>
+
+      <!-- Right Card: Configuration -->
+      <aside class="card">
+        <div class="config-title">CONFIGURACIÓN</div>
+
+        <div class="setting-group">
+          <div class="setting-row">
+            <span class="setting-label">Enfoque</span>
+            <span class="setting-value" id="val-focus">25'</span>
+          </div>
+          <input type="range" id="slider-focus" min="1" max="60" value="25" />
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-row">
+            <span class="setting-label">Pausa</span>
+            <span class="setting-value green" id="val-break">5'</span>
+          </div>
+          <input type="range" id="slider-break" min="1" max="30" value="5" />
+        </div>
+
+        <p class="config-desc">
+          Trabaja enfocado durante el bloque de enfoque y descansa en la pausa. Cada ciclo completado se cuenta arriba.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'rm_pomodoro_settings';
+
+    // State
+    let focusMinutes = 25;
+    let breakMinutes = 5;
+    let currentMode = 'focus'; // 'focus' | 'break'
+    let totalSeconds = focusMinutes * 60;
+    let remainingSeconds = totalSeconds;
+    let isRunning = false;
+    let timerInterval = null;
+    let completedCycles = 0;
+
+    // Load saved settings
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.focusMinutes) focusMinutes = parsed.focusMinutes;
+        if (parsed.breakMinutes) breakMinutes = parsed.breakMinutes;
+        if (parsed.completedCycles) completedCycles = parsed.completedCycles;
+      }
+    } catch (e) {}
+
+    totalSeconds = focusMinutes * 60;
+    remainingSeconds = totalSeconds;
+
+    // Elements
+    const displayEl = document.getElementById('timer-display');
+    const progressEl = document.getElementById('timer-progress');
+    const toggleBtn = document.getElementById('btn-toggle');
+    const resetBtn = document.getElementById('btn-reset');
+    const focusPill = document.getElementById('btn-mode-focus');
+    const breakPill = document.getElementById('btn-mode-break');
+    const cyclesEl = document.getElementById('counter-cycles');
+    const sliderFocus = document.getElementById('slider-focus');
+    const sliderBreak = document.getElementById('slider-break');
+    const valFocus = document.getElementById('val-focus');
+    const valBreak = document.getElementById('val-break');
+
+    sliderFocus.value = focusMinutes;
+    sliderBreak.value = breakMinutes;
+    valFocus.textContent = focusMinutes + "'";
+    valBreak.textContent = breakMinutes + "'";
+    cyclesEl.textContent = completedCycles;
+
+    function saveSettings() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          focusMinutes: focusMinutes,
+          breakMinutes: breakMinutes,
+          completedCycles: completedCycles
+        }));
+      } catch (e) {}
+    }
+
+    // Audio notification using Web Audio API
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15); // A5
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.8);
+      } catch (e) {}
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    function updateUI() {
+      const timeStr = formatTime(remainingSeconds);
+      displayEl.textContent = timeStr;
+      document.title = '(' + timeStr + ') Pomodoro — Ramón Menor';
+
+      const pct = (remainingSeconds / totalSeconds) * 100;
+      progressEl.style.width = pct + '%';
+      if (currentMode === 'focus') {
+        progressEl.style.background = '#00f0ff';
+      } else {
+        progressEl.style.background = '#34d399';
+      }
+
+      cyclesEl.textContent = completedCycles;
+    }
+
+    function switchMode(newMode) {
+      currentMode = newMode;
+      if (newMode === 'focus') {
+        focusPill.classList.add('active');
+        breakPill.classList.remove('active');
+        totalSeconds = focusMinutes * 60;
+      } else {
+        breakPill.classList.add('active');
+        focusPill.classList.remove('active');
+        totalSeconds = breakMinutes * 60;
+      }
+      remainingSeconds = totalSeconds;
+      pauseTimer();
+      updateUI();
+    }
+
+    function onTimerFinish() {
+      pauseTimer();
+      playChime();
+
+      if (currentMode === 'focus') {
+        completedCycles++;
+        saveSettings();
+        alert('🎉 ¡Bloque de enfoque completado! Tómate un respiro.');
+        switchMode('break');
+      } else {
+        alert('⚡ Pausa terminada. ¡A por otro bloque de enfoque!');
+        switchMode('focus');
+      }
+    }
+
+    function tick() {
+      if (remainingSeconds > 0) {
+        remainingSeconds--;
+        updateUI();
+      } else {
+        onTimerFinish();
+      }
+    }
+
+    function startTimer() {
+      isRunning = true;
+      toggleBtn.textContent = 'Pausar';
+      toggleBtn.style.background = '#141f33';
+      toggleBtn.style.color = '#f1f5f9';
+      toggleBtn.style.boxShadow = 'none';
+      timerInterval = setInterval(tick, 1000);
+    }
+
+    function pauseTimer() {
+      isRunning = false;
+      toggleBtn.textContent = 'Empezar';
+      toggleBtn.style.background = '#00e5ff';
+      toggleBtn.style.color = '#070d18';
+      toggleBtn.style.boxShadow = '0 0 20px -3px rgba(0, 229, 255, 0.4)';
+      clearInterval(timerInterval);
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      remainingSeconds = totalSeconds;
+      updateUI();
+    }
+
+    // Event listeners
+    toggleBtn.addEventListener('click', () => {
+      if (isRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    });
+
+    resetBtn.addEventListener('click', resetTimer);
+
+    focusPill.addEventListener('click', () => {
+      switchMode('focus');
+    });
+
+    breakPill.addEventListener('click', () => {
+      switchMode('break');
+    });
+
+    sliderFocus.addEventListener('input', (e) => {
+      focusMinutes = parseInt(e.target.value) || 25;
+      valFocus.textContent = focusMinutes + "'";
+      saveSettings();
+      if (currentMode === 'focus' && !isRunning) {
+        totalSeconds = focusMinutes * 60;
+        remainingSeconds = totalSeconds;
+        updateUI();
+      }
+    });
+
+    sliderBreak.addEventListener('input', (e) => {
+      breakMinutes = parseInt(e.target.value) || 5;
+      valBreak.textContent = breakMinutes + "'";
+      saveSettings();
+      if (currentMode === 'break' && !isRunning) {
+        totalSeconds = breakMinutes * 60;
+        remainingSeconds = totalSeconds;
+        updateUI();
+      }
+    });
+
+    // Init
+    updateUI();
+  </script>
+</body>
+</html>

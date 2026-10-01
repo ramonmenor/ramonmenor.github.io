@@ -82,6 +82,19 @@ const apps = [
     tags: ["HEX", "RGB", "HSL", "WCAG Contrast"]
   },
   {
+    id: "pomodoro",
+    href: "/apps/pomodoro/",
+    title: "Temporizador Pomodoro",
+    category: "TEMPORIZADOR",
+    accent: "Enfoque & Pausas",
+    icon: "⏱️",
+    color: "border-cyan-500/30 text-cyan-400 bg-cyan-500/10",
+    isPrivate: false,
+    group: "utilidades",
+    desc: "Bloques de trabajo enfocado y descansos configurables con contador de ciclos y avisos sonoros integrados.",
+    tags: ["Productividad", "Pomodoro", "Enfoque", "Tiempo"]
+  },
+  {
     id: "base64",
     href: "/apps/base64-converter/",
     title: "Base64 & URL Encoder",
@@ -244,7 +257,7 @@ const sistemaApps = apps.filter(a => a.group === 'sistema');
             <div>
               <div class="flex justify-between text-slate-400 mb-1">
                 <span>Herramientas públicas</span>
-                <span class="text-slate-300">6 / 6</span>
+                <span class="text-slate-300">{apps.filter(a => !a.isPrivate).length} / {apps.filter(a => !a.isPrivate).length}</span>
               </div>
               <div class="h-1.5 w-full bg-[#182337] rounded-full overflow-hidden">
                 <div class="h-full bg-cyan-400 w-full rounded-full"></div>
@@ -356,7 +369,7 @@ const sistemaApps = apps.filter(a => a.group === 'sistema');
           <h2 class="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
             UTILIDADES & HERRAMIENTAS DEV
           </h2>
-          <span class="text-xs font-mono text-slate-500">04</span>
+          <span class="text-xs font-mono text-slate-500">0{utilidadesApps.length}</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
