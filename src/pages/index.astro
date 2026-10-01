@@ -111,6 +111,13 @@ const apps = [
           >
             Ver Trayectoria / CV →
           </a>
+          <button
+            id="pwa-install-btn"
+            type="button"
+            class="hidden px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all shadow-sm items-center gap-1.5 cursor-pointer"
+          >
+            <span>📲 Instalar App</span>
+          </button>
           <a
             href="mailto:ramonmenor@gmail.com"
             class="px-3.5 py-2 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 transition-colors"
@@ -383,6 +390,41 @@ const apps = [
         if (e.key === 'rm_apps_permissions_override') syncWithPermissions();
         if (e.key === STORAGE_KEY) updateAuthUI();
       });
+
+      // PWA Install prompt handling
+      let deferredInstallPrompt: any = null;
+      const installBtn = document.getElementById('pwa-install-btn');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (installBtn) {
+          installBtn.classList.remove('hidden');
+          installBtn.classList.add('inline-flex');
+        }
+      });
+
+      // Show install button on iOS or mobile if not already standalone
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+      if (!isStandalone && installBtn && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        installBtn.classList.remove('hidden');
+        installBtn.classList.add('inline-flex');
+      }
+
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (deferredInstallPrompt) {
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            if (outcome === 'accepted') {
+              installBtn.classList.add('hidden');
+            }
+            deferredInstallPrompt = null;
+          } else {
+            alert('Para instalar esta app en tu pantalla de inicio:\n\n• En Safari (iPhone/iPad): Pulsa el botón Compartir y luego "Añadir a pantalla de inicio".\n• En Chrome (Android/PC): Pulsa en los tres puntos ⋮ y "Instalar aplicación".');
+          }
+        });
+      }
 
       // Initial check & sync
       document.addEventListener('DOMContentLoaded', () => {

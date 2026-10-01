@@ -328,6 +328,13 @@
                 </div>
                 <span class="rm-app-badge rm-badge-private" style="display: inline-block;">🔒 Admin</span>
               </a>
+              <button type="button" id="rm-drawer-install-btn" class="rm-nav-item" style="width: 100%; border: none; text-align: left; cursor: pointer; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8;">
+                <div class="rm-nav-item-left">
+                  <div class="rm-nav-item-icon" style="background: #dbeafe; border-color: #bfdbfe;">📲</div>
+                  <div>Instalar como App</div>
+                </div>
+                <span style="font-size: 11px; font-weight: 700; color: #2563eb;">Instalar</span>
+              </button>
             </div>
 
             <div class="rm-drawer-section-title">Cambiar de Aplicación</div>
@@ -351,6 +358,7 @@
       const toggleBtn = document.getElementById('rm-drawer-toggle');
       const closeBtn = document.getElementById('rm-drawer-close-btn');
       const lockBtn = document.getElementById('rm-drawer-lock-btn');
+      const drawerInstallBtn = document.getElementById('rm-drawer-install-btn');
 
       function openDrawer() {
         drawerOverlay.classList.add('active');
@@ -367,6 +375,26 @@
       drawerOverlay.addEventListener('click', (e) => {
         if (e.target === drawerOverlay) closeDrawer();
       });
+
+      if (drawerInstallBtn) {
+        drawerInstallBtn.addEventListener('click', async () => {
+          if (window.rmPwaPrompt) {
+            window.rmPwaPrompt.prompt();
+            const { outcome } = await window.rmPwaPrompt.userChoice;
+            if (outcome === 'accepted') {
+              drawerInstallBtn.style.display = 'none';
+            }
+            window.rmPwaPrompt = null;
+          } else {
+            alert('Para instalar esta aplicación en tu dispositivo:\n\n• En iPhone/iPad (Safari): Pulsa el botón "Compartir" y selecciona "Añadir a pantalla de inicio".\n• En Android/Chrome: Pulsa en los tres puntos ⋮ y luego "Instalar aplicación".');
+          }
+        });
+      }
+
+      // Hide install button if already standalone
+      if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+        if (drawerInstallBtn) drawerInstallBtn.style.display = 'none';
+      }
 
       if (lockBtn) {
         lockBtn.addEventListener('click', () => {
@@ -471,4 +499,31 @@
       }
     });
   });
+
+  // PWA Service Worker & Manifest registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+
+  // Capture beforeinstallprompt globally
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window.rmPwaPrompt = e;
+  });
+
+  // Ensure manifest and touch icon links exist in head
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const m = document.createElement('link');
+    m.rel = 'manifest';
+    m.href = '/manifest.webmanifest';
+    document.head.appendChild(m);
+  }
+  if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+    const a = document.createElement('link');
+    a.rel = 'apple-touch-icon';
+    a.href = '/apple-touch-icon.png';
+    document.head.appendChild(a);
+  }
 })();
