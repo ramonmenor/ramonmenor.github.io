@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control — Ramón Menor</title>
+  <!-- Access Control Guard -->
+  <script src="/apps/shared/auth-guard.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .brand h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .brand p {
+      font-size: 12px;
+      color: #64748b;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .btn-secondary {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: #334155;
+    }
+    .btn-secondary:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .btn-danger {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #dc2626;
+    }
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+    .btn-primary {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #1e293b;
+    }
+
+    main {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* KPI Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    /* Section Card */
+    .section-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+    }
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* App Item Row */
+    .apps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .app-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      transition: all 0.15s ease;
+    }
+    .app-row:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+    .app-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 240px;
+      flex: 1;
+    }
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: monospace;
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .app-title-group h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .app-path {
+      font-size: 11px;
+      font-family: monospace;
+      color: #64748b;
+    }
+
+    .app-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* Switch Style */
+    .switch-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: .2s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    /* When checked -> Private (Red/Purple) */
+    input:checked + .slider {
+      background-color: #e11d48;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-public {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+    .badge-private {
+      background: #fff1f2;
+      color: #e11d48;
+      border: 1px solid #fecdd3;
+    }
+
+    /* Security Box */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+    .form-group input {
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: monospace;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: #2563eb;
+    }
+
+    .toast {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      margin-top: 12px;
+    }
+    .toast-success { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .toast-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* Code Box */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-family: monospace;
+      overflow-x: auto;
+      max-height: 240px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚙️</div>
+      <div>
+        <h1>Panel de Control de Permisos</h1>
+        <p>ramonmenor.es // Control de acceso por aplicación</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="/" class="btn btn-secondary">
+        ← Volver a la portada
+      </a>
+      <button id="btn-lock" class="btn btn-danger" title="Cierra la sesión privada en este navegador">
+        🔒 Bloquear Sesión
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Total Aplicaciones</span>
+        <span class="kpi-value" id="kpi-total">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Públicas (Acceso Libre)</span>
+        <span class="kpi-value" id="kpi-public" style="color: #059669;">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Privadas (Protegidas 🔒)</span>
+        <span class="kpi-value" id="kpi-private" style="color: #e11d48;">0</span>
+      </div>
+    </div>
+
+    <!-- Gestión de Permisos de Apps -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Permisos de Acceso por Aplicación</h2>
+          <p class="section-desc">
+            Activa el selector para requerir PIN en una aplicación, o desactívalo para dejarla pública para cualquiera.
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-all-public" class="btn btn-secondary" style="font-size: 12px;">Hacer todas públicas</button>
+          <button id="btn-reset-defaults" class="btn btn-secondary" style="font-size: 12px;">Restablecer iniciales</button>
+        </div>
+      </div>
+
+      <div class="apps-list" id="apps-container">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Gestión de Seguridad y PIN Maestro -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Seguridad y PIN Maestro</h2>
+          <p class="section-desc">
+            El PIN maestro se utiliza para desbloquear todas las aplicaciones privadas y este panel de control.
+          </p>
+        </div>
+      </div>
+
+      <form id="form-change-pin" class="form-grid">
+        <div class="form-group">
+          <label for="old-pin">PIN Actual</label>
+          <input type="password" id="old-pin" placeholder="PIN actual (defecto: 1234)" required />
+        </div>
+        <div class="form-group">
+          <label for="new-pin">Nuevo PIN Maestro</label>
+          <input type="password" id="new-pin" placeholder="Mínimo 4 caracteres" minlength="4" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="height: 42px;">
+          Actualizar PIN
+        </button>
+      </form>
+      <div id="pin-feedback" class="toast"></div>
+    </div>
+
+    <!-- Exportar / Importar Configuración -->
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Configuración Activa & Respaldo</h2>
+          <p class="section-desc">
+            Los cambios se guardan automáticamente en tu navegador. Puedes copiar el JSON de configuración para replicarlo en otros dispositivos.
+          </p>
+        </div>
+        <button id="btn-copy-config" class="btn btn-secondary" style="font-size: 12px;">
+          Copiar JSON
+        </button>
+      </div>
+
+      <pre id="json-preview"></pre>
+    </div>
+  </main>
+
+  <script>
+    function renderApps() {
+      const container = document.getElementById('apps-container');
+      const apps = window.RMApps.getAll();
+
+      // Update KPIs
+      document.getElementById('kpi-total').textContent = apps.length;
+      document.getElementById('kpi-public').textContent = apps.filter(a => !a.isPrivate).length;
+      document.getElementById('kpi-private').textContent = apps.filter(a => a.isPrivate).length;
+
+      // Update JSON preview
+      document.getElementById('json-preview').textContent = window.RMApps.exportConfig();
+
+      container.innerHTML = '';
+
+      apps.forEach(app => {
+        const row = document.createElement('div');
+        row.className = 'app-row';
+        row.innerHTML = `
+          <div class="app-info">
+            <div class="app-icon">${app.icon}</div>
+            <div class="app-title-group">
+              <h3>${app.title}</h3>
+              <div class="app-path">${app.path}</div>
+            </div>
+          </div>
+
+          <div class="app-controls">
+            <span class="badge-status ${app.isPrivate ? 'badge-private' : 'badge-public'}" id="badge-${app.id}">
+              ${app.isPrivate ? '🔒 Privada (Con PIN)' : 'Pública (Libre)'}
+            </span>
+
+            <label class="switch-control" title="Alternar entre Pública y Privada">
+              <span style="font-size: 12px; color: #64748b;">Requerir PIN:</span>
+              <div class="switch">
+                <input type="checkbox" id="toggle-${app.id}" ${app.isPrivate ? 'checked' : ''}>
+                <span class="slider"></span>
+              </div>
+            </label>
+
+            <a href="${app.path}" class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;" target="_blank">
+              Probar ↗
+            </a>
+          </div>
+        `;
+
+        container.appendChild(row);
+
+        // Bind toggle
+        const checkbox = row.querySelector(`#toggle-${app.id}`);
+        checkbox.addEventListener('change', (e) => {
+          const isPrivate = e.target.checked;
+          window.RMApps.setAppPermission(app.id, isPrivate);
+          renderApps();
+        });
+      });
+    }
+
+    // Lock session button
+    document.getElementById('btn-lock').addEventListener('click', () => {
+      window.RMAccess.lock();
+    });
+
+    // Make all public button
+    document.getElementById('btn-all-public').addEventListener('click', () => {
+      if (confirm('¿Deseas poner todas las aplicaciones como públicas (sin PIN)?')) {
+        const apps = window.RMApps.getAll();
+        apps.forEach(a => window.RMApps.setAppPermission(a.id, false));
+        renderApps();
+      }
+    });
+
+    // Reset defaults button
+    document.getElementById('btn-reset-defaults').addEventListener('click', () => {
+      if (confirm('¿Restablecer la configuración predeterminada de permisos?')) {
+        window.RMApps.resetPermissions();
+        renderApps();
+      }
+    });
+
+    // Copy JSON config
+    document.getElementById('btn-copy-config').addEventListener('click', () => {
+      const json = window.RMApps.exportConfig();
+      navigator.clipboard.writeText(json).then(() => {
+        alert('Configuración JSON copiada al portapapeles');
+      });
+    });
+
+    // Change PIN form
+    const formPin = document.getElementById('form-change-pin');
+    const pinFeedback = document.getElementById('pin-feedback');
+
+    formPin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const oldPin = document.getElementById('old-pin').value;
+      const newPin = document.getElementById('new-pin').value;
+
+      const res = await window.RMAccess.changePin(oldPin, newPin);
+
+      pinFeedback.style.display = 'block';
+      if (res.success) {
+        pinFeedback.className = 'toast toast-success';
+        pinFeedback.textContent = res.message;
+        formPin.reset();
+      } else {
+        pinFeedback.className = 'toast toast-error';
+        pinFeedback.textContent = res.message;
+      }
+      setTimeout(() => {
+        pinFeedback.style.display = 'none';
+      }, 5000);
+    });
+
+    // Listen for changes
+    window.addEventListener('rm_apps_config_changed', renderApps);
+
+    // Initial render
+    document.addEventListener('DOMContentLoaded', renderApps);
+  </script>
+</body>
+</html>

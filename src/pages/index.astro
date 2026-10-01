@@ -82,6 +82,8 @@ const apps = [
 <html lang="es">
   <head>
     <BaseHead title={`${SITE_TITLE} — Espacio Personal & Apps`} description={SITE_DESCRIPTION} />
+    <!-- Dynamic App Permissions & Auth Guard -->
+    <script is:inline src="/apps/shared/auth-guard.js"></script>
   </head>
   <body class="bg-white text-slate-900 min-h-screen flex flex-col font-sans">
     <Navbar currentPath="/" />
@@ -133,16 +135,24 @@ const apps = [
           {/* Filtros y Estado de sesión */}
           <div class="flex items-center gap-2 flex-wrap">
             <div class="inline-flex bg-slate-100 p-1 rounded-xl text-xs font-medium text-slate-600">
-              <button type="button" class="filter-btn active px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm" data-filter="all">
+              <button type="button" id="filter-all-btn" class="filter-btn active px-3 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm" data-filter="all">
                 Todas ({apps.length})
               </button>
-              <button type="button" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="public">
+              <button type="button" id="filter-public-btn" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="public">
                 Públicas ({apps.filter(a => !a.isPrivate).length})
               </button>
-              <button type="button" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="private">
+              <button type="button" id="filter-private-btn" class="filter-btn px-3 py-1.5 rounded-lg hover:text-slate-900 transition-colors" data-filter="private">
                 🔒 Privadas ({apps.filter(a => a.isPrivate).length})
               </button>
             </div>
+
+            <a
+              href="/apps/panel-control/"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-mono text-slate-700 hover:border-slate-400 hover:bg-slate-50 transition-all shadow-sm"
+              title="Abrir panel de control para gestionar permisos de aplicaciones"
+            >
+              <span>⚙️ Panel</span>
+            </a>
 
             <button
               id="auth-toggle-btn"
@@ -161,6 +171,7 @@ const apps = [
           {apps.map((app) => (
             <a
               href={app.href}
+              data-app-id={app.id}
               data-type={app.isPrivate ? "private" : "public"}
               class="app-card group clean-card p-6 flex flex-col justify-between hover:border-blue-300 hover:shadow-md transition-all relative"
             >
@@ -180,11 +191,11 @@ const apps = [
                   </div>
 
                   {app.isPrivate ? (
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
+                    <span class="app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
                       🔒 Privada
                     </span>
                   ) : (
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                    <span class="app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
                       Pública
                     </span>
                   )}
@@ -233,9 +244,10 @@ const apps = [
 
     <Footer />
 
-    {/* Client script for filtering & session status */}
+    {/* Client script for filtering, permissions sync & session status */}
     <script>
       const STORAGE_KEY = 'rm_private_access_session';
+      let currentFilter = 'all';
 
       function isUnlocked() {
         return sessionStorage.getItem(STORAGE_KEY) === 'unlocked' || localStorage.getItem(STORAGE_KEY) === 'unlocked';
@@ -258,10 +270,82 @@ const apps = [
         }
       }
 
+      function applyCurrentFilter() {
+        const cards = document.querySelectorAll('.app-card');
+        cards.forEach(cardEl => {
+          const card = cardEl as HTMLElement;
+          const type = card.getAttribute('data-type');
+          const isVisible = card.getAttribute('data-visible') !== 'false';
+
+          if (!isVisible) {
+            card.style.display = 'none';
+            return;
+          }
+
+          if (currentFilter === 'all' || currentFilter === type) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      function syncWithPermissions() {
+        const rmApps = (window as any).RMApps;
+        if (!rmApps) return;
+
+        const appsConfig = rmApps.getAll();
+        const cards = document.querySelectorAll('.app-card');
+
+        let publicCount = 0;
+        let privateCount = 0;
+        let visibleTotal = 0;
+
+        cards.forEach(cardEl => {
+          const card = cardEl as HTMLElement;
+          const appId = card.getAttribute('data-app-id');
+          const config = appsConfig.find((a: any) => a.id === appId);
+          if (!config) return;
+
+          const isPrivate = config.isPrivate;
+          const isVisible = config.visible !== false;
+
+          card.setAttribute('data-type', isPrivate ? 'private' : 'public');
+          card.setAttribute('data-visible', isVisible ? 'true' : 'false');
+
+          if (isVisible) {
+            visibleTotal++;
+            if (isPrivate) privateCount++;
+            else publicCount++;
+          }
+
+          // Update badge in card
+          const badgeSpan = card.querySelector('.app-badge');
+          if (badgeSpan) {
+            if (isPrivate) {
+              badgeSpan.className = 'app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200 shrink-0';
+              badgeSpan.textContent = '🔒 Privada';
+            } else {
+              badgeSpan.className = 'app-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0';
+              badgeSpan.textContent = 'Pública';
+            }
+          }
+        });
+
+        // Update filter buttons text
+        const allBtn = document.getElementById('filter-all-btn');
+        const pubBtn = document.getElementById('filter-public-btn');
+        const privBtn = document.getElementById('filter-private-btn');
+
+        if (allBtn) allBtn.textContent = `Todas (${visibleTotal})`;
+        if (pubBtn) pubBtn.textContent = `Públicas (${publicCount})`;
+        if (privBtn) privBtn.textContent = `🔒 Privadas (${privateCount})`;
+
+        applyCurrentFilter();
+      }
+
       // Handle Filter buttons
       const filterBtns = document.querySelectorAll('.filter-btn');
-      const cards = document.querySelectorAll('.app-card');
-
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           filterBtns.forEach(b => {
@@ -271,15 +355,8 @@ const apps = [
           btn.classList.add('active', 'bg-white', 'text-slate-900', 'shadow-sm');
           btn.classList.remove('text-slate-600');
 
-          const filter = btn.getAttribute('data-filter');
-          cards.forEach(card => {
-            const type = card.getAttribute('data-type');
-            if (filter === 'all' || filter === type) {
-              (card as HTMLElement).style.display = 'flex';
-            } else {
-              (card as HTMLElement).style.display = 'none';
-            }
-          });
+          currentFilter = btn.getAttribute('data-filter') || 'all';
+          applyCurrentFilter();
         });
       });
 
@@ -294,14 +371,27 @@ const apps = [
               updateAuthUI();
             }
           } else {
-            // Redirect to private app to unlock
-            window.location.href = '/apps/notas-privadas/';
+            // Redirect to panel control to unlock
+            window.location.href = '/apps/panel-control/';
           }
         });
       }
 
-      // Initial check
+      // Listen for permissions changes from the control panel
+      window.addEventListener('rm_apps_config_changed', syncWithPermissions);
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'rm_apps_permissions_override') syncWithPermissions();
+        if (e.key === STORAGE_KEY) updateAuthUI();
+      });
+
+      // Initial check & sync
+      document.addEventListener('DOMContentLoaded', () => {
+        updateAuthUI();
+        syncWithPermissions();
+      });
+      // Also execute immediately in case DOM is already loaded
       updateAuthUI();
+      syncWithPermissions();
     </script>
   </body>
 </html>
