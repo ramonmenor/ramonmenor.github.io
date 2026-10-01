@@ -1,4 +1,4 @@
-// Ramón Menor - Client-side Access Guard & App Permissions Manager
+// Ramón Menor - Client-side Access Guard, App Permissions & Mobile Navigation System
 (function() {
   const STORAGE_KEY = 'rm_private_access_session';
   const PIN_HASH_KEY = 'rm_master_pin_hash';
@@ -219,12 +219,172 @@
     }
   };
 
+  // Setup Mobile-First Header & Navigation Drawer
+  function setupMobileNav() {
+    const currentId = window.RMApps.getCurrentAppId();
+    if (!currentId || currentId === 'shared') return;
+
+    // Ensure app-nav.css is loaded
+    if (!document.getElementById('rm-nav-css')) {
+      const link = document.createElement('link');
+      link.id = 'rm-nav-css';
+      link.rel = 'stylesheet';
+      link.href = '/apps/shared/app-nav.css';
+      document.head.appendChild(link);
+    }
+
+    const app = currentId === 'panel-control'
+      ? { title: 'Panel de Control', icon: '⚙️', isPrivate: true }
+      : window.RMApps.getAppById(currentId) || { title: document.title.split('—')[0].trim(), icon: '⚡', isPrivate: false };
+
+    const isPrivate = currentId === 'panel-control' ? true : window.RMApps.isCurrentAppPrivate();
+    const badgeClass = isPrivate ? 'rm-badge-private' : 'rm-badge-public';
+    const badgeText = isPrivate ? '🔒 Privada' : 'Pública';
+
+    // Find existing <header> or create one
+    let header = document.querySelector('header');
+    if (!header) {
+      header = document.createElement('header');
+      document.body.insertBefore(header, document.body.firstChild);
+    }
+
+    header.className = 'rm-app-header';
+    header.innerHTML = `
+      <div class="rm-header-inner">
+        <a href="/" class="rm-back-btn" aria-label="Volver a Inicio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span class="rm-back-text">Inicio</span>
+        </a>
+
+        <div class="rm-title-wrap">
+          <span style="font-size: 16px; margin-right: 2px;">${app.icon}</span>
+          <h1 class="rm-app-title">${app.title}</h1>
+          <span class="rm-app-badge ${badgeClass}">${badgeText}</span>
+        </div>
+
+        <div class="rm-header-actions">
+          <button type="button" class="rm-menu-btn" id="rm-drawer-toggle" aria-label="Menú de aplicaciones">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span>Apps</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Create Drawer Modal if not already present
+    if (!document.getElementById('rm-drawer-modal')) {
+      const allApps = window.RMApps.getAll();
+      const drawerOverlay = document.createElement('div');
+      drawerOverlay.id = 'rm-drawer-modal';
+      drawerOverlay.className = 'rm-drawer-overlay';
+
+      let appsHtml = '';
+      allApps.forEach(item => {
+        const isActive = item.id === currentId;
+        appsHtml += `
+          <a href="${item.path}" class="rm-nav-item ${isActive ? 'active' : ''}">
+            <div class="rm-nav-item-left">
+              <div class="rm-nav-item-icon">${item.icon}</div>
+              <div>
+                <div>${item.title}</div>
+                <div style="font-size: 11px; font-weight: normal; color: #64748b;">${item.path}</div>
+              </div>
+            </div>
+            <span class="rm-app-badge ${item.isPrivate ? 'rm-badge-private' : 'rm-badge-public'}" style="display: inline-block;">
+              ${item.isPrivate ? '🔒 Privada' : 'Pública'}
+            </span>
+          </a>
+        `;
+      });
+
+      const unlocked = window.RMAccess.isUnlocked();
+
+      drawerOverlay.innerHTML = `
+        <div class="rm-drawer">
+          <div class="rm-drawer-handle"></div>
+          <div class="rm-drawer-header">
+            <div class="rm-drawer-title">Aplicaciones & Utilidades</div>
+            <button type="button" class="rm-drawer-close" id="rm-drawer-close-btn" aria-label="Cerrar">✕</button>
+          </div>
+
+          <div class="rm-drawer-content">
+            <div class="rm-drawer-section-title">Navegación</div>
+            <div class="rm-nav-list" style="margin-bottom: 8px;">
+              <a href="/" class="rm-nav-item">
+                <div class="rm-nav-item-left">
+                  <div class="rm-nav-item-icon">🏠</div>
+                  <div>Inicio (ramonmenor.es)</div>
+                </div>
+                <span style="font-size: 12px; color: #64748b;">→</span>
+              </a>
+              <a href="/apps/panel-control/" class="rm-nav-item ${currentId === 'panel-control' ? 'active' : ''}">
+                <div class="rm-nav-item-left">
+                  <div class="rm-nav-item-icon">⚙️</div>
+                  <div>Panel de Control</div>
+                </div>
+                <span class="rm-app-badge rm-badge-private" style="display: inline-block;">🔒 Admin</span>
+              </a>
+            </div>
+
+            <div class="rm-drawer-section-title">Cambiar de Aplicación</div>
+            <div class="rm-nav-list">
+              ${appsHtml}
+            </div>
+
+            ${unlocked ? `
+              <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+                <button type="button" id="rm-drawer-lock-btn" style="width: 100%; padding: 12px; border-radius: 12px; background: #fff1f2; border: 1px solid #fecdd3; color: #e11d48; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; touch-action: manipulation;">
+                  🔒 Bloquear Sesión Privada
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(drawerOverlay);
+
+      const toggleBtn = document.getElementById('rm-drawer-toggle');
+      const closeBtn = document.getElementById('rm-drawer-close-btn');
+      const lockBtn = document.getElementById('rm-drawer-lock-btn');
+
+      function openDrawer() {
+        drawerOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        drawerOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', (e) => {
+        if (e.target === drawerOverlay) closeDrawer();
+      });
+
+      if (lockBtn) {
+        lockBtn.addEventListener('click', () => {
+          window.RMAccess.lock();
+        });
+      }
+    }
+  }
+
   // Determine if the current page should be locked
   const currentAppId = window.RMApps.getCurrentAppId();
   if (!currentAppId) {
     // Not an /apps/ page (e.g. homepage or /cv) - do not lock
     return;
   }
+
+  // Setup mobile navigation on DOM ready
+  document.addEventListener('DOMContentLoaded', setupMobileNav);
 
   // Check if current app is marked private
   const requiresAuth = window.RMApps.isCurrentAppPrivate();
@@ -277,7 +437,7 @@
             <input type="checkbox" id="rm-remember-check" checked style="border-radius: 4px;" /> Recordar en este navegador
           </label>
           
-          <button type="submit" style="width: 100%; padding: 12px; border: none; border-radius: 12px; background: #0f172a; color: #ffffff; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+          <button type="submit" style="width: 100%; padding: 12px; border: none; border-radius: 12px; background: #0f172a; color: #ffffff; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; touch-action: manipulation;">
             Desbloquear Acceso
           </button>
         </form>
@@ -303,6 +463,7 @@
       if (enteredHash === getSavedHash()) {
         unlockSession(rememberCheck.checked);
         gateOverlay.remove();
+        setupMobileNav();
       } else {
         errorEl.style.display = 'block';
         input.value = '';

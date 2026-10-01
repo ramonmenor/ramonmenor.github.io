@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Control — Ramón Menor</title>
-  <!-- Access Control Guard -->
+  <!-- Access Control Guard & Mobile Nav -->
+  <link rel="stylesheet" href="/apps/shared/app-nav.css">
   <script src="/apps/shared/auth-guard.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -344,6 +345,47 @@
       font-family: monospace;
       overflow-x: auto;
       max-height: 240px;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 16px 12px;
+        gap: 16px;
+      }
+      .section-card {
+        padding: 16px;
+        border-radius: 16px;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .kpi-card {
+        padding: 12px 14px;
+      }
+      .kpi-value {
+        font-size: 22px;
+      }
+      .app-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 14px;
+      }
+      .app-info {
+        min-width: 0;
+        width: 100%;
+      }
+      .app-controls {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
