@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dividir Cuenta & Ticket — Ramón Menor</title>
+  <!-- Access Control Guard & Mobile Nav -->
+  <link rel="stylesheet" href="/apps/shared/app-nav.css">
+  <script src="/apps/shared/auth-guard.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .card-title-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #f0fdf4;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    /* Person Chips */
+    .people-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .person-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .person-remove {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      padding: 0 2px;
+    }
+    .person-remove:hover { color: #dc2626; }
+
+    /* Inputs & Forms */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    input, select {
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #ffffff;
+      font-family: inherit;
+    }
+    input:focus, select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .btn {
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .btn-primary { background: #0f172a; color: #ffffff; }
+    .btn-primary:active { background: #1e293b; }
+    .btn-secondary { background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+    .btn-secondary:active { background: #e2e8f0; }
+    .btn-success { background: #16a34a; color: #ffffff; }
+    .btn-success:active { background: #15803d; }
+    .btn-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* Items List */
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .item-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .item-main {
+      flex: 1;
+      min-width: 0;
+    }
+    .item-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-assigned {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .item-price {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .item-del {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+    .item-del:hover { color: #dc2626; }
+
+    /* Results Grid */
+    .diner-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .diner-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .diner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 10px;
+    }
+    .diner-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .diner-total {
+      font-size: 20px;
+      font-weight: 900;
+      color: #16a34a;
+    }
+    .diner-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .diner-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Floating summary bar */
+    .floating-summary {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #e2e8f0;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 900;
+    }
+    .summary-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .summary-total {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .summary-sub {
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    /* Assign chips in Add item */
+    .assign-chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .assign-chip {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s ease;
+    }
+    .assign-chip.selected {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    @media (max-width: 640px) {
+      main { padding: 12px 12px 80px; gap: 14px; }
+      .card { padding: 16px; border-radius: 16px; }
+      .diner-results-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Managed by auth-guard.js -->
+  </header>
+
+  <main>
+    <!-- Paso 1: Comensales -->
+    <section class="card">
+      <div class="card-title">
+        <span class="card-title-icon">👥</span>
+        <span>1. ¿Quiénes son los comensales?</span>
+      </div>
+
+      <div class="people-wrap" id="people-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <form id="form-add-person" class="input-row">
+        <input type="text" id="input-person-name" placeholder="Nombre (ej. Lucía, Carlos...)" style="flex: 1; min-width: 180px;" required />
+        <button type="submit" class="btn btn-primary">
+          + Añadir Persona
+        </button>
+      </form>
+    </section>
+
+    <!-- Paso 2: Platos y Bebidas -->
+    <section class="card">
+      <div class="card-title">
+        <span class="card-title-icon">🍽️</span>
+        <span>2. Platos, Bebidas & Consumiciones</span>
+      </div>
+
+      <form id="form-add-item" style="display: flex; flex-direction: column; gap: 12px; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0;">
+        <div class="input-row">
+          <input type="text" id="input-item-name" placeholder="Nombre (ej. Hamburguesa, Cañas...)" style="flex: 2; min-width: 160px;" required />
+          <input type="number" id="input-item-price" placeholder="Precio €" step="0.01" min="0" style="flex: 1; min-width: 90px;" required />
+          <input type="number" id="input-item-qty" value="1" min="1" max="50" style="width: 70px;" title="Cantidad" required />
+        </div>
+
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #475569;">¿Quién ha consumido esto?</label>
+          <div class="assign-chip-group" id="assign-chips-container">
+            <button type="button" class="assign-chip selected" data-target="all">Todos (Compartido)</button>
+            <!-- Dynamic diner chips rendered by JS -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="align-self: flex-start; margin-top: 4px;">
+          + Añadir a la cuenta
+        </button>
+      </form>
+
+      <!-- Lista de platos añadidos -->
+      <div class="items-list" id="items-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Paso 3: Propina o Descuentos opcionales -->
+    <section class="card">
+      <div class="card-title">
+        <span class="card-title-icon">💡</span>
+        <span>3. Propina o Extras</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+        <div style="display: flex; gap: 6px;">
+          <button type="button" class="btn btn-secondary tip-btn active" data-tip="0">0%</button>
+          <button type="button" class="btn btn-secondary tip-btn" data-tip="5">5%</button>
+          <button type="button" class="btn btn-secondary tip-btn" data-tip="10">10%</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 13px; color: #64748b;">o Fija (€):</span>
+          <input type="number" id="input-tip-custom" placeholder="0.00" step="0.5" min="0" style="width: 90px; padding: 6px 10px;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 4: Desglose por Comensal & Compartir -->
+    <section class="card" style="border: 2px solid #bbf7d0; background: #fafdfb;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+        <div class="card-title" style="margin-bottom: 0;">
+          <span class="card-title-icon">🧾</span>
+          <span>Desglose: ¿Cuánto paga cada uno?</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-copy-whatsapp" class="btn btn-success" style="font-size: 12px;">
+            📋 Copiar para WhatsApp
+          </button>
+          <button id="btn-share" class="btn btn-primary" style="font-size: 12px;">
+            📤 Compartir
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <span style="font-size: 12px; color: #475569; font-weight: 600;">Teléfono para Bizum (opcional):</span>
+        <input type="tel" id="input-bizum-phone" placeholder="Ej. 612 345 678" style="padding: 6px 10px; font-size: 13px;" />
+      </div>
+
+      <div class="diner-results-grid" id="diner-results">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span id="match-status" style="font-size: 12px; font-weight: 700; color: #16a34a;">
+          ✓ Suma exacta comprobada
+        </span>
+        <button id="btn-reset" class="btn btn-danger" style="font-size: 12px; padding: 6px 12px;">
+          Reiniciar cuenta
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Barra fija inferior con total -->
+  <div class="floating-summary">
+    <div class="summary-text">
+      <span class="summary-total" id="footer-total">0.00 €</span>
+      <span class="summary-sub" id="footer-count">0 comensales · 0 consumiciones</span>
+    </div>
+    <button id="btn-scroll-results" class="btn btn-primary" style="padding: 8px 14px; font-size: 13px;">
+      Ver Desglose ↓
+    </button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'rm_split_bill_state';
+
+    let state = {
+      people: ['Ramón', 'Amigo 1', 'Amigo 2'],
+      items: [
+        { id: 1, name: 'Patatas Bravas', price: 6.50, qty: 1, assignedTo: ['all'] },
+        { id: 2, name: 'Hamburguesa Doble', price: 12.00, qty: 1, assignedTo: ['Ramón'] },
+        { id: 3, name: 'Pizza Cuatro Quesos', price: 11.50, qty: 1, assignedTo: ['Amigo 1'] },
+        { id: 4, name: 'Ensalada César', price: 9.00, qty: 1, assignedTo: ['Amigo 2'] },
+        { id: 5, name: 'Cañas de cerveza', price: 2.50, qty: 3, assignedTo: ['all'] }
+      ],
+      tipPercent: 0,
+      tipCustom: 0,
+      bizumPhone: ''
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          state = JSON.parse(saved);
+        }
+      } catch (e) {}
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // Render People Chips
+    function renderPeople() {
+      const container = document.getElementById('people-list');
+      container.innerHTML = '';
+
+      state.people.forEach(person => {
+        const chip = document.createElement('div');
+        chip.className = 'person-chip';
+        chip.innerHTML = `
+          <span>👤 ${person}</span>
+          ${state.people.length > 1 ? `<button type="button" class="person-remove" data-name="${person}" title="Eliminar comensal">✕</button>` : ''}
+        `;
+        container.appendChild(chip);
+      });
+
+      // Bind remove
+      container.querySelectorAll('.person-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const name = (e.currentTarget as HTMLElement).getAttribute('data-name');
+          if (!name) return;
+          state.people = state.people.filter(p => p !== name);
+          // Clean from items
+          state.items.forEach(item => {
+            item.assignedTo = item.assignedTo.filter(p => p !== name);
+            if (item.assignedTo.length === 0) item.assignedTo = ['all'];
+          });
+          saveState();
+          renderAll();
+        });
+      });
+
+      renderAssignChips();
+    }
+
+    // Render Assign Chips in Add Item Form
+    function renderAssignChips() {
+      const container = document.getElementById('assign-chips-container');
+      const currentSelected = getSelectedAssignees();
+
+      container.innerHTML = `
+        <button type="button" class="assign-chip ${currentSelected.includes('all') ? 'selected' : ''}" data-target="all">
+          Todos (Compartido)
+        </button>
+      `;
+
+      state.people.forEach(person => {
+        const isSel = currentSelected.includes(person);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `assign-chip ${isSel ? 'selected' : ''}`;
+        btn.setAttribute('data-target', person);
+        btn.textContent = person;
+        container.appendChild(btn);
+      });
+
+      // Bind chip clicks
+      container.querySelectorAll('.assign-chip').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = (e.currentTarget as HTMLElement).getAttribute('data-target');
+          if (target === 'all') {
+            container.querySelectorAll('.assign-chip').forEach(c => c.classList.remove('selected'));
+            btn.classList.add('selected');
+          } else {
+            const allBtn = container.querySelector('[data-target="all"]');
+            if (allBtn) allBtn.classList.remove('selected');
+            btn.classList.toggle('selected');
+
+            // If none selected, default to all
+            const anySel = container.querySelector('.assign-chip.selected');
+            if (!anySel && allBtn) {
+              allBtn.classList.add('selected');
+            }
+          }
+        });
+      });
+    }
+
+    function getSelectedAssignees() {
+      const container = document.getElementById('assign-chips-container');
+      if (!container) return ['all'];
+      const selected = Array.from(container.querySelectorAll('.assign-chip.selected')).map(c => c.getAttribute('data-target') || '');
+      return selected.length > 0 ? selected : ['all'];
+    }
+
+    // Render Items List
+    function renderItems() {
+      const container = document.getElementById('items-container');
+      container.innerHTML = '';
+
+      if (state.items.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 16px;">No hay platos añadidos todavía.</div>`;
+        return;
+      }
+
+      state.items.forEach(item => {
+        const assignedText = item.assignedTo.includes('all')
+          ? 'Para todos'
+          : `Consumido por: ${item.assignedTo.join(', ')}`;
+
+        const totalItemPrice = item.price * item.qty;
+
+        const row = document.createElement('div');
+        row.className = 'item-card';
+        row.innerHTML = `
+          <div class="item-main">
+            <div class="item-name">${item.qty > 1 ? `${item.qty}x ` : ''}${item.name}</div>
+            <div class="item-assigned">${assignedText}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="item-price">${totalItemPrice.toFixed(2)} €</div>
+            <button type="button" class="item-del" data-id="${item.id}" title="Eliminar">✕</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      // Bind delete item
+      container.querySelectorAll('.item-del').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = Number((e.currentTarget as HTMLElement).getAttribute('data-id'));
+          state.items = state.items.filter(i => i.id !== id);
+          saveState();
+          renderAll();
+        });
+      });
+    }
+
+    // Calculate Breakdown per person
+    function calculate() {
+      const results: Record<string, { total: number, items: { name: string, cost: number, fractionText: string }[] }> = {};
+
+      state.people.forEach(p => {
+        results[p] = { total: 0, items: [] };
+      });
+
+      let subtotal = 0;
+
+      state.items.forEach(item => {
+        const itemTotalPrice = item.price * item.qty;
+        subtotal += itemTotalPrice;
+
+        const diners = item.assignedTo.includes('all') ? state.people : item.assignedTo;
+        if (diners.length === 0) return;
+
+        const perDiner = itemTotalPrice / diners.length;
+
+        diners.forEach(diner => {
+          if (results[diner]) {
+            results[diner].total += perDiner;
+            const fraction = diners.length > 1 ? ` (1/${diners.length})` : '';
+            results[diner].items.push({
+              name: `${item.qty > 1 ? `${item.qty}x ` : ''}${item.name}${fraction}`,
+              cost: perDiner,
+              fractionText: fraction
+            });
+          }
+        });
+      });
+
+      // Calculate Tip
+      let tipTotal = 0;
+      if (state.tipCustom > 0) {
+        tipTotal = state.tipCustom;
+      } else if (state.tipPercent > 0) {
+        tipTotal = subtotal * (state.tipPercent / 100);
+      }
+
+      if (tipTotal > 0 && state.people.length > 0) {
+        const tipPerPerson = tipTotal / state.people.length;
+        state.people.forEach(p => {
+          results[p].total += tipPerPerson;
+          results[p].items.push({
+            name: `Propina (${state.tipPercent > 0 ? `${state.tipPercent}%` : 'Fija'})`,
+            cost: tipPerPerson,
+            fractionText: ''
+          });
+        });
+      }
+
+      const grandTotal = subtotal + tipTotal;
+      return { results, subtotal, tipTotal, grandTotal };
+    }
+
+    // Render Diner Results Grid
+    function renderResults() {
+      const { results, subtotal, tipTotal, grandTotal } = calculate();
+      const container = document.getElementById('diner-results');
+      container.innerHTML = '';
+
+      let sumOfShares = 0;
+
+      state.people.forEach(person => {
+        const data = results[person];
+        sumOfShares += data.total;
+
+        const card = document.createElement('div');
+        card.className = 'diner-card';
+
+        let itemsHtml = '';
+        data.items.forEach(it => {
+          itemsHtml += `
+            <div class="diner-breakdown-row">
+              <span>${it.name}</span>
+              <span style="font-weight: 600;">${it.cost.toFixed(2)} €</span>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div>
+            <div class="diner-header">
+              <span class="diner-name">👤 ${person}</span>
+              <span class="diner-total">${data.total.toFixed(2)} €</span>
+            </div>
+            <div class="diner-breakdown">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Update footer bar
+      document.getElementById('footer-total').textContent = `${grandTotal.toFixed(2)} €`;
+      document.getElementById('footer-count').textContent = `${state.people.length} comensales · ${state.items.length} platos${tipTotal > 0 ? ` (+${tipTotal.toFixed(2)}€ propina)` : ''}`;
+
+      // Check match
+      const diff = Math.abs(grandTotal - sumOfShares);
+      const matchEl = document.getElementById('match-status');
+      if (diff < 0.05) {
+        matchEl.textContent = `✓ Suma exacta comprobada (Total: ${grandTotal.toFixed(2)} €)`;
+        matchEl.style.color = '#16a34a';
+      } else {
+        matchEl.textContent = `⚠️ Descuadre de redondeo: ${(grandTotal - sumOfShares).toFixed(2)} €`;
+        matchEl.style.color = '#ea580c';
+      }
+    }
+
+    function renderAll() {
+      renderPeople();
+      renderItems();
+      renderResults();
+    }
+
+    // Generate Share text
+    function getShareText() {
+      const { results, grandTotal, tipTotal } = calculate();
+      let text = `🧾 *Cuenta del Restaurante*\n`;
+      text += `Total: *${grandTotal.toFixed(2)} €* (${state.people.length} personas)\n\n`;
+
+      state.people.forEach(p => {
+        const data = results[p];
+        text += `• *${p}*: *${data.total.toFixed(2)} €*\n`;
+        const itemNames = data.items.map(i => i.name).join(', ');
+        text += `  _${itemNames}_\n`;
+      });
+
+      if (state.bizumPhone && state.bizumPhone.trim().length > 0) {
+        text += `\n📲 Bizum a: *${state.bizumPhone.trim()}*\n`;
+      }
+      text += `\nCalculado con: https://ramonmenor.es/apps/dividir-cuenta/`;
+      return text;
+    }
+
+    // Event Handlers
+    document.getElementById('form-add-person').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('input-person-name') as HTMLInputElement;
+      const name = input.value.trim();
+      if (name && !state.people.includes(name)) {
+        state.people.push(name);
+        input.value = '';
+        saveState();
+        renderAll();
+      }
+    });
+
+    document.getElementById('form-add-item').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('input-item-name') as HTMLInputElement;
+      const priceInput = document.getElementById('input-item-price') as HTMLInputElement;
+      const qtyInput = document.getElementById('input-item-qty') as HTMLInputElement;
+
+      const name = nameInput.value.trim();
+      const price = parseFloat(priceInput.value);
+      const qty = parseInt(qtyInput.value) || 1;
+      const assigned = getSelectedAssignees();
+
+      if (name && !isNaN(price) && price >= 0) {
+        state.items.push({
+          id: Date.now(),
+          name,
+          price,
+          qty,
+          assignedTo: assigned
+        });
+        nameInput.value = '';
+        priceInput.value = '';
+        qtyInput.value = '1';
+
+        // Reset assignee chips to all
+        const container = document.getElementById('assign-chips-container');
+        if (container) {
+          container.querySelectorAll('.assign-chip').forEach(c => c.classList.remove('selected'));
+          const allBtn = container.querySelector('[data-target="all"]');
+          if (allBtn) allBtn.classList.add('selected');
+        }
+
+        saveState();
+        renderAll();
+        nameInput.focus();
+      }
+    });
+
+    // Tip buttons
+    document.querySelectorAll('.tip-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active', 'btn-primary'));
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('active', 'btn-primary');
+        state.tipPercent = parseInt(target.getAttribute('data-tip') || '0');
+        state.tipCustom = 0;
+        const customInput = document.getElementById('input-tip-custom') as HTMLInputElement;
+        if (customInput) customInput.value = '';
+        saveState();
+        renderResults();
+      });
+    });
+
+    document.getElementById('input-tip-custom').addEventListener('input', (e) => {
+      const val = parseFloat((e.target as HTMLInputElement).value);
+      if (!isNaN(val) && val >= 0) {
+        state.tipCustom = val;
+        state.tipPercent = 0;
+        document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active', 'btn-primary'));
+      } else {
+        state.tipCustom = 0;
+      }
+      saveState();
+      renderResults();
+    });
+
+    document.getElementById('input-bizum-phone').addEventListener('input', (e) => {
+      state.bizumPhone = (e.target as HTMLInputElement).value;
+      saveState();
+    });
+
+    // Copy to WhatsApp
+    document.getElementById('btn-copy-whatsapp').addEventListener('click', () => {
+      const text = getShareText();
+      navigator.clipboard.writeText(text).then(() => {
+        alert('📋 ¡Resumen copiado! Ya puedes pegarlo directamente en tu grupo de WhatsApp.');
+      });
+    });
+
+    // Native Web Share
+    document.getElementById('btn-share').addEventListener('click', async () => {
+      const text = getShareText();
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Cuenta del Restaurante',
+            text: text
+          });
+        } catch (e) {}
+      } else {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Tu navegador no soporta compartir nativo. ¡Texto copiado al portapapeles!');
+        });
+      }
+    });
+
+    // Reset button
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (confirm('¿Deseas reiniciar la cuenta y borrar los platos añadidos?')) {
+        state.items = [];
+        state.tipPercent = 0;
+        state.tipCustom = 0;
+        saveState();
+        renderAll();
+      }
+    });
+
+    // Scroll to results button
+    document.getElementById('btn-scroll-results').addEventListener('click', () => {
+      document.getElementById('diner-results').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Init
+    loadState();
+    if (state.bizumPhone) {
+      (document.getElementById('input-bizum-phone') as HTMLInputElement).value = state.bizumPhone;
+    }
+    renderAll();
+  </script>
+</body>
+</html>

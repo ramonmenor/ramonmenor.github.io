@@ -1,5 +1,5 @@
 // Ramón Menor - PWA Service Worker
-const CACHE_NAME = 'rm-hub-v1';
+const CACHE_NAME = 'rm-hub-v2';
 const STATIC_ASSETS = [
   '/',
   '/cv',
@@ -17,7 +17,8 @@ const STATIC_ASSETS = [
   '/apps/color-converter/',
   '/apps/base64-converter/',
   '/apps/notas-privadas/',
-  '/apps/mis-servidores/'
+  '/apps/mis-servidores/',
+  '/apps/dividir-cuenta/'
 ];
 
 // Install: Cache core static assets

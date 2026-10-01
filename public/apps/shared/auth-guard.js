@@ -84,6 +84,17 @@
       tags: ["Privada", "DevOps", "Servidores", "Seguridad"],
       isPrivate: true,
       visible: true
+    },
+    {
+      id: "dividir-cuenta",
+      title: "Dividir Cuenta & Ticket",
+      path: "/apps/dividir-cuenta/",
+      icon: "🧾",
+      color: "bg-teal-50 text-teal-600 border-teal-100",
+      desc: "Calcula qué tiene que pagar cada persona en un restaurante según lo que ha pedido o compartido. Genera desglose para WhatsApp y Bizum.",
+      tags: ["Restaurante", "Bizum", "Finanzas", "Calculadora"],
+      isPrivate: false,
+      visible: true
     }
   ];
 
