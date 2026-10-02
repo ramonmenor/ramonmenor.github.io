@@ -2,50 +2,53 @@
 const today = new Date();
 ---
 
-<footer id="contacto" class="border-t border-slate-200 bg-slate-50 py-16 mt-20">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-12 border-b border-slate-200">
+<footer id="contacto" class="border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-[#070b13]/80 py-12 mt-16 transition-colors duration-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-200/60 dark:border-slate-800/60">
       <div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-          Ramón Menor
-        </h2>
-        <p class="text-sm text-slate-600 mt-1 max-w-md">
-          Desarrollador Web Full Stack & Especialista en Integración de Inteligencia Artificial.
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-bold text-slate-900 dark:text-white tracking-tight text-lg">
+            Ramón Menor
+          </span>
+          <span class="text-xs font-mono text-slate-400 dark:text-slate-500">• ramonmenor.es</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md">
+          Suite personal de herramientas independientes, cliente 100% local y utilidades de desarrollo.
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3 font-medium text-xs">
+      <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
         <a
-          href="mailto:minombre@ramonmenor.es"
-          class="px-4 py-2.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors"
+          href="/cv"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
         >
-          minombre@ramonmenor.es
+          Trayectoria / CV
         </a>
         <a
-          href="https://linkedin.com/in/ramonmenor"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:border-slate-400 transition-colors"
+          href="/apps/panel-control/"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
         >
-          LinkedIn
+          Panel de Control
         </a>
         <a
           href="https://github.com/ramonmenor"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:border-slate-400 transition-colors"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
         >
-          GitHub
+          GitHub ↗
         </a>
       </div>
     </div>
 
-    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-500 gap-4">
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-500 dark:text-slate-500 gap-3">
       <div>
-        &copy; {today.getFullYear()} Ramón Menor — Todos los derechos reservados.
+        &copy; {today.getFullYear()} Ramón Menor — Espacio personal & herramientas libres.
       </div>
-      <div>
-        ramonmenor.es
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>Privacidad: 100% Local</span>
+        <span>•</span>
+        <a href="#top" class="hover:text-sky-500 transition-colors">Volver arriba ↑</a>
       </div>
     </div>
   </div>

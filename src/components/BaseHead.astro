@@ -52,18 +52,29 @@ const { title, description } = Astro.props;
 <meta property="twitter:description" content={description} />
 
 <script is:inline>
-  const theme = (() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
+  (() => {
+    const storedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = storedTheme || (systemDark ? 'dark' : 'light');
+
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'dark';
+    // Listen to system changes if no explicit preference stored
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        }
+      }
+    });
   })();
-  if (theme === 'light') {
-    document.documentElement.classList.add('light');
-  } else {
-    document.documentElement.classList.remove('light');
-  }
 </script>
