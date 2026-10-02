@@ -8,66 +8,33 @@ export default {
 		extend: {
 			fontFamily: {
 				mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+				sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
 			},
 			keyframes: {
+				marquee: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-50%)' },
+				},
 				float: {
 					'0%, 100%': { transform: 'translateY(0px)' },
-					'50%': { transform: 'translateY(-10px)' },
-				},
-				floatSlow: {
-					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-					'50%': { transform: 'translateY(-16px) rotate(2deg)' },
-				},
-				shimmer: {
-					'0%': { backgroundPosition: '-200% 0' },
-					'100%': { backgroundPosition: '200% 0' },
+					'50%': { transform: 'translateY(-8px)' },
 				},
 				pulseGlow: {
 					'0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-					'50%': { opacity: '0.8', transform: 'scale(1.05)' },
+					'50%': { opacity: '0.9', transform: 'scale(1.03)' },
 				},
 			},
 			animation: {
+				marquee: 'marquee 28s linear infinite',
 				float: 'float 5s ease-in-out infinite',
-				'float-slow': 'floatSlow 8s ease-in-out infinite',
-				shimmer: 'shimmer 4s ease-in-out infinite',
-				'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+				'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
 			},
 			colors: {
-				void: {
-					DEFAULT: '#050510',
-					light: '#0a0a1a',
-					card: '#0c0c1f',
-				},
-				border: "hsl(var(--border))",
-				input: "hsl(var(--input))",
-				ring: "hsl(var(--ring))",
-				background: "hsl(var(--background))",
-				foreground: "hsl(var(--foreground))",
-				primary: {
-					DEFAULT: "hsl(var(--primary))",
-					foreground: "hsl(var(--primary-foreground))",
-				},
-				secondary: {
-					DEFAULT: "hsl(var(--secondary))",
-					foreground: "hsl(var(--secondary-foreground))",
-				},
-				muted: {
-					DEFAULT: "hsl(var(--muted))",
-					foreground: "hsl(var(--muted-foreground))",
-				},
 				accent: {
-					DEFAULT: "hsl(var(--accent))",
-					foreground: "hsl(var(--accent-foreground))",
+					cyan: '#00f0ff',
+					amber: '#f59e0b',
+					emerald: '#10b981',
 				},
-				card: {
-					DEFAULT: "hsl(var(--card))",
-					foreground: "hsl(var(--card-foreground))",
-				},
-			},
-			borderRadius: {
-				'3xl': '1.5rem',
-				'4xl': '2rem',
 			},
 		},
 	},

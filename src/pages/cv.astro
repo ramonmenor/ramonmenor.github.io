@@ -6,7 +6,7 @@ import { SITE_TITLE } from "../consts";
 
 const experiences = [
   {
-    period: "2018 — Presente",
+    period: "2018 — PRESENTE",
     role: "Desarrollador Web Senior & Consultor de IA",
     company: "Freelance / Proyectos Propios",
     desc: "Desarrollo de aplicaciones web de alto rendimiento con Astro, TypeScript, PHP (Yii2), MySQL y Docker. Integración de modelos de Inteligencia Artificial (Gemini API, Claude Sonnet, OpenAI, Ollama), sistemas RAG y agentes de automatización."
@@ -38,65 +38,66 @@ const skills = [
   <head>
     <BaseHead title={`Trayectoria & CV — Ramón Menor | ${SITE_TITLE}`} description="Currículum Vitae y trayectoria profesional de Ramón Menor — Desarrollador Web Full Stack" />
   </head>
-  <body class="bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+  <body class="bg-zinc-50 dark:bg-[#07080b] text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col font-sans transition-colors duration-200 bg-technical-grid">
     <Navbar currentPath="/cv" />
 
-    <main class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-10 flex-1">
+    <main class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex-1">
       {/* Back button */}
-      <div class="mb-6">
-        <a href="/" class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-          Volver a Herramientas
+      <div class="mb-5">
+        <a href="/" class="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-black dark:hover:text-cyan-400 transition-colors">
+          ← VOLVER AL BANCO DE HERRAMIENTAS
         </a>
       </div>
 
       {/* Profile Header Card */}
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 sm:p-8 mb-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors duration-200">
-        <div>
-          <span class="text-xs font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider">Currículum Vitae</span>
-          <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-1">Ramón Menor</h1>
-          <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mt-1">Desarrollador Web Full Stack (+15 años de experiencia)</p>
-        </div>
+      <div class="sharp-card tech-bracket p-6 sm:p-8 mb-6 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <span class="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 font-bold uppercase tracking-widest border border-cyan-500/30 px-2 py-0.5 inline-block mb-2">CURRICULUM VITAE</span>
+            <h1 class="text-3xl sm:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">Ramón Menor</h1>
+            <p class="text-xs sm:text-sm font-mono text-zinc-600 dark:text-zinc-400 mt-1 uppercase">Desarrollador Web Full Stack (+15 años de experiencia)</p>
+          </div>
 
-        <div class="space-y-1.5 text-xs font-mono text-slate-600 dark:text-slate-400">
-          <div><strong class="text-slate-900 dark:text-slate-200">Email:</strong> <a href="mailto:minombre@ramonmenor.es" class="text-sky-600 dark:text-sky-400 hover:underline">minombre@ramonmenor.es</a></div>
-          <div><strong class="text-slate-900 dark:text-slate-200">Web:</strong> ramonmenor.es</div>
-          <div><strong class="text-slate-900 dark:text-slate-200">Ubicación:</strong> España</div>
+          <div class="space-y-1.5 text-xs font-mono text-zinc-600 dark:text-zinc-400 border-t md:border-t-0 md:border-l border-zinc-200 dark:border-zinc-800 pt-4 md:pt-0 md:pl-6">
+            <div><strong class="text-zinc-900 dark:text-zinc-200">Email:</strong> <a href="mailto:minombre@ramonmenor.es" class="text-cyan-600 dark:text-cyan-400 hover:underline">minombre@ramonmenor.es</a></div>
+            <div><strong class="text-zinc-900 dark:text-zinc-200">Web:</strong> ramonmenor.es</div>
+            <div><strong class="text-zinc-900 dark:text-zinc-200">Ubicación:</strong> España</div>
+          </div>
         </div>
       </div>
 
       {/* Experience Timeline */}
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 sm:p-8 mb-8 shadow-sm transition-colors duration-200">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6 pb-3 border-b border-slate-200 dark:border-slate-800">
-          Experiencia Profesional
+      <div class="sharp-card p-6 sm:p-8 mb-6 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+        <h2 class="text-base font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-white mb-6 pb-2 border-b border-zinc-200 dark:border-zinc-800">
+          // Experiencia Profesional
         </h2>
 
-        <div class="space-y-8">
+        <div class="space-y-6">
           {experiences.map((exp) => (
-            <div class="relative pl-6 border-l-2 border-slate-200 dark:border-slate-800">
-              <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-sky-500"></span>
-              <span class="font-mono text-xs text-sky-600 dark:text-sky-400 font-bold">{exp.period}</span>
-              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{exp.role}</h3>
-              <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-2">{exp.company}</p>
-              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{exp.desc}</p>
+            <div class="relative pl-5 border-l-2 border-zinc-300 dark:border-zinc-700">
+              <span class="absolute -left-[5px] top-1 w-2 h-2 bg-zinc-950 dark:bg-cyan-400"></span>
+              <span class="font-mono text-xs text-cyan-600 dark:text-cyan-400 font-bold tracking-wider">{exp.period}</span>
+              <h3 class="text-base font-bold text-zinc-900 dark:text-white mt-0.5">{exp.role}</h3>
+              <p class="text-xs font-mono text-zinc-500 mb-2">{exp.company}</p>
+              <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">{exp.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Skills Matrix */}
-      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 sm:p-8 shadow-sm transition-colors duration-200">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6 pb-3 border-b border-slate-200 dark:border-slate-800">
-          Habilidades Técnicas
+      <div class="sharp-card p-6 sm:p-8 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+        <h2 class="text-base font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-white mb-6 pb-2 border-b border-zinc-200 dark:border-zinc-800">
+          // Habilidades Técnicas
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {skills.map((s) => (
             <div>
-              <h3 class="text-xs font-mono font-bold uppercase text-slate-500 dark:text-slate-400 mb-3">{s.category}</h3>
+              <h3 class="text-xs font-mono font-bold uppercase text-zinc-500 dark:text-zinc-400 mb-2.5">{s.category}</h3>
               <div class="flex flex-wrap gap-1.5 font-mono text-xs">
                 {s.items.map((item) => (
-                  <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-300">
+                  <span class="px-2 py-1 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200">
                     {item}
                   </span>
                 ))}

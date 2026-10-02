@@ -2,53 +2,54 @@
 const today = new Date();
 ---
 
-<footer id="contacto" class="border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-[#070b13]/80 py-12 mt-16 transition-colors duration-200">
+<footer id="contacto" class="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-100/60 dark:bg-[#07080b] py-10 mt-16 font-mono text-xs text-zinc-600 dark:text-zinc-400 transition-colors duration-200">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-200/60 dark:border-slate-800/60">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-zinc-200 dark:border-zinc-800">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="font-bold text-slate-900 dark:text-white tracking-tight text-lg">
-            Ramón Menor
+          <span class="font-bold text-zinc-950 dark:text-white uppercase tracking-wider text-sm">
+            RAMÓN MENOR — TOOLBOX
           </span>
-          <span class="text-xs font-mono text-slate-400 dark:text-slate-500">• ramonmenor.es</span>
+          <span class="text-zinc-400">/</span>
+          <span class="text-emerald-600 dark:text-emerald-400">ONLINE</span>
         </div>
-        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md">
-          Suite personal de herramientas independientes, cliente 100% local y utilidades de desarrollo.
+        <p class="text-xs text-zinc-500 max-w-md">
+          Suite personal de micro-aplicaciones client-side. Cifrado y persistencia 100% en navegador.
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+      <div class="flex flex-wrap items-center gap-2 text-xs">
         <a
           href="/cv"
-          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+          class="px-2.5 py-1 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:border-black dark:hover:border-cyan-400 transition-colors"
         >
-          Trayectoria / CV
+          [ CV ]
         </a>
         <a
           href="/apps/panel-control/"
-          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+          class="px-2.5 py-1 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:border-black dark:hover:border-cyan-400 transition-colors"
         >
-          Panel de Control
+          [ PANEL ]
         </a>
         <a
           href="https://github.com/ramonmenor"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+          class="px-2.5 py-1 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:border-black dark:hover:border-cyan-400 transition-colors"
         >
-          GitHub ↗
+          [ GITHUB ↗ ]
         </a>
       </div>
     </div>
 
-    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between font-mono text-xs text-slate-500 dark:text-slate-500 gap-3">
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 gap-3">
       <div>
-        &copy; {today.getFullYear()} Ramón Menor — Espacio personal & herramientas libres.
+        &copy; {today.getFullYear()} RAMONMENOR.ES — LICENCIA LIBRE / CODIGO ABIERTO
       </div>
-      <div class="flex items-center gap-4 text-[11px]">
-        <span>Privacidad: 100% Local</span>
+      <div class="flex items-center gap-4">
+        <span>STORAGE: LOCAL</span>
         <span>•</span>
-        <a href="#top" class="hover:text-sky-500 transition-colors">Volver arriba ↑</a>
+        <a href="#top" class="hover:text-black dark:hover:text-cyan-400 transition-colors">SUBIR ↑</a>
       </div>
     </div>
   </div>
