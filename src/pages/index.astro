@@ -12,7 +12,7 @@ const apps = [
     category: "FINANZAS",
     accent: "€ Tickets & OCR",
     icon: "🧾",
-    colorStyle: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+    colorStyle: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 group-hover:border-emerald-500/50",
     isPrivate: false,
     group: "gestion",
     desc: "Calcula qué paga cada comensal según consumiciones. Escáner de tickets con cámara/OCR y reparto directo para Bizum.",
@@ -25,7 +25,7 @@ const apps = [
     category: "NOTAS",
     accent: "🔒 Cifrado Local",
     icon: "📝",
-    colorStyle: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+    colorStyle: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 group-hover:border-amber-500/50",
     isPrivate: true,
     group: "gestion",
     desc: "Bloc de notas rápido y persistente en almacenamiento local. Ideal para borradores, snippets temporales y tareas.",
@@ -38,7 +38,7 @@ const apps = [
     category: "HÁBITOS",
     accent: "Racha Diaria",
     icon: "🎯",
-    colorStyle: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
+    colorStyle: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20 group-hover:border-cyan-500/50",
     isPrivate: false,
     group: "gestion",
     desc: "Seguimiento diario de hábitos y rachas semanales para mantener la constancia en tus rutinas personales.",
@@ -51,7 +51,7 @@ const apps = [
     category: "DEV TOOLS",
     accent: "Validador & Minify",
     icon: "{ }",
-    colorStyle: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
+    colorStyle: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 group-hover:border-blue-500/50",
     isPrivate: false,
     group: "utilidades",
     desc: "Valida sintaxis, embellece con sangría configurable y compacta datos JSON en tiempo real en tu navegador.",
@@ -64,10 +64,10 @@ const apps = [
     category: "DEV TOOLS",
     accent: "Query Beautifier",
     icon: "SQL",
-    colorStyle: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
+    colorStyle: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 group-hover:border-indigo-500/50",
     isPrivate: false,
     group: "utilidades",
-    desc: "Convierte consultas SQL complejas o desordenadas en código limpio, estructurado y con palabras clave resaltadas.",
+    desc: "Convierte consultas SQL complejas o desordenadas en código limpio, estructurado y con palabras clave en mayúsculas.",
     tags: ["SQL", "Consultas", "Bases de datos", "Limpieza"]
   },
   {
@@ -77,7 +77,7 @@ const apps = [
     category: "SEGURIDAD",
     accent: "WebCrypto SHA",
     icon: "#",
-    colorStyle: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+    colorStyle: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 group-hover:border-purple-500/50",
     isPrivate: false,
     group: "utilidades",
     desc: "Genera UUIDs v4 en lote, passwords criptográficas y calcula hashes SHA-256, SHA-512 y SHA-1 al vuelo.",
@@ -90,7 +90,7 @@ const apps = [
     category: "DISEÑO",
     accent: "HEX / RGB / WCAG",
     icon: "🎨",
-    colorStyle: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20",
+    colorStyle: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20 group-hover:border-pink-500/50",
     isPrivate: false,
     group: "utilidades",
     desc: "Conversión bidireccional entre HEX, RGB y HSL con calculadora en vivo de ratios de contraste y accesibilidad WCAG.",
@@ -103,7 +103,7 @@ const apps = [
     category: "TIEMPO",
     accent: "Enfoque & Pausas",
     icon: "⏱️",
-    colorStyle: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
+    colorStyle: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20 group-hover:border-orange-500/50",
     isPrivate: false,
     group: "utilidades",
     desc: "Bloques de trabajo enfocado y descansos configurables con contador de ciclos y avisos sonoros integrados.",
@@ -116,7 +116,7 @@ const apps = [
     category: "CONVERTIDOR",
     accent: "UTF-8 / URL Safe",
     icon: "64",
-    colorStyle: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
+    colorStyle: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20 group-hover:border-teal-500/50",
     isPrivate: false,
     group: "sistema",
     desc: "Codifica y decodifica texto con soporte UTF-8 completo, además de utilidades directas para URL encoding.",
@@ -129,7 +129,7 @@ const apps = [
     category: "SISTEMAS",
     accent: "🔒 SSH / DevOps",
     icon: "⚡",
-    colorStyle: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+    colorStyle: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 group-hover:border-rose-500/50",
     isPrivate: true,
     group: "sistema",
     desc: "Fichero privado de servidores, IPs, accesos SSH habituales y gestor del PIN maestro de acceso.",
@@ -142,180 +142,174 @@ const apps = [
     category: "EXTERNO",
     accent: "Accesos Directos ↗",
     icon: "↗",
-    colorStyle: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+    colorStyle: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20 group-hover:border-sky-500/50",
     isPrivate: false,
     group: "externas",
     desc: "Gestor de accesos directos personalizables a herramientas y servicios web externos con enlaces directos.",
     tags: ["Accesos", "Enlaces", "Herramientas", "Dashboard"]
   }
 ];
-
-const categories = [
-  { id: "all", label: "Todas las herramientas" },
-  { id: "gestion", label: "Finanzas & Personal" },
-  { id: "utilidades", label: "Dev & Utilidades" },
-  { id: "sistema", label: "Sistema & Servidores" },
-  { id: "externas", label: "Externas" }
-];
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
   <head>
-    <BaseHead title={`${SITE_TITLE} — Suite Personal`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${SITE_TITLE} — Suite Personal de Herramientas`} description={SITE_DESCRIPTION} />
     <!-- Dynamic App Permissions & Auth Guard -->
     <script is:inline src="/apps/shared/auth-guard.js"></script>
   </head>
-  <body class="bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+  <body class="bg-slate-50 dark:bg-[#08090d] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-250 relative overflow-x-hidden bg-dot-grid">
     
-    <!-- Top Navigation Bar -->
+    <!-- Ambient Gradient Mesh (Decorative) -->
+    <div class="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[350px] bg-gradient-to-tr from-sky-500/15 via-indigo-500/10 to-purple-500/15 rounded-full blur-3xl pointer-events-none -z-10 animate-float"></div>
+    <div class="absolute top-[35%] right-[-100px] w-[450px] h-[450px] bg-gradient-to-br from-emerald-500/10 to-cyan-500/15 rounded-full blur-3xl pointer-events-none -z-10 animate-float-slow"></div>
+
+    <!-- Floating Dock Navbar -->
     <Navbar currentPath="/" />
 
-    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1">
+    <main class="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-16 flex-1">
       
-      <!-- Hero Presentation Section -->
-      <section class="mb-10 sm:mb-12">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200/80 dark:border-slate-800/80">
-          <div class="max-w-2xl">
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-mono font-semibold uppercase tracking-wider mb-3">
-              <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
-              SUITE DE HERRAMIENTAS
-            </div>
-
-            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-3">
-              Tu banco de trabajo personal.
-            </h1>
-
-            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
-              Colección de micro-aplicaciones independientes, rápidas y privadas. Sin servidores externos para tus datos: todo se procesa de forma 100% local en tu navegador.
-            </p>
-          </div>
-
-          <!-- Quick Metrics & PWA Action -->
-          <div class="flex flex-col sm:flex-row md:flex-col items-start md:items-end gap-3 shrink-0">
-            <button
-              id="pwa-install-btn"
-              type="button"
-              class="hidden px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 text-xs font-mono font-bold items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-sm cursor-pointer"
-            >
-              <span>📲</span>
-              <span>Instalar como App</span>
-            </button>
-
-            <div class="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 shadow-sm">
-              <span class="font-bold text-slate-900 dark:text-white" id="stat-total-apps">{apps.length}</span> apps listas
-              <span>•</span>
-              <span class="text-emerald-600 dark:text-emerald-400">100% local</span>
-            </div>
-          </div>
+      <!-- Kinetic Hero Section -->
+      <section class="mb-10 sm:mb-14 text-center max-w-3xl mx-auto">
+        
+        <!-- Live Telemetry Pill -->
+        <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-slate-900/80 border border-slate-200/90 dark:border-slate-800/90 text-xs font-mono text-slate-600 dark:text-slate-400 shadow-xs mb-5 backdrop-blur-md">
+          <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="font-bold text-slate-900 dark:text-white" id="stat-total-apps">{apps.length} herramientas</span>
+          <span class="text-slate-300 dark:text-slate-700">|</span>
+          <span class="text-emerald-600 dark:text-emerald-400 font-semibold">100% Local</span>
+          <span class="text-slate-300 dark:text-slate-700">|</span>
+          <span id="hero-date">OCT 2026</span>
         </div>
+
+        <!-- Headline with Shimmer -->
+        <h1 class="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.08] mb-4">
+          Banco de herramientas <br class="hidden sm:inline" />
+          <span class="text-shimmer">listo para fluir.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed mb-6 font-normal">
+          Micro-aplicaciones autónomas diseñadas para el trabajo diario. Sin cookies, sin tracking externo y con almacenamiento local en tu navegador.
+        </p>
+
+        <!-- PWA install action (revealed when supported) -->
+        <div class="flex items-center justify-center gap-3">
+          <button
+            id="pwa-install-btn"
+            type="button"
+            class="hidden px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 text-xs font-mono font-bold items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer"
+          >
+            <span>📲 Instalar Aplicación</span>
+          </button>
+        </div>
+
       </section>
 
-      <!-- Search & Filters Toolbar -->
-      <section class="mb-8 space-y-4">
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      <!-- Command Palette Style Search & Filter Deck -->
+      <section class="mb-10 max-w-3xl mx-auto">
+        
+        <!-- Interactive Search Bar -->
+        <div class="relative group mb-4">
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-sky-500/20 via-indigo-500/20 to-purple-500/20 rounded-2xl blur-sm opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
           
-          <!-- Live Search Input -->
-          <div class="relative flex-1 max-w-md">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="relative flex items-center bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-sm transition-all">
+            <div class="pl-4 pr-2 text-slate-400 dark:text-slate-500 pointer-events-none">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
+
             <input
               type="text"
               id="tool-search-input"
-              placeholder="Buscar herramienta por nombre, descripción o tag..."
-              class="w-full pl-10 pr-9 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500/50 transition-all shadow-sm"
+              placeholder="Buscar por nombre, tag o función (p. ej. JSON, OCR, SHA, Hash)..."
+              class="w-full py-3.5 pr-20 bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm focus:outline-none font-medium"
               autocomplete="off"
             />
-            <button
-              id="clear-search-btn"
-              type="button"
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden cursor-pointer"
-              title="Limpiar búsqueda"
-            >
-              ✕
-            </button>
-          </div>
 
-          <!-- Privacy & Status Controls -->
-          <div class="flex items-center gap-2 self-start md:self-auto">
-            <button
-              id="auth-toggle-btn"
-              type="button"
-              class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 text-xs font-mono text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm cursor-pointer"
-              title="Estado del acceso privado"
-            >
-              <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
-              <span id="auth-status-text">Comprobando...</span>
-            </button>
+            <!-- Keyboard shortcut indicator & Clear button -->
+            <div class="pr-3 flex items-center gap-1.5">
+              <button
+                id="clear-search-btn"
+                type="button"
+                class="hidden w-6 h-6 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 items-center justify-center text-xs font-mono transition-colors cursor-pointer"
+                title="Limpiar búsqueda"
+              >
+                ✕
+              </button>
+              <kbd class="hidden sm:inline-flex items-center gap-0.5 px-2 py-1 rounded-md text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-2xs">
+                /
+              </kbd>
+            </div>
           </div>
-
         </div>
 
-        <!-- Filter Pills Bar -->
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs font-mono">
-          <button
-            type="button"
-            id="filter-all-btn"
-            class="filter-btn active px-3 py-1.5 rounded-lg border border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold whitespace-nowrap transition-all shadow-sm cursor-pointer"
-            data-filter="all"
-          >
-            Todas ({apps.length})
-          </button>
-          <button
-            type="button"
-            id="filter-public-btn"
-            class="filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 whitespace-nowrap transition-all shadow-sm cursor-pointer"
-            data-filter="public"
-          >
-            Públicas ({apps.filter(a => !a.isPrivate).length})
-          </button>
-          <button
-            type="button"
-            id="filter-private-btn"
-            class="filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 whitespace-nowrap transition-all shadow-sm cursor-pointer"
-            data-filter="private"
-          >
-            🔒 Privadas ({apps.filter(a => a.isPrivate).length})
-          </button>
+        <!-- Filter Pills Bar & Security Quick Toggle -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
           
-          <div class="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-1 shrink-0"></div>
+          <!-- Category Filters -->
+          <div class="flex items-center gap-1 overflow-x-auto no-scrollbar max-w-full p-1 rounded-xl bg-slate-200/50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/70 text-xs font-mono">
+            <button
+              type="button"
+              id="filter-all-btn"
+              class="filter-btn active px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-bold shadow-2xs whitespace-nowrap transition-all cursor-pointer"
+              data-filter="all"
+            >
+              Todas ({apps.length})
+            </button>
+            <button
+              type="button"
+              id="filter-public-btn"
+              class="filter-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white whitespace-nowrap transition-all cursor-pointer"
+              data-filter="public"
+            >
+              Públicas ({apps.filter(a => !a.isPrivate).length})
+            </button>
+            <button
+              type="button"
+              id="filter-private-btn"
+              class="filter-btn px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white whitespace-nowrap transition-all cursor-pointer"
+              data-filter="private"
+            >
+              🔒 Privadas ({apps.filter(a => a.isPrivate).length})
+            </button>
+          </div>
 
+          <!-- Private Apps Lock / Unlock Toggle -->
           <button
+            id="auth-toggle-btn"
             type="button"
-            class="group-filter-btn px-3 py-1.5 rounded-lg border border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50 whitespace-nowrap transition-all cursor-pointer"
-            data-group="gestion"
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 text-xs font-mono text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all shadow-2xs cursor-pointer self-end sm:self-auto"
+            title="Estado del acceso privado"
           >
-            Finanzas
+            <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+            <span id="auth-status-text">Comprobando...</span>
           </button>
-          <button
-            type="button"
-            class="group-filter-btn px-3 py-1.5 rounded-lg border border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50 whitespace-nowrap transition-all cursor-pointer"
-            data-group="utilidades"
-          >
-            Dev & Utilidades
-          </button>
-          <button
-            type="button"
-            class="group-filter-btn px-3 py-1.5 rounded-lg border border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50 whitespace-nowrap transition-all cursor-pointer"
-            data-group="sistema"
-          >
-            Sistemas
-          </button>
+
         </div>
+
       </section>
 
-      <!-- Tool Cards Grid -->
-      <section id="herramientas" class="mb-14">
-        <div id="no-results-msg" class="hidden text-center py-16 bg-white dark:bg-slate-900/40 rounded-2xl border border-dashed border-slate-300 dark:border-slate-800">
-          <p class="text-sm font-mono text-slate-500 dark:text-slate-400">No se encontraron herramientas con ese criterio de búsqueda.</p>
-          <button id="reset-search-btn" class="mt-3 text-xs font-mono text-sky-600 dark:text-sky-400 hover:underline">Mostrar todas</button>
+      <!-- Tool Cards Grid with Cursor Spotlight Effect -->
+      <section id="herramientas" class="mb-16">
+        
+        <!-- Empty state message -->
+        <div id="no-results-msg" class="hidden text-center py-16 bg-white dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-800">
+          <div class="text-3xl mb-2">🔍</div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Sin resultados</h3>
+          <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-4">No se encontró ninguna herramienta que coincida con tu búsqueda.</p>
+          <button id="reset-search-btn" class="px-4 py-2 rounded-xl bg-sky-500 text-white font-mono text-xs font-bold hover:bg-sky-600 transition-colors cursor-pointer">
+            Limpiar filtros
+          </button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="tools-grid">
-          {apps.map((app) => (
+        <!-- 3-Column Modern Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5" id="tools-grid">
+          {apps.map((app, index) => (
             <a
               href={app.href}
               data-app-id={app.id}
@@ -324,53 +318,61 @@ const categories = [
               data-title={app.title.toLowerCase()}
               data-desc={app.desc.toLowerCase()}
               data-tags={app.tags.join(" ").toLowerCase()}
-              class="app-card tool-card-surface group rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden"
+              class="app-card spotlight-card card-stagger-enter group rounded-3xl p-6 flex flex-col justify-between"
+              style={`animation-delay: ${index * 35}ms;`}
             >
               <div>
-                <!-- Top Row: Icon + Category + Privacy Badge -->
-                <div class="flex items-center justify-between gap-2 mb-3">
-                  <div class="flex items-center gap-2.5">
-                    <div class={`w-9 h-9 rounded-xl border flex items-center justify-center font-bold text-sm ${app.colorStyle}`}>
+                <!-- Top Badge Row -->
+                <div class="flex items-center justify-between gap-3 mb-4">
+                  <div class="flex items-center gap-3">
+                    <div class={`w-11 h-11 rounded-2xl border flex items-center justify-center font-bold text-base transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-xs ${app.colorStyle}`}>
                       {app.icon}
                     </div>
-                    <span class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                      {app.category}
-                    </span>
+                    <div class="flex flex-col">
+                      <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500">
+                        {app.category}
+                      </span>
+                      <span class="text-xs font-mono text-sky-600 dark:text-sky-400 font-semibold">
+                        {app.accent}
+                      </span>
+                    </div>
                   </div>
 
                   {app.isPrivate ? (
-                    <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                    <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 font-semibold">
                       🔒 Privada
                     </span>
                   ) : (
-                    <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    <span class="inline-flex items-center gap-1 text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold">
                       Pública
                     </span>
                   )}
                 </div>
 
                 <!-- Title & Description -->
-                <h2 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors mb-1.5">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors tracking-tight mb-2">
                   {app.title}
                 </h2>
-                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">
+                <p class="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">
                   {app.desc}
                 </p>
 
                 <!-- Tags list -->
-                <div class="flex flex-wrap gap-1 mb-4">
+                <div class="flex flex-wrap gap-1.5 mb-4">
                   {app.tags.map((tag) => (
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60">
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <!-- Card Footer -->
+              <!-- Card Action Bar -->
               <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-mono">
-                <span class="text-sky-600 dark:text-sky-400 font-medium">{app.accent}</span>
-                <span class="text-slate-400 dark:text-slate-500 group-hover:text-sky-500 group-hover:translate-x-1 transition-all">
+                <span class="text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
+                  Abrir herramienta
+                </span>
+                <span class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white dark:group-hover:text-slate-950 transition-all group-hover:translate-x-1">
                   →
                 </span>
               </div>
@@ -379,7 +381,7 @@ const categories = [
         </div>
       </section>
 
-      <!-- External Tools Section -->
+      <!-- External Tools Deck Section -->
       <section id="externas" class="mb-12">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-3">
@@ -396,7 +398,7 @@ const categories = [
             <button
               type="button"
               id="slider-prev-btn"
-              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-center transition-all text-sm font-mono cursor-pointer shadow-sm"
+              class="w-8 h-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-center transition-all text-sm font-mono cursor-pointer shadow-2xs"
               title="Anterior"
             >
               ‹
@@ -404,7 +406,7 @@ const categories = [
             <button
               type="button"
               id="slider-next-btn"
-              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-center transition-all text-sm font-mono cursor-pointer shadow-sm"
+              class="w-8 h-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-center transition-all text-sm font-mono cursor-pointer shadow-2xs"
               title="Siguiente"
             >
               ›
@@ -414,7 +416,7 @@ const categories = [
 
         <div class="relative overflow-hidden">
           <div
-            class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar py-1"
+            class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar py-2"
             id="home-external-tools"
           >
             <!-- Rendered dynamically by script -->
@@ -424,15 +426,36 @@ const categories = [
 
     </main>
 
-    <!-- Unified Footer -->
+    <!-- Footer -->
     <Footer />
 
-    {/* Client script for filtering, live search, permissions sync & session status */}
+    {/* Client script for spotlight physics, real-time filtering, auth guard & slider */}
     <script>
       const STORAGE_KEY = 'rm_private_access_session';
       let currentFilter = 'all';
-      let currentGroup = 'all';
       let searchQuery = '';
+
+      // Set formatted date in hero
+      const heroDateEl = document.getElementById('hero-date');
+      if (heroDateEl) {
+        const now = new Date();
+        const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+        heroDateEl.textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+      }
+
+      // Spotlight cursor tracking physics
+      function setupSpotlightEffect() {
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach((card) => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = (card as HTMLElement).getBoundingClientRect();
+            const x = (e as MouseEvent).clientX - rect.left;
+            const y = (e as MouseEvent).clientY - rect.top;
+            (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+            (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      }
 
       function isUnlocked() {
         return sessionStorage.getItem(STORAGE_KEY) === 'unlocked' || localStorage.getItem(STORAGE_KEY) === 'unlocked';
@@ -445,11 +468,11 @@ const categories = [
         if (!dot || !text || !btn) return;
 
         if (isUnlocked()) {
-          dot.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-sm';
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-xs';
           text.textContent = '🔒 Privadas: Desbloqueadas';
           btn.title = 'Haz clic para bloquear el acceso privado';
         } else {
-          dot.className = 'w-2 h-2 rounded-full bg-rose-500 shadow-sm';
+          dot.className = 'w-2 h-2 rounded-full bg-rose-500 shadow-xs';
           text.textContent = '🔒 Privadas: Bloqueadas';
           btn.title = 'Las aplicaciones privadas pedirán PIN al entrar';
         }
@@ -463,7 +486,6 @@ const categories = [
         cards.forEach(cardEl => {
           const card = cardEl as HTMLElement;
           const type = card.getAttribute('data-type');
-          const group = card.getAttribute('data-group');
           const isConfigVisible = card.getAttribute('data-visible') !== 'false';
           const title = card.getAttribute('data-title') || '';
           const desc = card.getAttribute('data-desc') || '';
@@ -474,19 +496,13 @@ const categories = [
             return;
           }
 
-          // Type filter (all / public / private)
           const matchesType = currentFilter === 'all' || currentFilter === type;
-
-          // Group filter (all / gestion / utilidades / sistema)
-          const matchesGroup = currentGroup === 'all' || currentGroup === group;
-
-          // Search query filter
           const matchesSearch = !searchQuery || 
             title.includes(searchQuery) || 
             desc.includes(searchQuery) || 
             tags.includes(searchQuery);
 
-          if (matchesType && matchesGroup && matchesSearch) {
+          if (matchesType && matchesSearch) {
             card.style.display = 'flex';
             visibleCount++;
           } else {
@@ -495,11 +511,8 @@ const categories = [
         });
 
         if (noResults) {
-          if (visibleCount === 0) {
-            noResults.classList.remove('hidden');
-          } else {
-            noResults.classList.add('hidden');
-          }
+          if (visibleCount === 0) noResults.classList.remove('hidden');
+          else noResults.classList.add('hidden');
         }
       }
 
@@ -550,47 +563,41 @@ const categories = [
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           filterBtns.forEach(b => {
-            b.classList.remove('active', 'bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-950', 'border-slate-900', 'dark:border-white');
-            b.classList.add('bg-white', 'text-slate-600', 'dark:bg-slate-900/60', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+            b.classList.remove('active', 'bg-white', 'dark:bg-slate-800', 'text-slate-900', 'dark:text-white', 'font-bold', 'shadow-2xs');
+            b.classList.add('text-slate-600', 'dark:text-slate-400');
           });
-          btn.classList.add('active', 'bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-950', 'border-slate-900', 'dark:border-white');
-          btn.classList.remove('bg-white', 'text-slate-600', 'dark:bg-slate-900/60', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-800');
+          btn.classList.add('active', 'bg-white', 'dark:bg-slate-800', 'text-slate-900', 'dark:text-white', 'font-bold', 'shadow-2xs');
+          btn.classList.remove('text-slate-600', 'dark:text-slate-400');
 
           currentFilter = btn.getAttribute('data-filter') || 'all';
           applyFilters();
         });
       });
 
-      // Handle Group Filter Buttons
-      const groupBtns = document.querySelectorAll('.group-filter-btn');
-      groupBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const selectedGroup = btn.getAttribute('data-group') || 'all';
-          if (currentGroup === selectedGroup) {
-            currentGroup = 'all';
-            btn.classList.remove('bg-slate-200', 'dark:bg-slate-800', 'font-bold', 'text-slate-900', 'dark:text-white');
-          } else {
-            groupBtns.forEach(b => b.classList.remove('bg-slate-200', 'dark:bg-slate-800', 'font-bold', 'text-slate-900', 'dark:text-white'));
-            btn.classList.add('bg-slate-200', 'dark:bg-slate-800', 'font-bold', 'text-slate-900', 'dark:text-white');
-            currentGroup = selectedGroup;
-          }
-          applyFilters();
-        });
-      });
-
-      // Handle Search Input
+      // Handle Search Input & Keyboard shortcuts
       const searchInput = document.getElementById('tool-search-input') as HTMLInputElement | null;
       const clearSearchBtn = document.getElementById('clear-search-btn');
       const resetSearchBtn = document.getElementById('reset-search-btn');
 
       if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', () => {
           searchQuery = (searchInput.value || '').trim().toLowerCase();
           if (clearSearchBtn) {
             if (searchQuery) clearSearchBtn.classList.remove('hidden');
             else clearSearchBtn.classList.add('hidden');
           }
           applyFilters();
+        });
+
+        // Keyboard navigation: / to focus, Escape to clear
+        window.addEventListener('keydown', (e) => {
+          if (e.key === '/' && document.activeElement !== searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+          } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+            clearSearch();
+            searchInput.blur();
+          }
         });
       }
 
@@ -600,12 +607,16 @@ const categories = [
           searchQuery = '';
           if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
           applyFilters();
-          searchInput.focus();
         }
       }
 
       if (clearSearchBtn) clearSearchBtn.addEventListener('click', clearSearch);
-      if (resetSearchBtn) resetSearchBtn.addEventListener('click', clearSearch);
+      if (resetSearchBtn) resetSearchBtn.addEventListener('click', () => {
+        clearSearch();
+        // Reset to all
+        const allBtn = document.getElementById('filter-all-btn');
+        if (allBtn) allBtn.click();
+      });
 
       // Handle Lock / Unlock toggle
       const toggleBtn = document.getElementById('auth-toggle-btn');
@@ -749,10 +760,10 @@ const categories = [
           card.href = u;
           card.target = '_blank';
           card.rel = 'noopener noreferrer';
-          card.className = 'w-[260px] sm:w-[280px] shrink-0 snap-start tool-card-surface group rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between';
+          card.className = 'w-[260px] sm:w-[280px] shrink-0 snap-start spotlight-card group rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between';
           card.innerHTML = `
             <div>
-              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition-colors uppercase tracking-wider mb-2">EXTERNO</div>
+              <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500 group-hover:text-sky-500 transition-colors uppercase tracking-wider mb-2 font-bold">EXTERNO</div>
               <h4 class="font-bold text-slate-900 dark:text-white text-base group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors mb-1 truncate">${t.title}</h4>
               <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">${t.desc || 'Acceso directo externo'}</p>
             </div>
@@ -765,6 +776,7 @@ const categories = [
         });
 
         setupSliderControls();
+        setupSpotlightEffect();
       }
 
       window.addEventListener('rm_external_tools_updated', renderHomeExternalTools);
@@ -776,10 +788,13 @@ const categories = [
         updateAuthUI();
         syncWithPermissions();
         renderHomeExternalTools();
+        setupSpotlightEffect();
       });
+
       updateAuthUI();
       syncWithPermissions();
       renderHomeExternalTools();
+      setupSpotlightEffect();
     </script>
   </body>
 </html>

@@ -4,28 +4,41 @@ import typography from '@tailwindcss/typography';
 export default {
 	darkMode: 'class',
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-		theme: {
-			extend: {
-				fontFamily: {
-					mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+	theme: {
+		extend: {
+			fontFamily: {
+				mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+			},
+			keyframes: {
+				float: {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' },
 				},
-				colors: {
-					void: {
-						DEFAULT: '#050510',
-						light: '#0a0a1a',
-						card: '#0c0c1f',
-					},
-					neon: {
-						cyan: 'var(--neon-cyan)',
-						magenta: 'var(--neon-magenta)',
-						green: 'var(--neon-green)',
-						amber: 'var(--neon-amber)',
-					},
-					terminal: {
-						green: '#00ff41',
-						cyan: '#00f0ff',
-						muted: 'hsl(var(--terminal-muted))',
-					}, 
+				floatSlow: {
+					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+					'50%': { transform: 'translateY(-16px) rotate(2deg)' },
+				},
+				shimmer: {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' },
+				},
+				pulseGlow: {
+					'0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+					'50%': { opacity: '0.8', transform: 'scale(1.05)' },
+				},
+			},
+			animation: {
+				float: 'float 5s ease-in-out infinite',
+				'float-slow': 'floatSlow 8s ease-in-out infinite',
+				shimmer: 'shimmer 4s ease-in-out infinite',
+				'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+			},
+			colors: {
+				void: {
+					DEFAULT: '#050510',
+					light: '#0a0a1a',
+					card: '#0c0c1f',
+				},
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
@@ -39,10 +52,6 @@ export default {
 					DEFAULT: "hsl(var(--secondary))",
 					foreground: "hsl(var(--secondary-foreground))",
 				},
-				destructive: {
-					DEFAULT: "hsl(var(--destructive))",
-					foreground: "hsl(var(--destructive-foreground))",
-				},
 				muted: {
 					DEFAULT: "hsl(var(--muted))",
 					foreground: "hsl(var(--muted-foreground))",
@@ -51,19 +60,14 @@ export default {
 					DEFAULT: "hsl(var(--accent))",
 					foreground: "hsl(var(--accent-foreground))",
 				},
-				popover: {
-					DEFAULT: "hsl(var(--popover))",
-					foreground: "hsl(var(--popover-foreground))",
-				},
 				card: {
 					DEFAULT: "hsl(var(--card))",
 					foreground: "hsl(var(--card-foreground))",
 				},
 			},
 			borderRadius: {
-				lg: "var(--radius)",
-				md: "calc(var(--radius) - 2px)",
-				sm: "calc(var(--radius) - 4px)",
+				'3xl': '1.5rem',
+				'4xl': '2rem',
 			},
 		},
 	},
